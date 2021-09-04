@@ -1,0 +1,166 @@
+.item-list{
+    padding: 2em 3%;
+}
+
+.average_asset{
+    background: #544984;
+    color: #fff;
+
+    .uxp-widget-title-bar{
+        background: transparent;
+    }
+
+    .average-asset-data{
+        display: inline-flex;
+        width: 100%;
+        padding: 0px 5%;
+        height: 60%;
+        align-items: center;
+
+        h4{
+            font-size: 2.5em;
+            display: inline-block;
+            width: 50%;
+        }
+        h3{
+            font-size: 3em;
+            display: inline-block;
+            width: 50%;
+            text-align: center;
+
+            span{
+                display: inline-block;
+                font-size: 18px;
+                vertical-align: top;
+            }
+        }
+    }
+
+}
+
+.assetage_widget {
+
+    // margin-right: 2%;
+    // width: 49%;
+    // display: inline-block;
+
+    .assetage_chart{ 
+        width: 92%;
+        height: 80%;
+
+       
+    }
+
+   
+    // &.assetage_widget1{
+    //     margin-right: 0;
+    // }
+}
+
+// .maintenance_details_widget{
+
+//     margin-right: 2%;
+//     width: 49%;
+//     display: inline-block;
+
+//     &.maintenance_details_widget1{
+//         margin-right: 0;
+//     }
+
+// }
+
+ 
+.modal-container.hana_modal .modal-panel .modal-body{
+    padding-top: 0;
+
+        .list_age{
+            display: inline-flex;
+            width: 100%;
+            margin: 0.5em 0px;
+            background: #eee;
+            padding: 12px 10px;
+            .age_label{
+                display: inline-block;
+                width: 50%;
+                font-size: 13px;
+                text-align: left;
+            }
+            .age_value{
+                display: inline-block;
+            width: 50%;
+            font-size: 13px;
+            text-align: right;
+            }
+        }
+    }
+
+
+.assets-widget-list {
+
+    .item-list{ 
+        
+            padding: 0em 3% 2em 3%; 
+
+        ul{
+            list-style: none;
+            margin: 0em 0em 1em;
+            padding: 1em 0em 1em;
+            // border: 1px solid #b8b8b8;
+
+            li{
+                display: inline-flex;
+                width: 100%;
+                // background: #d7c5ff;
+                background-color: #dbdbdb;
+                padding: 11px 10px;
+
+                a{
+                    color: #424242;
+                    text-decoration: none;
+                    width: 100%;
+                }
+
+                label{
+                    display: inline-block;
+                    width: 50%;
+                    font-size: 13px;
+                    text-align: left;
+                    padding: 0;
+                    margin: 0;
+                }
+                span{
+                    display: inline-block;
+                    width: 50%;
+                    font-size: 13px;
+                    text-align: right;
+                }
+
+                &:nth-child(odd){
+                    background-color: #cccccc;
+                }
+
+                &.list-header{
+                    background-color: #7d7d7d;
+                    color: #fff;
+                    label{
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+
+    .uxp-item-list-card{
+        padding: 0 0%;
+        border: 1px solid #ddd;
+        margin: 0 1%;
+        width: 98%;
+        .header{
+            padding: 0px 15px;
+        }
+    }
+
+
+}
+
+   

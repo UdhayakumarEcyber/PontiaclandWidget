@@ -1,0 +1,37 @@
+{
+    "id": "3bcf283a-d89f-4485-80ea-6de8fe7a0efc",
+    "author": "",
+    "widgets": [
+        {
+            "id": "pontiacland",
+            "name": "pontiacland",
+            "description": "A sample widget",
+            "icon": "",
+            "tags":[]
+        }
+    ],
+    "sidebarLinks": [
+        {
+            "id": "pontiaclandLink",
+            "label": "",
+            "description": "",
+            "target": "",
+            "icon": "",
+            "roles":[]
+        }
+    ],
+    "uis": [
+        {
+            "id": "pontiaclandLink",
+            "label":"",
+            "description": "",
+            "roles": []
+        }
+    ],
+    "menuItems": [
+        {
+            "id": "pontiaclandLink",
+            "title": "pontiacland"
+        }
+    ]
+}

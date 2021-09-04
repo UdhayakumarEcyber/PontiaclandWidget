@@ -1,0 +1,88 @@
+{
+    "id": "6862dc28-c7f5-41e9-e198-6f63890af280",
+    "author": "",
+    "widgets": [
+       
+        {
+            "id": "averageAsset",
+            "name": "AverageAsset",
+            "description": "A sample widget",
+            "icon": "",
+            "tags":[]
+        },
+
+        {
+            "id": "assetAge",
+            "name": "AssetAge",
+            "description": "A sample widget",
+            "icon": "",
+            "tags":[]
+        },
+
+        {
+            "id": "maintenanceDetails",
+            "name": "MaintenanceDetails",
+            "description": "A sample widget",
+            "icon": "",
+            "tags":[]
+        }, 
+
+        {
+            "id": "totalNumber",
+            "name": "TotalNumber",
+            "description": "A sample widget",
+            "icon": "",
+            "tags":[]
+        }, 
+
+        {
+            "id": "serviceRequest",
+            "name": "ServiceRequest",
+            "description": "A sample widget",
+            "icon": "",
+            "tags":[]
+        },
+
+        {
+            "id": "workOrderMonth",
+            "name": "WorkOrderMonth",
+            "description": "A sample widget",
+            "icon": "",
+            "tags":[]
+        },
+
+        {
+            "id": "upcomingAssets",
+            "name": "UpcomingAssets",
+            "description": "A sample widget",
+            "icon": "",
+            "tags":[]
+        },
+
+        {
+            "id": "problematicAssets",
+            "name": "ProblematicAssets",
+            "description": "A sample widget",
+            "icon": "",
+            "tags":[]
+        },
+
+        {
+            "id": "topAgedAssets",
+            "name": "TopAgedAssets",
+            "description": "A sample widget",
+            "icon": "",
+            "tags":[]
+        }
+
+    ],
+    "sidebarLinks": [
+        
+    ],
+    "uis": [
+       
+    ],
+    "menuItems": [
+        
+    ]
+}
