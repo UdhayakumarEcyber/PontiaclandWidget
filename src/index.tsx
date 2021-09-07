@@ -9,7 +9,7 @@ import { render } from "react-dom";
 
 import { ResponsivePie } from '@nivo/pie';
 
- 
+  
 interface IWidgetProps {
     uxpContext?: IContextProvider,
     instanceId?: string,
@@ -23,71 +23,139 @@ interface IWidgetState {
 }
 
    
-const url =  "http://mwalk.iviva.cloud/apps/ivivafacility/wo-details?key=121"
+ const url =  "http://mwalk.iviva.cloud/apps/ivivafacility/wo-details?key=121"
 
-
-const AverageAsset: React.FunctionComponent<IWidgetProps> = (props) => { 
-
-    const assetagedata = {
-        "AssetAge": 12 
-      };  
-
-    return (
-        <WidgetWrapper className="average_asset">
-            <TitleBar title='Average age of Assets'></TitleBar>  
-
-            <div className="average-asset-data">  
-                <h4>Average age </h4> <h3>{assetagedata.AssetAge} <span>YRS</span></h3>
-            </div>
-                        
-        </WidgetWrapper>
-    )
-};
  
+ const AverageAsset: React.FunctionComponent<IWidgetProps> = (props) => { 
+ 
+        let [data,setData] = React.useState<any>([]) 
+        function getData () { 
+           
+            props.uxpContext.executeAction("ivivafacility","AssetAgebyBuilding",{},{json:true}).then(res=>{  
+                setData(res[0]);
+            }).catch(e=>{
+                // console.log("hi", e);
+            }); 
+        }
+        
+        React.useEffect(() =>{
+            getData();
+        }, [])   
+  
+      return (
+          <WidgetWrapper className="average_asset">
+              <TitleBar title='Average age of Assets'></TitleBar>  
+  
+              <div className="average-asset-data">  
+                <h4>Average age </h4> <h3>{data.AssetAge}<span>YRS</span></h3> 
+              </div>
+                          
+          </WidgetWrapper>
+      )
+  };
+    
 
-const AssetAge: React.FunctionComponent<IWidgetProps> = (props) => { 
+ const AssetAge: React.FunctionComponent<IWidgetProps> = (props) => { 
     
     let [showModal, setShowModal] = React.useState(false);  
-    let[modelData, setmodelData] = React.useState<any>(null);
+    let[modelData, setmodelData] = React.useState<any>(null); 
 
     let [showModal1, setShowModal1] = React.useState(false);  
     let[modelData1, setmodelData1] = React.useState<any>(null);
 
 
-    const AssetAgedata = [
-        {"LocationKey":"3","LocationName":"Car Park","Asset Age":""},
-        {"LocationKey":"20","LocationName":"North A","Asset Age":"1"},
-        {"LocationKey":"25","LocationName":"North B","Asset Age":"2"},
-        {"LocationKey":"45","LocationName":"South B","Asset Age":"11"},
-        {"LocationKey":"311","LocationName":"NiHonSt","Asset Age":"12"}
-    ]
+    let [data,setData] = React.useState<any>([]) 
+    function getData () {  
+        props.uxpContext.executeAction("ivivafacility","AssetAgeinZone",{},{json:true}).then(res=>{ 
+            console.log("red",res);
+            setData(res);
+        }).catch(e=>{
+            // console.log("hi", e);
+        }); 
+    } 
 
-    const AssetAgeadditionaldata =   [
-        {"AssetCategoryKey":"1","AssetCategoryID":"FCU","Asset Age":"0"},
-        {"AssetCategoryKey":"5","AssetCategoryID":"AHU","Asset Age":"1"},
-        {"AssetCategoryKey":"6","AssetCategoryID":"PAHU","Asset Age":"1"},
-        {"AssetCategoryKey":"7","AssetCategoryID":"DX","Asset Age":"0"},
-        {"AssetCategoryKey":"8","AssetCategoryID":"PAU","Asset Age":"0"}
-    ] 
+    let [data1,setData1] = React.useState<any>([]) 
+    function getData1 (locationKey:number) {  
+        props.uxpContext.executeAction("ivivafacility","AveAssetAgeinZonebyAssCat",{locationKey:locationKey},{json:true}).then(res=>{ 
+            console.log(res);
+            console.log("AveAssetAgeinZonebyAssCat");
+            setData1(res);
+        }).catch(e=>{
+            //   console.log("hi", e);
+        }); 
+    } 
 
-   const AssetAgesubadditionaldata = [
-        {"AssetKey":"12","AssetID":"MW NA- AHU 3-N1","AssetAge":"1"},
-        {"AssetKey":"13","AssetID":"MW NA- AHU 3-N2","AssetAge":"1"},
-        {"AssetKey":"458","AssetID":"MW NA-AHU 3-N1","AssetAge":"1"},
-        {"AssetKey":"459","AssetID":"MW NA-AHU 3-N2","AssetAge":"1"}
-    ]
+    let [data2,setData2] = React.useState<any>([]) 
+    function getData2 (locationkey:number,AssetCategoryKey:number) {  
+        props.uxpContext.executeAction("ivivafacility","AssetAgeinZonebyAssCat",{LocationKey:locationkey,AssetCategoryKey:AssetCategoryKey},{json:true}).then(res=>{ 
+            console.log("getdata2",res);
+            console.log("hello");
+            setData2(res);
+        }).catch(e=>{
+                console.log("getdata2error", e);
+        }); 
+    }
+
+    // let [data2,setData2, LocationKey, setLocationKey, ServiceCategoryKey, setServiceCategoryKey] = React.useState<any>([]) 
+    // function getData2 () {  
+    //     props.uxpContext.executeAction("ivivafacility","AssetAgeinZonebyAssCat",{LocationKey:1,ServiceCategoryKey:12},{json:true}).then(res=>{ 
+    //         console.log(res);
+    //         setLocationKey(location);
+    //         setServiceCategoryKey(ck);
+    //         console.log("AssetAgeinZonebyAssCat");
+    //         setData2(res);
+    //     }).catch(e=>{
+    //         //   console.log("hi", e);
+    //     }); 
+    // }
+    
+    React.useEffect(() =>{
+        getData();
+        // getData1();
+        // getData2();
+    }, [])   
   
 
     function handleClick(e:any){ 
-        setmodelData(true);
-        setShowModal(true);
-    } 
+        // console.log(e); 
+        // var dataset = data1;
+        // setmodelData(dataset);
+        // setShowModal(true);
+       
+         
+        console.log("location",e); 
+        var dataset = e;
+          var locationKey = e.payload.LocationKey;
+          var locationName = e.payload.LocationName;
+        console.log("key12",locationKey); 
 
-    function handleClick1(e:any){ 
-        setmodelData1(true);
+        console.log(dataset); 
+        setmodelData(dataset);
+
+        getData1(locationKey);
+        setShowModal(true);
+    }  
+    
+    function handleClick1(e:any){
+        
+        console.log("hello",e); 
+        var dataset1 = e;
+        var AssetAge = e.payload.AssetAge;
+        var AssetCategoryKey = e.payload.AssetCategoryKey;
+        // var locationKey = e.payload.LocationKey;
+        var locationkey = modelData.payload.LocationKey;
+        console.log("locationkey", locationkey, AssetCategoryKey); 
+        // console.log(dataset1); 
+        getData2(locationkey,AssetCategoryKey);
+        setmodelData1(dataset1);
+        // console.log(dataset1);
         setShowModal1(true);
-    } 
- 
+    }
+    
+    // function handleClick1(e:any){ 
+    //     setmodelData1(true);
+    //     setShowModal1(true);
+    // } 
  
     return (
          <>
@@ -97,14 +165,15 @@ const AssetAge: React.FunctionComponent<IWidgetProps> = (props) => {
                 </FilterPanel>
             </TitleBar>  
 
-            <div className="assetage_chart">    
-
+            <div className="assetage_chart">   
+           
+  
                             <ResponsiveContainer width="100%">  
 
                                     <BarChart
                                         width={500}
                                         height={200}
-                                        data={AssetAgedata}
+                                        data={data}
                                         margin={{
                                             top: 2, right: 0, left: 0, bottom: 2,
                                         }}>
@@ -112,47 +181,59 @@ const AssetAge: React.FunctionComponent<IWidgetProps> = (props) => {
                                         <XAxis dataKey="LocationName" />
                                         <YAxis orientation="left" />
                                         <Tooltip />
-                                    <Bar barSize={20} onClick={handleClick} dataKey="Asset Age" fill="#FF8181" /> 
+                                    <Bar barSize={20} onClick={handleClick} dataKey="AssetAge" fill="#FF8181" /> 
                                 </BarChart>  
 
-                            </ResponsiveContainer>
+                            </ResponsiveContainer>  
 
 
-                            <Modal show={showModal} onOpen={() => { }} onClose={() => setShowModal(false)}> 
+                             
+                             <Modal title={modelData?.LocationName|| ''} show={showModal && modelData!= null} onOpen={() => { }} onClose={() => {setShowModal(false); setmodelData(null)}} >   
 
-                            <ResponsiveContainer width='100%' aspect={4.0 / 2.0}>
+                                        <ResponsiveContainer width='100%' aspect={4.0 / 2.0}>
                                             <BarChart 
                                                 layout="vertical" 
                                                 width={500}
                                                 height={200}
-                                                data={AssetAgeadditionaldata} 
+                                                data={data1} 
                                                 margin={{
                                                     top: 2, right: 0, left: 0, bottom: 2,
                                                 }}>
                                                 <XAxis type="number" />
                                                 <YAxis dataKey="AssetCategoryID" type="category" />
                                                 <Tooltip /> 
-                                                <Bar barSize={20} dataKey="Asset Age" fill="#0d998a"  onClick={handleClick1}/> 
+                                                <Bar barSize={20} dataKey="AssetCategoryKey" fill="#0d998a"  onClick={handleClick1}/> 
                                             </BarChart>
                                         </ResponsiveContainer> 
     
                             </Modal>
 
-                            <Modal show={showModal1} onOpen={() => { }} onClose={() => setShowModal1(false)}> 
+
+                             <Modal show={showModal1 && modelData1!= null} onOpen={() => { }} onClose={() => {setShowModal1(false); setmodelData1(null)}} >   
+                             {/* <Modal  title="AssetAgeinZonebyAssCat" show={showModal1} onOpen={() => { }} onClose={() => setShowModal1(false)}>   */}
+                       
                                 <div className="assets-widget-list">
 
                                     <div className="item-list">  
-                                            <ul>
-                                                {AssetAgesubadditionaldata.map((item) => (
-                                                    <li key={item.AssetID}> 
-
-                                                    <a href="url(url)">
-                                                        <label>{item.AssetID}</label> 
-                                                        <span>{item.AssetAge}</span>    
-                                                    </a> 
-                                                       
+                                             {/* <ul>
+                                                {data2.map((item:any) => (
+                                                    <li key={item.AssetKey}>  
+                                                       <label>{item.AssetKey}</label> 
+                                                        <span>{item.AssetID}</span>    
+                                                         
                                                     </li>
                                                 ))}
+                                            </ul>    */}
+
+                                            <ul> 
+                                                {
+                                                    Object.keys(data2 || {}).map((m:any)=>{
+                                                        return <li> 
+                                                            <label>{data2[m].AssetKey}</label>  
+                                                            <span> {data2[m].AssetID}</span> 
+                                                        </li>
+                                                    })
+                                                }  
                                             </ul> 
 
                                         </div>
@@ -168,41 +249,59 @@ const AssetAge: React.FunctionComponent<IWidgetProps> = (props) => {
             </>
     )
 };
-
-
+ 
 
 const MaintenanceDetails: React.FunctionComponent<IWidgetProps> = (props) => {
 
     let [showModal, setShowModal] = React.useState(false);  
-    let[modelData, setmodelData] = React.useState<any>(null); 
-    
-    const maintenancedrilldown = [
-        {"AssetKey":"11","AssetID":"MW SA- AHU 3-5"},
-        {"AssetKey":"12","AssetID":"MW NA- AHU 3-N1"},
-        {"AssetKey":"9","AssetID":"MW SA- AHU 3-3"},
-        {"AssetKey":"10","AssetID":"MW SA- AHU 3-4"} 
-    ]
+    let[modelData, setmodelData] = React.useState<any>(null);  
+ 
 
-    function handleClick(e:any){ 
-        setmodelData(true);
+    let [data,setData] = React.useState<any>([]) 
+    function getData () {  
+        props.uxpContext.executeAction("ivivafacility","UpcomingPPMWOs",{},{json:true}).then(res=>{ 
+              console.log(res);
+            setData(res);
+        }).catch(e=>{ 
+        }); 
+    }
+    
+    React.useEffect(() =>{
+        getData();
+    }, [])  
+
+
+    let [data1,setData1] = React.useState<any>([]) 
+    function getData1 () {  
+        props.uxpContext.executeAction("ivivafacility","AveAssetAgeinZonebyAssCat",{},{json:true}).then(res=>{ 
+            console.log(res);
+            console.log("Hi");
+            setData1(res);
+        }).catch(e=>{
+            //   console.log("hi", e);
+        }); 
+    }
+    
+    React.useEffect(() =>{
+        getData1();
+    }, []) 
+
+
+    function handleClick(e:any){
+        console.log(e); 
+        var dataset = data1;
+        setmodelData(dataset);
         setShowModal(true);
     } 
-    // export class MaintenanceDetails extends React.Component<IWidgetProps, IWidgetState> { 
-
-        const maintenancedetailslist =  
-        [
-            {"MWOKey":6,"MWOCode":"AHU-MW-03","AWOKey":24,"AWONo":"PWO20210831024","TargetStartDate":"2021-09-03T02:00:00.000Z"}
-        ]
-
-
-        function parseDate(date:string){ 
-            var currentTime = new Date(date);  
-            var month = ("0" + (currentTime.getMonth() + 1)).slice(-2); 
-            var day = ("0" + currentTime.getDate()).slice(-2);
-            var year = currentTime.getFullYear();
-            var formatedate = year + '-' + month + '-' + day; 
-            return formatedate;
-        }
+  
+    function parseDate(date:string){ 
+        var currentTime = new Date(date);  
+        var month = ("0" + (currentTime.getMonth() + 1)).slice(-2); 
+        var day = ("0" + currentTime.getDate()).slice(-2);
+        var year = currentTime.getFullYear();
+        var formatedate = year + '-' + month + '-' + day; 
+        return formatedate;
+    }
     
         return (
             <>
@@ -216,9 +315,8 @@ const MaintenanceDetails: React.FunctionComponent<IWidgetProps> = (props) => {
                                     <span>Millenia Walk</span>  
                                 </li>
     
-                            {maintenancedetailslist.map((item) => (
-                                <>
-                               
+                            {data.map((item:any) => (
+                                <> 
                                 <li key={item.MWOKey}  onClick={handleClick}> 
                                     <label>{item.MWOCode}</label>   
                                     <span>{parseDate(item.TargetStartDate)}</span>
@@ -229,17 +327,31 @@ const MaintenanceDetails: React.FunctionComponent<IWidgetProps> = (props) => {
     
                     </div> 
 
-                    <Modal show={showModal} onOpen={() => { }} onClose={() => setShowModal(false)}> 
+                    {/* <Modal show={showModal} onOpen={() => { }} onClose={() => setShowModal(false)}>  */}
+
+                      <Modal show={showModal && modelData!= null} onOpen={() => { }} onClose={() => {setShowModal(false); setmodelData(null)}} >  
                                 <div className="assets-widget-list">
 
                                     <div className="item-list">  
                                             <ul>
-                                                {maintenancedrilldown.map((item) => (
-                                                    <li key={item.AssetID}> 
-                                                        <label>{item.AssetID}</label>  
+                                                {data1.map((item:any) => (
+                                                    <li key={item.AssetCategoryKey}> 
+                                                        <label>Hi{item.AssetCategoryID}</label>  
                                                     </li>
                                                 ))}
                                             </ul> 
+
+                                            {/* <ul> 
+                                                {
+                                                    Object.keys(modelData || {}).map((m:any)=>{
+                                                        return <li>
+                                                        
+                                                            <label> { modelData[m].AssetCategoryID}</label>
+
+                                                        </li>
+                                                    })
+                                                }  
+                                            </ul>  */}
 
                                         </div>
                                 </div> 
@@ -252,60 +364,69 @@ const MaintenanceDetails: React.FunctionComponent<IWidgetProps> = (props) => {
         )
                         
     };
-    
-     
+
 
 const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => { 
     
     let [showModal, setShowModal] = React.useState(false);  
-    let[modelData, setmodelData] = React.useState<any>(null);
+    let[modelData, setmodelData] = React.useState<any>(null); 
 
     let [showModal1, setShowModal1] = React.useState(false);  
     let[modelData1, setmodelData1] = React.useState<any>(null);
 
 
-    const totalNumberAgedata =  
-    [
-        {"LocationKey":"3","LocationName":"Car Park","Asset Count":"0"},
-        {"LocationKey":"20","LocationName":"North A","Asset Count":"81"},
-        {"LocationKey":"25","LocationName":"North B","Asset Count":"53"},
-        {"LocationKey":"28","LocationName":"Park n Dine","Asset Count":"0"},
-        {"LocationKey":"318","LocationName":"PND","Asset Count":"65"},
-        {"LocationKey":"351","LocationName":"GHALL","Asset Count":"6"}
-    ] 
+    let [data,setData] = React.useState<any>([]) 
+    function getData () {  
+        props.uxpContext.executeAction("ivivafacility","AssetCountbyZone",{},{json:true}).then(res=>{ 
+            console.log(res);
+            setData(res);
+        }).catch(e=>{
+            // console.log("hi", e);
+        }); 
+    } 
 
-    const totalNumberAgeadditionaldata = [
-        {"AssetCategoryKey":"1","AssetCategoryID":"FCU","Asset Count":"73"},
-        {"AssetCategoryKey":"5","AssetCategoryID":"AHU","Asset Count":"4"},
-        {"AssetCategoryKey":"6","AssetCategoryID":"PAHU","Asset Count":"4"},
-        {"AssetCategoryKey":"7","AssetCategoryID":"DX","Asset Count":"0"},
-        {"AssetCategoryKey":"8","AssetCategoryID":"PAU","Asset Count":"0"}
-    ]   
+    let [data1,setData1] = React.useState<any>([]) 
+    function getData1 () {  
+        props.uxpContext.executeAction("ivivafacility","AssetCountbyAssCatZone",{},{json:true}).then(res=>{ 
+            console.log(res);
+            console.log("AssetCountbyAssCatZone");
+            setData1(res);
+        }).catch(e=>{
+            //   console.log("hi", e);
+        }); 
+    } 
 
-   const totalNumbersubAgeadditionaldata = 
-    [
-        {"AssetKey":"173","AssetID":"MW NA- FCU 01 - 329"},
-        {"AssetKey":"174","AssetID":"MW NA- FCU 01 - 328"},
-        {"AssetKey":"468","AssetID":"MW NA-FCU 01-328"},
-        {"AssetKey":"469","AssetID":"MW NA-FCU 01-329"},
-        {"AssetKey":"466","AssetID":"MW NA-FCU 01-326"},
-        {"AssetKey":"175","AssetID":"MW NA- FCU 01 - 326"},
-        {"AssetKey":"460","AssetID":"MW NA-FCU 01-102"},
-        {"AssetKey":"464","AssetID":"MW NA-FCU 01-316"},
-        {"AssetKey":"471","AssetID":"MW NA-FCU 01-345"}
-    ]
- 
+    let [data2,setData2] = React.useState<any>([]) 
+    function getData2 () {  
+        props.uxpContext.executeAction("ivivafacility","AssetsCountZonebyAssCat",{},{json:true}).then(res=>{ 
+            console.log(res);
+            console.log("AssetsCountZonebyAssCat");
+            setData2(res);
+        }).catch(e=>{
+            //   console.log("hi", e);
+        }); 
+    }
+    
+    React.useEffect(() =>{
+        getData();
+        getData1();
+        getData2();
+    }, [])   
   
 
     function handleClick(e:any){ 
-        setmodelData(true);
+        console.log(e); 
+        var dataset = data1;
+        setmodelData(dataset);
         setShowModal(true);
-    } 
-
-    function handleClick1(e:any){ 
-        setmodelData1(true);
-        setShowModal1(true);
-    } 
+    }  
+    
+    function handleClick1(e:any){
+        console.log(e); 
+        var dataset1 = data2;
+        setmodelData(dataset1);
+        setShowModal(true);
+    }   
  
  
     return (
@@ -317,13 +438,14 @@ const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => {
             </TitleBar>  
 
             <div className="assetage_chart">    
+            
 
                             <ResponsiveContainer width="100%">  
 
                                 <BarChart
                                     width={500}
                                     height={200}
-                                    data={totalNumberAgedata}
+                                    data={data}
                                     margin={{
                                         top: 2, right: 0, left: 0, bottom: 2,
                                     }}>
@@ -331,16 +453,16 @@ const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => {
                                     <XAxis dataKey="LocationName" />
                                     <YAxis orientation="left" />
                                     <Tooltip />
-                                    <Bar barSize={20} onClick={handleClick} dataKey="Asset Count" fill="#0d998a" /> 
+                                    <Bar barSize={20} onClick={handleClick} dataKey="AssetCount" fill="#0d998a" /> 
                                 </BarChart>  
 
                             </ResponsiveContainer>
 
 
-                            <Modal show={showModal} onOpen={() => { }} onClose={() => setShowModal(false)}> 
+                            <Modal show={showModal && modelData!= null} onOpen={() => { }} onClose={() => {setShowModal(false); setmodelData(null)}} >   
 
                                            <ResponsiveContainer width='100%' aspect={4.0 / 2.0}>
-                                            <BarChart data={totalNumberAgeadditionaldata} 
+                                            <BarChart data={data1} 
                                                 layout="vertical" 
                                                 width={500}
                                                 height={200}
@@ -348,18 +470,33 @@ const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => {
                                                 <XAxis type="number" />
                                                 <YAxis dataKey="AssetCategoryID" type="category" />
                                                 <Tooltip /> 
-                                                <Bar barSize={20} dataKey="Asset Count" fill="#0d998a"  onClick={handleClick1}/> 
+                                                <Bar barSize={20} dataKey="AssetCategoryKey" fill="#0d998a"  onClick={handleClick1}/> 
                                             </BarChart>
                                         </ResponsiveContainer> 
     
                             </Modal>
+ 
 
-                            <Modal show={showModal1} onOpen={() => { }} onClose={() => setShowModal1(false)}> 
+                             <Modal show={showModal1 && modelData1!= null} onOpen={() => { }} onClose={() => {setShowModal1(false); setmodelData1(null)}} >  
+
                                 <div className="assets-widget-list">
 
-                                    <div className="item-list">  
+                                    <div className="item-list">
+ 
+                                        {/* <ul> 
+                                                {
+                                                    Object.keys(modelData1 || {}).map((m:any)=>{
+                                                        return <li>
+                                                        
+                                                            <label> { modelData1[m].AssetID}</label>
+
+                                                        </li>
+                                                    })
+                                                }  
+                                            </ul>    */}
+
                                             <ul>
-                                                {totalNumbersubAgeadditionaldata.map((item) => (
+                                                {data2.map((item:any) => (
                                                     <li key={item.AssetID}> 
                                                         <label>{item.AssetID}</label>  
                                                     </li>
@@ -378,70 +515,111 @@ const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => {
             </>
     )
 };
- 
+
+
+
+
 
 const ServiceRequest: React.FunctionComponent<IWidgetProps> = (props) => { 
-
-    let [showModal, setShowModal] = React.useState(false);  
-    let[modelData, setmodelData] = React.useState<any>(null);
-
-    let [showModal1, setShowModal1] = React.useState(false);  
-    let[modelData1, setmodelData1] = React.useState<any>(null);
-
-
-    const serviceRequestData =   
-    [
-        {
-          "id": "Electrical",
-          "label": "Electrical",
-          "value": 5,
-          "color": "hsl(251, 29%, 40%)"
-        },
-        {
-          "id": "ACMV",
-          "label": "ACMV",
-          "value": 4,
-          "color": "#0d998a"
-        },
-        {
-          "id": "Civil",
-          "label": "Civil",
-          "value": 2,
-          "color": "#c02b82"
-        },
-        {
-          "id": "Access Control System",
-          "label": "Access Control System",
-          "value": 1,
-          "color": "hsl(96, 70%, 50%)"
-        } 
-      ] 
-
-    const serviceRequestadditonalData =  
-     [
-        {"LocationKey":"3","LocationName":"Car Park","WRCount":"0"},
-        {"LocationKey":"6","LocationName":"GREAT Hall","WRCount":"8"},
-        {"LocationKey":"9","LocationName":"NiHon Street","WRCount":"0"},
-        {"LocationKey":"311","LocationName":"NiHonSt","WRCount":"10"},
-        {"LocationKey":"318","LocationName":"PND","WRCount":"0"},
-        {"LocationKey":"351","LocationName":"GHALL","WRCount":"0"}
-     ]
-
-   const serviceRequestsubadditonalData = 
-    [ 
-       {"AssetKey":"617","AssetID":"MW WB-FCU-02-10-4","WRCount":"1"}
-    ]
-   
-    function handleClick(e:any){ 
-        setmodelData(true);
-        setShowModal(true);
-    } 
-
-    function handleClick1(e:any){ 
-        setmodelData1(true);
-        setShowModal1(true);
-    } 
  
+
+
+
+let [showModal, setShowModal] = React.useState(false);  
+let[modelData, setmodelData] = React.useState<any>(null); 
+
+let [showModal1, setShowModal1] = React.useState(false);  
+let[modelData1, setmodelData1] = React.useState<any>(null);
+
+
+let [data,setData] = React.useState<any>([]) 
+function getData () {  
+    props.uxpContext.executeAction("ivivafacility","WRsBySerCat",{},{json:true}).then(res=>{ 
+        console.log("peichart",res);
+        var updatedData = res.map((d:any)=> {
+            d.WRCounts = parseInt(d.WRCounts)
+            return d;
+        })
+        setData(updatedData);
+    }).catch(e=>{
+        // console.log("hi", e);
+    }); 
+} 
+
+let [data1,setData1] = React.useState<any>([]) 
+function getData1 () {  
+    props.uxpContext.executeAction("ivivafacility","WRCountbyZoneSerCat",{},{json:true}).then(res=>{ 
+        console.log(res);
+        console.log("WRCountbyZoneSerCat");
+        setData1(res);
+    }).catch(e=>{
+        //   console.log("hi", e);
+    }); 
+} 
+
+let [data2,setData2] = React.useState<any>([]) 
+function getData2 () {  
+    props.uxpContext.executeAction("ivivafacility","WRCountbyAssetZone",{ServiceCategoryKey: 2, LocationKey : 1},{json:true}).then(res=>{ 
+        console.log(res);
+        console.log("WRCountbyAssetZone");
+        setData2(res);
+    }).catch(e=>{
+        //   console.log("hi", e);
+    }); 
+}
+
+React.useEffect(() =>{
+    getData();
+    getData1();
+    getData2();
+}, [])   
+
+
+function handleClick(e:any){ 
+    console.log(e); 
+    var dataset = data1;
+    setmodelData(dataset);
+    setShowModal(true);
+}  
+
+function handleClick1(e:any){
+    console.log(e); 
+    var dataset1 = data2;
+    setmodelData(dataset1);
+    setShowModal(true);
+}   
+
+// function handleClick1(e:any){ 
+//     setmodelData1(true);
+//     setShowModal1(true);
+// // } 
+const data02 = [
+    {
+      "name": "Group A",
+      "value":"400"
+    },
+    {
+      "name": "Group B",
+      "value": "300"
+    },
+    {
+      "name": "Group C",
+      "value": "300"
+    },
+    {
+      "name": "Group D",
+      "value": "200"
+    },
+    {
+      "name": "Group E",
+      "value": "278"
+    },
+    {
+      "name": "Group F",
+      "value": "189"
+    }
+  ];
+
  
     return (
          <>
@@ -451,53 +629,26 @@ const ServiceRequest: React.FunctionComponent<IWidgetProps> = (props) => {
                 </FilterPanel>
             </TitleBar>  
 
-            <div className="assetage_chart" style={{width: "95%", height: "95%"}}>   
+            <div className="assetage_chart" style={{width: "95%", height: "95%"}}>  
+           
 
-                        <ResponsivePie
-                            data={serviceRequestData}
-                            margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
-                            innerRadius={0.7}
-                            padAngle={0.2}
-                            cornerRadius={1}
-                            activeOuterRadiusOffset={8}
-                            borderWidth={0}
-                            borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.2 ] ] }} 
-                            onClick={handleClick} 
-                            
-                            fill={[
-                                {
-                                    match: {
-                                        id: 'Electrical'
-                                    },
-                                    id: ''
-                                },
-                                {
-                                    match: {
-                                        id: 'ACMV'
-                                    },
-                                    id: ''
-                                },
-                                {
-                                    match: {
-                                        id: 'Civil'
-                                    },
-                                    id: ''
-                                },
-                                {
-                                    match: {
-                                        id: 'Access Control System'
-                                    },
-                                    id: ''
-                                } 
-                            ]}
-                    
-                        /> 
+            <ResponsiveContainer width="100%">
+
+                <PieChart style={{with:'100%' , height:'100%'}}>  
+
+                    <Pie data={data} dataKey="WRCounts" nameKey="ServiceCategoryName" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#82ca9d" label />  
+                
+                </PieChart>
+                
+            </ResponsiveContainer>
+        
+                        
          
 
-                        <Modal show={showModal} onOpen={() => { }} onClose={() => setShowModal(false)}> 
+         <Modal show={showModal && modelData!= null} onOpen={() => { }} onClose={() => {setShowModal(false); setmodelData(null)}} >   
 
                                          <ResponsiveContainer width='100%' aspect={4.0 / 2.0}>
-                                        <BarChart data={serviceRequestadditonalData} 
+                                        <BarChart data={data1} 
                                             layout="vertical" 
                                             width={500}
                                             height={200}
@@ -507,26 +658,34 @@ const ServiceRequest: React.FunctionComponent<IWidgetProps> = (props) => {
                                             <Tooltip /> 
                                             <Bar barSize={20} dataKey="LocationKey" fill="#c02b82"  onClick={handleClick1}/> 
                                         </BarChart>
-                                    </ResponsiveContainer> 
-
+                                    </ResponsiveContainer>  
                         </Modal>
+ 
 
-                        <Modal show={showModal1} onOpen={() => { }} onClose={() => setShowModal1(false)}> 
-                            <div className="assets-widget-list">
+                        <Modal show={showModal1 && modelData1!= null} onOpen={() => { }} onClose={() => {setShowModal1(false); setmodelData1(null)}} >  
 
-                                <div className="item-list">  
-                                        <ul>
-                                            {serviceRequestsubadditonalData.map((item) => (
-                                                <li key={item.AssetID}> 
-                                                    <label>{item.AssetID}</label>  
-                                                    <span>{item.WRCount}</span>
-                                                </li>
-                                            ))}
-                                        </ul> 
+                                <div className="assets-widget-list">
 
-                                    </div>
-                            </div> 
-                        </Modal> 
+                                    <div className="item-list">
+ 
+                                        <ul> 
+                                                {
+                                                    Object.keys(modelData1 || {}).map((m:any)=>{
+                                                        return <li key={modelData1[m].AssetID}> 
+
+                                                            <label>{modelData1[m].AssetID}</label>  
+                                                            <span>{modelData1[m].WRCount}</span> 
+
+                                                        </li>
+                                                    })
+                                                }  
+                                            </ul>  
+
+                                        </div>
+                                </div> 
+                            </Modal> 
+
+
                     </div> 
                                 
                 </WidgetWrapper> 
@@ -535,53 +694,85 @@ const ServiceRequest: React.FunctionComponent<IWidgetProps> = (props) => {
     )
 };
 
+ 
+
+
 
 const WorkOrderMonth: React.FunctionComponent<IWidgetProps> = (props) => {
-
-    let [showModal, setShowModal] = React.useState(false);  
-    let[modelData, setmodelData] = React.useState<any>(null);
-
-    let [showModal1, setShowModal1] = React.useState(false);  
-    let[modelData1, setmodelData1] = React.useState<any>(null);
+ 
 
 
-    const workorderdata =  
-    [
-        {"monthname":"January","ServiceCategoryName":"Access Control System", "ServiceCategoryKey":"4" ,"CWOMCOUNT":"10"},
-        {"monthname":"Fabruary","ServiceCategoryName":"ACMV", "ServiceCategoryKey":"5" ,"CWOMCOUNT":"0"},
-        {"monthname":"March","ServiceCategoryName":"Audio Visual Systems", "ServiceCategoryKey":"6", "CWOMCOUNT":"8"},
-        {"monthname":"April","ServiceCategoryName":"Building Management Systems", "ServiceCategoryKey":"7", "CWOMCOUNT":"0"},
-        {"monthname":"May","ServiceCategoryName":"Building Security", "ServiceCategoryKey":"8" ,"CWOMCOUNT":"0"},
-        {"monthname":"June","ServiceCategoryName":"CCTV", "ServiceCategoryKey":"9" }
-    ] 
+let [showModal, setShowModal] = React.useState(false);  
+let[modelData, setmodelData] = React.useState<any>(null); 
 
-    const workorderadditonalData = 
-    [
-        {"LocationKey":"3","LocationName":"Car Park","CWO Count":"0"},
-        {"LocationKey":"45","LocationName":"South B","CWO Count":"3"},
-        {"LocationKey":"311","LocationName":"NiHonSt","CWO Count":"10"},
-        {"LocationKey":"318","LocationName":"PND","CWO Count":"12"},
-        {"LocationKey":"351","LocationName":"GHALL","CWO Count":"0"}
-    ] 
-     
-
-   const workordersubadditonalData = 
-    [
-        {"AssetKey":"1","AssetID":"RAHU_001","CWOCount":"1"}
-    ] 
-
-    function handleClick(e:any){ 
-        setmodelData(true);
-        setShowModal(true);
-    } 
-
-    function handleClick1(e:any){ 
-        setmodelData1(true);
-        setShowModal1(true);
-    } 
+let [showModal1, setShowModal1] = React.useState(false);  
+let[modelData1, setmodelData1] = React.useState<any>(null);
 
 
-    const barColors = ["#1f77b4", "#ff7f0e", "#2ca02c"]
+let [data,setData] = React.useState<any>([]) 
+function getData () {  
+    props.uxpContext.executeAction("ivivafacility","CWOPerMonthbySerCat",{},{json:true}).then(res=>{ 
+        console.log(res);
+        setData(res);
+    }).catch(e=>{
+        // console.log("hi", e);
+    }); 
+} 
+
+let [data1,setData1] = React.useState<any>([]) 
+function getData1 () {  
+    props.uxpContext.executeAction("ivivafacility","CWOCountbyZoneSerCat",{},{json:true}).then(res=>{ 
+        console.log(res);
+        console.log("CWOCountbyZoneSerCat");
+        setData1(res);
+    }).catch(e=>{
+        //   console.log("hi", e);
+    }); 
+} 
+
+let [data2,setData2] = React.useState<any>([]) 
+function getData2 () {  
+    props.uxpContext.executeAction("ivivafacility","CWOCountbyAssetZone",{},{json:true}).then(res=>{ 
+        console.log(res);
+        console.log("CWOCountbyAssetZone");
+        setData2(res);
+    }).catch(e=>{
+        //   console.log("hi", e);
+    }); 
+}
+
+React.useEffect(() =>{
+    getData();
+    getData1();
+    getData2();
+}, [])   
+
+
+// function handleClick(e:any){ 
+//     console.log(e); 
+//     var dataset = data1;
+//     setmodelData(dataset);
+//     setShowModal(true);
+// }  
+
+// function handleClick1(e:any){
+//     console.log(e); 
+//     var dataset1 = data2;
+//     setmodelData(dataset1);
+//     setShowModal(true);
+// }  
+
+
+function handleClick(e:any){ 
+    setmodelData(true);
+    setShowModal(true);
+} 
+
+function handleClick1(e:any){ 
+    setmodelData1(true);
+    setShowModal1(true);
+} 
+ 
  
  
     return (
@@ -599,7 +790,7 @@ const WorkOrderMonth: React.FunctionComponent<IWidgetProps> = (props) => {
                                 <BarChart
                                     width={500}
                                     height={200}
-                                    data={workorderdata}
+                                    data={data}
                                     margin={{
                                         top: 2, right: 0, left: 0, bottom: 2,
                                     }}>
@@ -616,11 +807,11 @@ const WorkOrderMonth: React.FunctionComponent<IWidgetProps> = (props) => {
 
                             </ResponsiveContainer>
 
-
                             <Modal show={showModal} onOpen={() => { }} onClose={() => setShowModal(false)}> 
+                            {/* <Modal show={showModal && modelData!= null} onOpen={() => { }} onClose={() => {setShowModal(false); setmodelData(null)}} >  */}
 
                                            <ResponsiveContainer width='100%' aspect={4.0 / 2.0}>
-                                            <BarChart data={workorderadditonalData} 
+                                            <BarChart data={data1} 
                                                 layout="vertical" 
                                                 width={500}
                                                 height={200}
@@ -628,24 +819,41 @@ const WorkOrderMonth: React.FunctionComponent<IWidgetProps> = (props) => {
                                                 <XAxis type="number" />
                                                 <YAxis dataKey="LocationName" type="category" />
                                                 <Tooltip /> 
-                                                <Bar barSize={20} dataKey="CWO Count" fill="#0d998a"  onClick={handleClick1}/> 
+                                                <Bar barSize={20} dataKey="CWOCount" fill="#0d998a"  onClick={handleClick1}/> 
                                             </BarChart>
                                         </ResponsiveContainer> 
     
                             </Modal>
+
+                            {/* <Modal show={showModal1 && modelData1!= null} onOpen={() => { }} onClose={() => {setShowModal1(false); setmodelData1(null)}} >   */}
+
 
                             <Modal show={showModal1} onOpen={() => { }} onClose={() => setShowModal1(false)}> 
                                 <div className="assets-widget-list">
 
                                     <div className="item-list">  
                                             <ul>
-                                                {workordersubadditonalData.map((item) => (
+                                                {data2.map((item:any) => (
                                                     <li key={item.AssetID}> 
                                                         <label>{item.AssetID}</label> 
                                                         <span>{item.CWOCount}</span> 
                                                     </li>
                                                 ))}
                                             </ul> 
+
+
+                                            {/* <ul> 
+                                                {
+                                                    Object.keys(modelData1 || {}).map((m:any)=>{
+                                                        return <li key={modelData1[m].AssetID}> 
+
+                                                            <label>{modelData1[m].AssetID}</label>  
+                                                            <span>{modelData1[m].WRCount}</span> 
+
+                                                        </li>
+                                                    })
+                                                }  
+                                            </ul> */}
 
                                         </div>
                                 </div> 
@@ -659,16 +867,22 @@ const WorkOrderMonth: React.FunctionComponent<IWidgetProps> = (props) => {
 };
   
 
-const UpcomingAssets: React.FunctionComponent<IWidgetProps> = (props) => { 
 
-    const upcomingAssetslist =  
+
+const UpcomingAssets: React.FunctionComponent<IWidgetProps> = (props) => {  
+
+    let [data,setData] = React.useState<any>([]) 
+    function getData () {  
+        props.uxpContext.executeAction("ivivafacility","UpcomingPPMAssetforMaintenance",{},{json:true}).then(res=>{ 
+              console.log(res);
+            setData(res);
+        }).catch(e=>{ 
+        }); 
+    }
     
-    [
-        {"AssetKey":11,"AssetID":"MW SA- AHU 3-5","AWOKey":24,"AWONo":"PWO20210831024","TargetStartDate":"2021-09-03T02:00:00.000Z"},
-        {"AssetKey":12,"AssetID":"MW NA- AHU 3-N1","AWOKey":24,"AWONo":"PWO20210831024","TargetStartDate":"2021-09-03T02:00:00.000Z"},
-        {"AssetKey":9,"AssetID":"MW SA- AHU 3-3","AWOKey":24,"AWONo":"PWO20210831024","TargetStartDate":"2021-09-03T02:00:00.000Z"},
-        {"AssetKey":10,"AssetID":"MW SA- AHU 3-4","AWOKey":24,"AWONo":"PWO20210831024","TargetStartDate":"2021-09-03T02:00:00.000Z"}
-     ]
+    React.useEffect(() =>{
+        getData();
+    }, [])  
      
     function parseDate(date:string){ 
         var currentTime = new Date(date);  
@@ -678,42 +892,36 @@ const UpcomingAssets: React.FunctionComponent<IWidgetProps> = (props) => {
         var formatedate = year + '-' + month + '-' + day; 
         return formatedate;
     }
-
-   
-        let date = new Date();
-        // add a day
-        date.setDate(date.getDate() + 1);
-        
-        function addDays(days: number) { 
-            var result = new Date();
-            result.setDate(result.getDate() + days);
-            return result;
-          }
+ 
+    let date = new Date(); 
+    date.setDate(date.getDate() + 1);
+    
+    function addDays(days: number) { 
+        var result = new Date();
+        result.setDate(result.getDate() + days);
+        return result;
+        }
    
 
     let [startDate, setStartDate] = React.useState<string | Date>(new Date()); 
-    let [endDate, setEndDate] = React.useState<string | Date>(addDays(90));
-
-
+    let [endDate, setEndDate] = React.useState<string | Date>(addDays(90)); 
  
     return (
         <WidgetWrapper className="assets-widget-list">
             <TitleBar title='Upcoming Assets for Maintenance'>  
-                {/* <TimeRangePicker title="" startTime={startDate} endTime={endDate} onChange={(s, e) => { setStartDate(s); setEndDate(e) }} /> */}
-
+              
                 <DateRangePicker title=""
                                 startDate={startDate}
                                 endDate={endDate}
                                 closeOnSelect
                                 onChange={(newStart, newEnd) => { setStartDate(newStart); setEndDate(newEnd)}}
-                            /> 
-
+                            />  
                             
             </TitleBar>
 
             <div className="item-list" >  
                     <ul>
-                        {upcomingAssetslist.map((item) => (  
+                        {data.map((item:any) => (  
                             <li key={item.AssetID}> 
                                 <label>{item.AssetID}</label>  
                                 <span>{parseDate(item.TargetStartDate)}</span>   
@@ -728,9 +936,21 @@ const UpcomingAssets: React.FunctionComponent<IWidgetProps> = (props) => {
 
 
 
-const ProblematicAssets: React.FunctionComponent<IWidgetProps> = (props) => {
+const ProblematicAssets: React.FunctionComponent<IWidgetProps> = (props) => { 
+    
+    let [data,setData] = React.useState<any>([]) 
+    function getData () {  
+        props.uxpContext.executeAction("ivivafacility","TopProblematicAssets",{},{json:true}).then(res=>{ 
+              console.log(res);
+            setData(res);
+        }).catch(e=>{ 
+        }); 
+    }
+    
+    React.useEffect(() =>{
+        getData();
+    }, []) 
 
-    const problematicAssetslist = [{"AssetKey":"1","AssetID":"RAHU_001","TotalCases":"1"}]
  
     return (
         <WidgetWrapper className="assets-widget-list">
@@ -738,7 +958,7 @@ const ProblematicAssets: React.FunctionComponent<IWidgetProps> = (props) => {
 
             <div className="item-list">  
                     <ul>
-                        {problematicAssetslist.map((item) => (
+                        {data.map((item:any) => (
                             <li key={item.AssetID}> 
                                 <label>{item.AssetID}</label> 
                                 <span>{item.TotalCases}</span>  
@@ -754,14 +974,21 @@ const ProblematicAssets: React.FunctionComponent<IWidgetProps> = (props) => {
 
  
 const TopAgedAssets: React.FunctionComponent<IWidgetProps> = (props) => {
- 
-    const topAgedlist = [
-        {"AssetKey":"7","AssetID":"MW SA- AHU 3-1","InstalledDate":"19960101:000000","InstalledLocationKey":"301","AssetCategoryKey":"5","AssetGroupKey":"1","CurrentDate":"20210831:073020","Age":"25"},
-        {"AssetKey":"6","AssetID":"MW SA- AHU 2-3","InstalledDate":"19960101:000000","InstalledLocationKey":"298","AssetCategoryKey":"5","AssetGroupKey":"1","CurrentDate":"20210831:073020","Age":"25"},
-        {"AssetKey":"5","AssetID":"MW SA- AHU 2-2","InstalledDate":"19960101:000000","InstalledLocationKey":"298","AssetCategoryKey":"5","AssetGroupKey":"1","CurrentDate":"20210831:073020","Age":"25"},
-        {"AssetKey":"4","AssetID":"MW SA- AHU 2-1","InstalledDate":"19960101:000000","InstalledLocationKey":"298","AssetCategoryKey":"5","AssetGroupKey":"1","CurrentDate":"20210831:073020","Age":"25"},
-        {"AssetKey":"3","AssetID":"MW SA- AHU 1-2","InstalledDate":"19960101:000000","InstalledLocationKey":"296","AssetCategoryKey":"5","AssetGroupKey":"1","CurrentDate":"20210831:073020","Age":"25"}
-    ]
+
+    let [data,setData] = React.useState<any>([]) 
+    function getData () {  
+        props.uxpContext.executeAction("ivivafacility","TopAgedAssets",{},{json:true}).then(res=>{ 
+              console.log(res);
+            setData(res);
+        }).catch(e=>{
+            // console.log("hi", e);
+        }); 
+    }
+    
+    React.useEffect(() =>{
+        getData();
+    }, []) 
+     
  
     return (
         <WidgetWrapper className="assets-widget-list">
@@ -769,7 +996,7 @@ const TopAgedAssets: React.FunctionComponent<IWidgetProps> = (props) => {
 
               <div className="item-list">  
                     <ul>
-                        {topAgedlist.map((item) => (
+                        {data.map((item:any) => (
                             <li key={item.AssetID}> 
                                 <label>{item.AssetID}</label> 
                                 <span>{item.Age}</span>  
@@ -782,12 +1009,12 @@ const TopAgedAssets: React.FunctionComponent<IWidgetProps> = (props) => {
     )
 };
 
-
+      
 /**
  * Register as a Widget
  */
 
-
+ 
 
  registerWidget({
     id: "averageAsset", 
@@ -914,9 +1141,7 @@ registerWidget({
         }
     }
 });
-
-
-
+ 
 
 
 /**
