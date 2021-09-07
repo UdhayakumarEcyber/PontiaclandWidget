@@ -131,6 +131,8 @@ interface IWidgetState {
         setShowModal1(true);
     }
      
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+ 
  
     return (
          <>
@@ -155,7 +157,11 @@ interface IWidgetState {
                             <XAxis dataKey="LocationName" />
                             <YAxis orientation="left" />
                             <Tooltip />
-                        <Bar barSize={20} onClick={handleClick} dataKey="AssetAge" fill="#FF8181" /> 
+                        <Bar barSize={20} onClick={handleClick} dataKey="AssetAge" fill="#FF8181" > 
+                                         {
+                                            data.map((entry:any, index:any) => <Cell fill={COLORS[index % COLORS.length]}/>)
+                                        }
+                                        </Bar>  
                     </BarChart>  
 
                 </ResponsiveContainer>   
@@ -398,6 +404,7 @@ const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => {
         setShowModal1(true);
     }
     
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
  
  
     return (
@@ -424,7 +431,11 @@ const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => {
                                     <XAxis dataKey="LocationName" />
                                     <YAxis orientation="left" />
                                     <Tooltip />
-                                    <Bar barSize={20} onClick={handleClick} dataKey="AssetCount" fill="#0d998a" /> 
+                                    <Bar barSize={20} onClick={handleClick} dataKey="AssetCount" fill="#0d998a"> 
+                                         {
+                                            data.map((entry:any, index:any) => <Cell fill={COLORS[index % COLORS.length]}/>)
+                                        }
+                                        </Bar> 
                                 </BarChart>  
 
                             </ResponsiveContainer>
@@ -494,13 +505,15 @@ function getData () {
         console.log("peichart",res);
         var updatedData = res.map((d:any)=> {
             d.WRCounts = parseInt(d.WRCounts)
-            return d;
-        })
+            return d; 
+        }) 
+        
         setData(updatedData);
     }).catch(e=>{
         // console.log("hi", e);
     }); 
 } 
+
 
 
 let [data1,setData1] = React.useState<any>([]) 
@@ -549,16 +562,17 @@ function handleClick1(e:any){
     
     console.log("hello",e); 
     var dataset1 = e; 
-    var ServiceCategoryKey = e.payload.ServiceCategoryKey; 
-    var locationkey = modelData.payload.LocationKey;
+
+    var ServiceCategoryKey = modelData.payload.ServiceCategoryKey; 
+    var locationkey = e.payload.LocationKey; 
+
     console.log("locationkey", locationkey, ServiceCategoryKey);  
     getData2(locationkey,ServiceCategoryKey);
     setmodelData1(dataset1); 
     setShowModal1(true);
 }
-
  
-
+ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
  
     return (
          <>
@@ -571,12 +585,15 @@ function handleClick1(e:any){
             <div className="assetage_chart" style={{width: "95%", height: "95%"}}>  
            
 
-            <ResponsiveContainer width="100%">
+            <ResponsiveContainer>
 
-                <PieChart style={{with:'100%' , height:'100%'}}>  
+                <PieChart width={1200} height={1200}> 
 
-                    <Pie data={data} dataKey="WRCounts" nameKey="ServiceCategoryName" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#c9527b" label onClick={handleClick}/>  
-                
+                <Pie data={data} dataKey="WRCounts" nameKey="ServiceCategoryName" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#c9527b" label onClick={handleClick}>
+                    {
+                        data.map((entry:any, index:any) => <Cell fill={COLORS[index % COLORS.length]}/>)
+                    }
+                    </Pie>  
                 </PieChart>
                 
             </ResponsiveContainer> 
@@ -593,7 +610,11 @@ function handleClick1(e:any){
                                             <XAxis type="number" />
                                             <YAxis dataKey="LocationName" type="category" />
                                             <Tooltip /> 
-                                            <Bar barSize={20} dataKey="LocationKey" fill="#c02b82"  onClick={handleClick1}/> 
+                                            <Bar barSize={20} dataKey="LocationKey" fill="#c02b82"  onClick={handleClick1}>  
+                                            {
+                                                data.map((entry:any, index:any) => <Cell fill={COLORS[index % COLORS.length]}/>)
+                                            }
+                                            </Bar>
                                         </BarChart>
                                     </ResponsiveContainer>  
                         </Modal>
@@ -627,10 +648,7 @@ function handleClick1(e:any){
  
             </>
     )
-};
-
- 
-
+}; 
 
 
 const WorkOrderMonth: React.FunctionComponent<IWidgetProps> = (props) => {
@@ -700,15 +718,20 @@ function handleClick1(e:any){
     console.log("hello",e); 
     var dataset1 = e;  
 
-    var locationkey = modelData.payload.LocationKey;
-    var ServiceCategoryKey = e.payload.ServiceCategoryKey;
-    var month = e.payload.monthname; 
+    // var locationkey = modelData.payload.LocationKey;
+    // var ServiceCategoryKey = e.payload.ServiceCategoryKey;
+    // var month = e.payload.monthname; 
+
+    var locationkey = e.payload.LocationKey;
+    var ServiceCategoryKey = modelData.payload.ServiceCategoryKey;
+    var month = modelData.payload.monthname;  
  
     getData2(locationkey,ServiceCategoryKey, month);
     setmodelData1(dataset1);  
     setShowModal1(true);
 } 
 
+// const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
  
  
     return (
@@ -736,8 +759,8 @@ function handleClick1(e:any){
                                     <Tooltip />
                                     {/* <Bar barSize={20} onClick={handleClick} dataKey="CWOMCOUNT" fill="#2949F7A5" />  */}
 
-                                    <Bar stackId="a" barSize={20} onClick={handleClick} fill="#8884d8" dataKey="ServiceCategoryKey"/>
-                                    <Bar stackId="a" barSize={20} onClick={handleClick} fill="#82ca9d" dataKey="CWOMCOUNT" />
+                                    <Bar stackId="a" barSize={20} name="Service Category Name"  onClick={handleClick} fill="#8884d8" dataKey="ServiceCategoryKey" />
+                                    <Bar stackId="a" barSize={20} name="CWOM COUNT" onClick={handleClick} fill="#82ca9d" dataKey="CWOMCOUNT" />
                                     
                                 </BarChart>  
 

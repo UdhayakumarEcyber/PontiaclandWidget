@@ -10646,6 +10646,7 @@ const AssetAge = (props) => {
         // console.log(dataset1);
         setShowModal1(true);
     }
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
     return (React.createElement(React.Fragment, null,
         React.createElement(components_1.WidgetWrapper, { className: "assetage_widget" },
             React.createElement(components_1.TitleBar, { title: 'Asset Age by Location (Zones)' },
@@ -10659,7 +10660,7 @@ const AssetAge = (props) => {
                         React.createElement(recharts_1.XAxis, { dataKey: "LocationName" }),
                         React.createElement(recharts_1.YAxis, { orientation: "left" }),
                         React.createElement(recharts_1.Tooltip, null),
-                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, dataKey: "AssetAge", fill: "#FF8181" }))),
+                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, dataKey: "AssetAge", fill: "#FF8181" }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
                 React.createElement(components_1.Modal, { title: (modelData === null || modelData === void 0 ? void 0 : modelData.LocationName) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
                     React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
                         React.createElement(recharts_1.BarChart, { layout: "vertical", width: 500, height: 200, data: data1, margin: {
@@ -10800,6 +10801,7 @@ const TotalNumber = (props) => {
         // console.log(dataset1);
         setShowModal1(true);
     }
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
     return (React.createElement(React.Fragment, null,
         React.createElement(components_1.WidgetWrapper, { className: "assetage_widget" },
             React.createElement(components_1.TitleBar, { title: 'Total Number of Asset by Location (Zone)' },
@@ -10813,7 +10815,7 @@ const TotalNumber = (props) => {
                         React.createElement(recharts_1.XAxis, { dataKey: "LocationName" }),
                         React.createElement(recharts_1.YAxis, { orientation: "left" }),
                         React.createElement(recharts_1.Tooltip, null),
-                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, dataKey: "AssetCount", fill: "#0d998a" }))),
+                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, dataKey: "AssetCount", fill: "#0d998a" }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
                 React.createElement(components_1.Modal, { title: (modelData === null || modelData === void 0 ? void 0 : modelData.LocationName) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
                     React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
                         React.createElement(recharts_1.BarChart, { data: data1, layout: "vertical", width: 500, height: 200 },
@@ -10885,28 +10887,29 @@ const ServiceRequest = (props) => {
     function handleClick1(e) {
         console.log("hello", e);
         var dataset1 = e;
-        var ServiceCategoryKey = e.payload.ServiceCategoryKey;
-        var locationkey = modelData.payload.LocationKey;
+        var ServiceCategoryKey = modelData.payload.ServiceCategoryKey;
+        var locationkey = e.payload.LocationKey;
         console.log("locationkey", locationkey, ServiceCategoryKey);
         getData2(locationkey, ServiceCategoryKey);
         setmodelData1(dataset1);
         setShowModal1(true);
     }
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
     return (React.createElement(React.Fragment, null,
         React.createElement(components_1.WidgetWrapper, { className: "assetage_widget" },
             React.createElement(components_1.TitleBar, { title: 'Service Request/Work Orders by Categories' },
                 React.createElement(components_1.FilterPanel, null)),
             React.createElement("div", { className: "assetage_chart", style: { width: "95%", height: "95%" } },
-                React.createElement(recharts_1.ResponsiveContainer, { width: "100%" },
-                    React.createElement(recharts_1.PieChart, { style: { with: '100%', height: '100%' } },
-                        React.createElement(recharts_1.Pie, { data: data, dataKey: "WRCounts", nameKey: "ServiceCategoryName", cx: "50%", cy: "50%", innerRadius: 60, outerRadius: 80, fill: "#c9527b", label: true, onClick: handleClick }))),
+                React.createElement(recharts_1.ResponsiveContainer, null,
+                    React.createElement(recharts_1.PieChart, { width: 1200, height: 1200 },
+                        React.createElement(recharts_1.Pie, { data: data, dataKey: "WRCounts", nameKey: "ServiceCategoryName", cx: "50%", cy: "50%", innerRadius: 60, outerRadius: 80, fill: "#c9527b", label: true, onClick: handleClick }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
                 React.createElement(components_1.Modal, { title: (modelData === null || modelData === void 0 ? void 0 : modelData.ServiceCategoryName) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
                     React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
                         React.createElement(recharts_1.BarChart, { data: data1, layout: "vertical", width: 500, height: 200 },
                             React.createElement(recharts_1.XAxis, { type: "number" }),
                             React.createElement(recharts_1.YAxis, { dataKey: "LocationName", type: "category" }),
                             React.createElement(recharts_1.Tooltip, null),
-                            React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "LocationKey", fill: "#c02b82", onClick: handleClick1 })))),
+                            React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "LocationKey", fill: "#c02b82", onClick: handleClick1 }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] })))))),
                 React.createElement(components_1.Modal, { title: (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.LocationName) || '', show: showModal1 && modelData1 != null, onOpen: () => { }, onClose: () => { setShowModal1(false); setmodelData1(null); } },
                     React.createElement("div", { className: "assets-widget-list" },
                         React.createElement("div", { className: "item-list" },
@@ -10967,13 +10970,17 @@ const WorkOrderMonth = (props) => {
     function handleClick1(e) {
         console.log("hello", e);
         var dataset1 = e;
-        var locationkey = modelData.payload.LocationKey;
-        var ServiceCategoryKey = e.payload.ServiceCategoryKey;
-        var month = e.payload.monthname;
+        // var locationkey = modelData.payload.LocationKey;
+        // var ServiceCategoryKey = e.payload.ServiceCategoryKey;
+        // var month = e.payload.monthname; 
+        var locationkey = e.payload.LocationKey;
+        var ServiceCategoryKey = modelData.payload.ServiceCategoryKey;
+        var month = modelData.payload.monthname;
         getData2(locationkey, ServiceCategoryKey, month);
         setmodelData1(dataset1);
         setShowModal1(true);
     }
+    // const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
     return (React.createElement(React.Fragment, null,
         React.createElement(components_1.WidgetWrapper, { className: "assetage_widget" },
             React.createElement(components_1.TitleBar, { title: 'Work Orders per Month' },
@@ -10987,8 +10994,8 @@ const WorkOrderMonth = (props) => {
                         React.createElement(recharts_1.XAxis, { dataKey: "monthname" }),
                         React.createElement(recharts_1.YAxis, { orientation: "left" }),
                         React.createElement(recharts_1.Tooltip, null),
-                        React.createElement(recharts_1.Bar, { stackId: "a", barSize: 20, onClick: handleClick, fill: "#8884d8", dataKey: "ServiceCategoryKey" }),
-                        React.createElement(recharts_1.Bar, { stackId: "a", barSize: 20, onClick: handleClick, fill: "#82ca9d", dataKey: "CWOMCOUNT" }))),
+                        React.createElement(recharts_1.Bar, { stackId: "a", barSize: 20, name: "Service Category Name", onClick: handleClick, fill: "#8884d8", dataKey: "ServiceCategoryKey" }),
+                        React.createElement(recharts_1.Bar, { stackId: "a", barSize: 20, name: "CWOM COUNT", onClick: handleClick, fill: "#82ca9d", dataKey: "CWOMCOUNT" }))),
                 React.createElement(components_1.Modal, { title: (modelData === null || modelData === void 0 ? void 0 : modelData.monthname) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
                     React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
                         React.createElement(recharts_1.BarChart, { data: data1, layout: "vertical", width: 500, height: 200 },
