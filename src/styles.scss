@@ -101,6 +101,8 @@
     .item-list{ 
         
             padding: 0em 3% 2em 3%; 
+            min-width: 120px; 
+            overflow: auto;
 
         ul{
             list-style: none;

@@ -584,31 +584,44 @@ function handleClick1(e:any){
  const [activeIndex, setActiveIndex] = React.useState(-1),
         onMouseEnter = React.useCallback((_, i) => setActiveIndex(i), []);
 
+        let renderLabel = function(data:any) {
+            return data.ServiceCategoryName;
+        }
 
+
+        
+     
     return (
          <>
         <WidgetWrapper className="assetage_widget">
             <TitleBar title='Service Requests by Categories'> </TitleBar>  
 
             <div className="assetage_chart" style={{width: "95%", height: "95%"}}>  
-
-
           
            
-
+      <ResponsiveContainer>
              
+         <PieChart width={1200} height={1200}> 
 
-               {/* <PieChart width={1200} height={1200}> 
-
-                <Pie data={data} label nameKey="ServiceCategoryName" dataKey="WRCounts" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#c9527b" onClick={handleClick}>
+                <Pie data={data}  nameKey="ServiceCategoryName" dataKey="WRCounts" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#c9527b" onClick={handleClick}
+                 isAnimationActive={true} 
+                 activeIndex={activeIndex}
+                 
+                 onMouseEnter={onMouseEnter}
+                
+                >
                     {
                         data.map((entry:any, index:any) => <Cell fill={COLORS[index % COLORS.length]}/>)
                     }
  
                     </Pie>  
-                </PieChart>  */}
+                    <Tooltip />
+                   
+                </PieChart>   
 
-
+                </ResponsiveContainer>
+   
+{/* 
                 <PieChart width={550} height={400}>
                     <Pie data={data} color="#000000" dataKey="WRCounts" nameKey="ServiceCategoryName" cx="50%" cy="50%" innerRadius={60} outerRadius={80}  fill="#8884d8" onClick={handleClick}
                      isAnimationActive={true} 
@@ -622,7 +635,7 @@ function handleClick1(e:any){
                     
                     <Tooltip />
                      
-                </PieChart>
+                </PieChart> */}
 
  
  
@@ -787,11 +800,7 @@ function handleClick1(e:any){
                                     <Bar stackId="a" barSize={20} name="CWOM COUNT" onClick={handleClick} fill="#82ca9d" dataKey="CWOMCOUNT" />  
 
                                  </BarChart> 
-                                  </ResponsiveContainer>
-                                    
-
-
-                                   
+                                  </ResponsiveContainer> 
                                      
  
                            
