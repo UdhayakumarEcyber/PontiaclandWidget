@@ -23,7 +23,8 @@ interface IWidgetState {
 }
 
    
- const url =  "http://mwalk.iviva.cloud/apps/ivivafacility/wo-details?key=121"
+const URL =  "http://mwalk.iviva.cloud/Apps/Asset/view?key="; 
+
 
  
  const AverageAsset: React.FunctionComponent<IWidgetProps> = (props) => { 
@@ -133,8 +134,7 @@ interface IWidgetState {
     }
      
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
- 
-    const URL =  "http://mwalk.iviva.cloud/Apps/Asset/view?key=#{AssetKey}";
+
 
     return (
          <>
@@ -194,18 +194,18 @@ interface IWidgetState {
 
                                             <ul> 
                                                 {
-                                                    Object.keys(data2 || {}).map((m:any)=>{
-
-                                               
+                                                    Object.keys(data2 || {}).map((m:any)=>{ 
 
                                                         return <li>  {data2[m].AssetKey}
                                                             
-                                                            <label><a href={URL} target="_blank">{data2[m].AssetID}</a></label>  
+                                                            <label><a href={URL + data2[m].AssetKey} target="_blank">{data2[m].AssetID}</a></label>  
                                                             <span> {data2[m].AssetAge}</span> 
                                                             
                                                         </li>
                                                     })
-                                                }  
+                                                }   
+                                                   
+
                                             </ul> 
 
                                         </div>
@@ -315,7 +315,9 @@ const MaintenanceDetails: React.FunctionComponent<IWidgetProps> = (props) => {
                                                 {
                                                     Object.keys(data1 || {}).map((m:any)=>{
                                                         return <li> 
-                                                            <label>{data1[m].AssetID}</label>  
+                                                            {/* <label>{data1[m].AssetID}</label>   */}
+                                                            <label><a href={URL + data1[m].AssetKey} target="_blank">{data1[m].AssetID}</a></label> 
+                                                            
                                                         </li>
                                                     })
                                                 }  
@@ -473,7 +475,8 @@ const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => {
                                                 {
                                                     Object.keys(data2 || {}).map((m:any)=>{
                                                         return <li> 
-                                                            <label>{data2[m].AssetID}</label>   
+                                                            <label><a href={URL + data2[m].AssetKey} target="_blank">{data2[m].AssetID}</a></label>  
+                                                             
                                                         </li>
                                                     })
                                                 }  
@@ -637,7 +640,8 @@ function handleClick1(e:any){
                                                 {
                                                     Object.keys(data2 || {}).map((m:any)=>{
                                                         return <li> 
-                                                              <label>{data2[m].AssetID}</label>  
+                                                              {/* <label>{data2[m].AssetID}</label> */}
+                                                              <label><a href={URL + data2[m].AssetKey} target="_blank">{data2[m].AssetID}</a></label>   
                                                             <span>{data2[m].WRCount}</span>   
                                                         </li>
                                                     })
@@ -824,9 +828,14 @@ function handleClick1(e:any){
 
 const UpcomingAssets: React.FunctionComponent<IWidgetProps> = (props) => {  
 
+
+    let [startDate, setStartDate] = React.useState<string | Date>(new Date()); 
+    let [endDate, setEndDate] = React.useState<string | Date>(addDays(90)); 
+ 
+
     let [data,setData] = React.useState<any>([]) 
     function getData () {  
-        props.uxpContext.executeAction("ivivafacility","UpcomingPPMAssetforMaintenance",{},{json:true}).then(res=>{ 
+        props.uxpContext.executeAction("ivivafacility","UpcomingPPMAssetforMaintenance",{StartDate: startDate, EndDate: endDate },{json:true}).then(res=>{ 
               console.log(res);
             setData(res);
         }).catch(e=>{ 
@@ -853,22 +862,18 @@ const UpcomingAssets: React.FunctionComponent<IWidgetProps> = (props) => {
         var result = new Date();
         result.setDate(result.getDate() + days);
         return result;
-        }
-   
+    }  
 
-    let [startDate, setStartDate] = React.useState<string | Date>(new Date()); 
-    let [endDate, setEndDate] = React.useState<string | Date>(addDays(90)); 
- 
     return (
         <WidgetWrapper className="assets-widget-list">
             <TitleBar title='Upcoming Assets for Maintenance'>  
               
                 <DateRangePicker title=""
-                                startDate={startDate}
-                                endDate={endDate}
-                                closeOnSelect
-                                onChange={(newStart, newEnd) => { setStartDate(newStart); setEndDate(newEnd)}}
-                            />  
+                    startDate={startDate}
+                    endDate={endDate}
+                    closeOnSelect
+                    onChange={(newStart, newEnd) => { setStartDate(newStart); setEndDate(newEnd)}}
+                />  
                             
             </TitleBar>
 
@@ -876,7 +881,8 @@ const UpcomingAssets: React.FunctionComponent<IWidgetProps> = (props) => {
                     <ul>
                         {data.map((item:any) => (  
                             <li key={item.AssetID}> 
-                                <label>{item.AssetID}</label>  
+                                {/* <label>{item.AssetID}</label>   */}
+                                <label><a href={URL + item.AssetKey} target="_blank">{item.AssetID}</a></label>  
                                 <span>{parseDate(item.TargetStartDate)}</span>   
                             </li>
                         ))}
@@ -913,7 +919,8 @@ const ProblematicAssets: React.FunctionComponent<IWidgetProps> = (props) => {
                     <ul>
                         {data.map((item:any) => (
                             <li key={item.AssetID}> 
-                                <label>{item.AssetID}</label> 
+                                {/* <label>{item.AssetID}</label>  */}
+                                <label><a href={URL +item.AssetKey} target="_blank">{item.AssetID}</a></label> 
                                 <span>{item.TotalCases}</span>  
                             </li>
                         ))}
@@ -951,7 +958,8 @@ const TopAgedAssets: React.FunctionComponent<IWidgetProps> = (props) => {
                     <ul>
                         {data.map((item:any) => (
                             <li key={item.AssetID}> 
-                                <label>{item.AssetID}</label> 
+                                {/* <label>{item.AssetID}</label>  */}
+                                <label><a href={URL + item.AssetKey} target="_blank">{item.AssetID}</a></label> 
                                 <span>{item.Age} <em className="years">YRS</em> </span>  
                             </li>
                         ))}
@@ -1097,6 +1105,10 @@ registerWidget({
  
 
 
+
+function componentDidMount() {
+    throw new Error("Function not implemented.");
+}
 /**
  * Register as a Sidebar Link
  */
