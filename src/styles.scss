@@ -181,3 +181,26 @@
 }
 
    
+.custom-tooltip {
+    background-color: #000000AA;
+    backdrop-filter: blur(8px);
+    color:white;
+    padding:15px;
+    border-radius:10px;
+    font-size:12px;
+    .tt {
+        display:flex;
+        align-items: center;
+        margin:10px 0px;
+        .tt-block {
+            margin-right:10px;
+            width:20px;
+            height:20px;
+            border-radius:10px;
+            display:inline-block;
+        }
+        .tt-title {
+            width:200px;
+        }
+    }
+}

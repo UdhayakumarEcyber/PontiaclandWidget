@@ -25,7 +25,17 @@ interface IWidgetState {
    
 const URL =  "http://mwalk.iviva.cloud/Apps/Asset/view?key="; 
 
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
+
+const MonthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+function monthFromName(name:string) {
+    let i = MonthNames.indexOf(name);
+    if (i < 0) {
+        i = 0;
+    }
+    return i+1;
+}
  
  const AverageAsset: React.FunctionComponent<IWidgetProps> = (props) => { 
  
@@ -133,8 +143,7 @@ const URL =  "http://mwalk.iviva.cloud/Apps/Asset/view?key=";
         setShowModal1(true);
     }
      
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-
+  
 
     return (
          <>
@@ -413,9 +422,7 @@ const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => {
         setShowModal1(true);
     }
     
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
- 
- 
+
     return (
          <>
         <WidgetWrapper className="assetage_widget">
@@ -579,8 +586,7 @@ function handleClick1(e:any){
     setShowModal1(true);
 }
  
- const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
- 
+  
  const [activeIndex, setActiveIndex] = React.useState(-1),
         onMouseEnter = React.useCallback((_, i) => setActiveIndex(i), []);
 
@@ -588,7 +594,11 @@ function handleClick1(e:any){
             return data.ServiceCategoryName;
         }
 
+ 
 
+function uk(){
+     data.WRCounts;
+}
         
      
     return (
@@ -596,52 +606,28 @@ function handleClick1(e:any){
         <WidgetWrapper className="assetage_widget">
             <TitleBar title='Service Requests by Categories'> </TitleBar>  
 
-            <div className="assetage_chart" style={{width: "95%", height: "95%"}}>  
-          
-           
-      <ResponsiveContainer>
-             
-         <PieChart width={1200} height={1200}> 
+            <div className="assetage_chart" style={{width: "95%", height: "95%"}}>   
+            
 
-                <Pie data={data}  nameKey="ServiceCategoryName" dataKey="WRCounts" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#c9527b" onClick={handleClick}
-                 isAnimationActive={true} 
-                 activeIndex={activeIndex}
-                 
-                 onMouseEnter={onMouseEnter}
+                <ResponsiveContainer>
                 
-                >
-                    {
-                        data.map((entry:any, index:any) => <Cell fill={COLORS[index % COLORS.length]}/>)
-                    }
+                        <ResponsivePie
+                            data={data}  id ="ServiceCategoryName" 
+                            margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+                            innerRadius={0.5}
+                            padAngle={0.7}
+                            cornerRadius={3}
+                            colors={{ scheme: "nivo" }}
+                            borderWidth={1}
+                            borderColor={{ from: "color", modifiers: [["darker", 0.2]] }} 
+                            animate={true}   
+                            value= "WRCounts"
+                        />
+                
+                </ResponsiveContainer> 
  
-                    </Pie>  
-                    <Tooltip />
-                   
-                </PieChart>   
 
-                </ResponsiveContainer>
-   
-{/* 
-                <PieChart width={550} height={400}>
-                    <Pie data={data} color="#000000" dataKey="WRCounts" nameKey="ServiceCategoryName" cx="50%" cy="50%" innerRadius={60} outerRadius={80}  fill="#8884d8" onClick={handleClick}
-                     isAnimationActive={true} 
-                     activeIndex={activeIndex}
-       
-                    >
-                        {
-                            data.map((entry:any, index:any) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
-                        }
-                    </Pie>
-                    
-                    <Tooltip />
-                     
-                </PieChart> */}
-
- 
- 
-         
-
-                    <Modal  title={modelData?.ServiceCategoryName|| ''} show={showModal && modelData!= null} onOpen={() => { }} onClose={() => {setShowModal(false); setmodelData(null)}} >   
+                                <Modal  title={modelData?.ServiceCategoryName|| ''} show={showModal && modelData!= null} onOpen={() => { }} onClose={() => {setShowModal(false); setmodelData(null)}} >   
 
                                     <ResponsiveContainer width='100%' aspect={4.0 / 2.0}>
                                         <BarChart data={data1} 
@@ -659,7 +645,7 @@ function handleClick1(e:any){
                                             </Bar>
                                         </BarChart>
                                     </ResponsiveContainer>  
-                        </Modal>
+                                </Modal>
  
 
                         <Modal  title={modelData1?.LocationName|| ''} show={showModal1 && modelData1!= null} onOpen={() => { }} onClose={() => {setShowModal1(false); setmodelData1(null)}} >  
@@ -671,8 +657,7 @@ function handleClick1(e:any){
                                             <ul> 
                                                 {
                                                     Object.keys(data2 || {}).map((m:any)=>{
-                                                        return <li> 
-                                                              {/* <label>{data2[m].AssetID}</label> */}
+                                                        return <li>  
                                                               <label><a href={URL + data2[m].AssetKey} target="_blank">{data2[m].AssetID}</a></label>   
                                                             <span>{data2[m].WRCount}</span>   
                                                         </li>
@@ -708,6 +693,7 @@ let [data,setData] = React.useState<any>([])
 function getData () {  
     props.uxpContext.executeAction("ivivafacility","CWOPerMonthbySerCat",{},{json:true}).then(res=>{ 
         console.log("red",res);
+
         setData(res);
     }).catch(e=>{
         // console.log("hi", e);
@@ -716,7 +702,7 @@ function getData () {
 
 let [data1,setData1] = React.useState<any>([]) 
 function getData1 (ServiceCategoryKey:number, month: string) {  
-    props.uxpContext.executeAction("ivivafacility","CWOCountbyZoneSerCat",{ServiceCategoryKey:ServiceCategoryKey, month:month},{json:true}).then(res=>{ 
+    props.uxpContext.executeAction("ivivafacility","CWOCountbyZoneSerCat",{ServiceCategoryKey:ServiceCategoryKey, month:monthFromName(month)},{json:true}).then(res=>{ 
         console.log(res);
         console.log("AssetCountbyAssCatZone");
         setData1(res);
@@ -742,15 +728,15 @@ React.useEffect(() =>{
 
 
 
-function handleClick(e:any){   
+function handleClick(key:string,e:any){   
     console.log("location",e); 
     var dataset = e;
-      var ServiceCategoryKey = e.payload.ServiceCategoryKey;
+      var ServiceCategoryKey = ServiceCategories[key].key;//e.payload.ServiceCategoryKey;
       var month = e.payload.monthname;
     console.log("key12",ServiceCategoryKey); 
 
     console.log(dataset); 
-    setmodelData(dataset);
+    setmodelData({payload:{monthname:month,ServiceCategoryName:key,ServiceCategoryKey},ServiceCategoryName:key});
 
     getData1(ServiceCategoryKey, month);
     setShowModal(true);
@@ -773,8 +759,53 @@ function handleClick1(e:any){
     setmodelData1(dataset1);  
     setShowModal1(true);
 } 
- 
- 
+let ChartColors = [
+
+    '#598262',
+    '#C2D495',
+    '#DE391D',
+    '#4E1D1B',
+    '#4FA77C',
+    '#C2D495',
+    '#C7A54F',
+    '#1D8083',
+    '#067E8D',
+    '#EAD893',
+    '#F34C27',
+    '#F1E093',
+    '#369F8B',
+    '#D4D298',
+    '#675180',
+    '#A59EAC',
+    '#CBD2AC', 
+]
+
+
+let currentColor = 0;
+function nextColor() {
+    currentColor++;
+    return ChartColors[currentColor % ChartColors.length];
+}
+ let ServiceCategories:any = {};
+ function transformData(data:any) {
+     let months:any = {};
+     for(let row of data) {
+         let month = row.monthname;
+         if (!months[month]) {
+             months[month] = {};
+             
+         }
+         months[month][row.ServiceCategoryName] = row.CWOMCOUNT;
+         if (!ServiceCategories[row.ServiceCategoryName]) {
+             ServiceCategories[row.ServiceCategoryName] = {key:row.ServiceCategoryKey,color:nextColor()};
+         }
+     }
+     let monthKeys = Object.keys(months);
+     let x =  monthKeys.map(month => Object.assign({monthname:month},months[month]));
+     console.log('TTT',x);
+     return x;
+ }
+
     return (
          <>
         <WidgetWrapper className="assetage_widget">
@@ -786,18 +817,43 @@ function handleClick1(e:any){
                                 <BarChart
                                     width={500}
                                     height={200}
-                                    data={data}
+                                    data={transformData(data)}
                                     margin={{
                                         top: 2, right: 0, left: 0, bottom: 2,
                                     }}>
+                                         <Tooltip content={({ active, payload, label })=>{
+                                                    if (active && payload && payload.length) {
+                                                        return (
+                                                          <div className="custom-tooltip">
+                                                            <p className="label">{`${label}`}</p>
+                                                            {
+                                                                payload.filter(item => item.value>0).map(item=>(
+                                                                    <div className='tt'>
+                                                                       <div className='tt-block' style={{backgroundColor:item.color}} />
+                                                                       <div className='tt-title'>{item.name}</div>
+                                                                       <div className='tt-value'>{item.value}</div>
+                                                                    </div>
+                                                                ))
+                                                            }
+                                                          </div>
+                                                        );
+                                                      }
+                                                    
+                                                      return null;
+                                         }} />
                                     
                                     <XAxis dataKey="monthname" />
                                     <YAxis orientation="left" />
                                     <Tooltip />
                                     
+                                    {
+                                        Object.keys(ServiceCategories).map(key => (
+                                     <Bar stackId="a" barSize={20} name={key}  onClick={(e:any)=>handleClick(key,e)} fill={ServiceCategories[key].color} dataKey={key} />
 
-                                     <Bar stackId="a" barSize={20} name="Service Category Name"  onClick={handleClick} fill="#8884d8" dataKey="ServiceCategoryKey" />
-                                    <Bar stackId="a" barSize={20} name="CWOM COUNT" onClick={handleClick} fill="#82ca9d" dataKey="CWOMCOUNT" />  
+                                        ))
+                                    }
+
+                                  
 
                                  </BarChart> 
                                   </ResponsiveContainer> 
@@ -818,7 +874,7 @@ function handleClick1(e:any){
                                                 <Tooltip /> 
                                                 {/* <Bar barSize={20} dataKey="CWOCount" fill="#0d998a"  onClick={handleClick1}/>  */}
 
-                                                <Bar barSize={20} name="CWO Count" dataKey="LocationKey" fill="#0d998a"  onClick={handleClick1}/> 
+                                                <Bar barSize={20} name="CWO Count" dataKey="CWOCount" fill="#0d998a"  onClick={handleClick1}/> 
                                             </BarChart>
                                         </ResponsiveContainer> 
     
@@ -877,16 +933,11 @@ const UpcomingAssets: React.FunctionComponent<IWidgetProps> = (props) => {
     React.useEffect(() =>{
 
         console.log("Checking",startDate);
-        getData();
+        getData(); 
 
-        
+    }, [startDate, endDate])  
 
-    }, [])  
-
-
-     
-
-    
+ 
      
     function parseDate(date:string){ 
         var currentTime = new Date(date);  
