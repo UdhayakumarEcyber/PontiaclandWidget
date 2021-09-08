@@ -47,7 +47,7 @@ interface IWidgetState {
               <TitleBar title='Average age of Assets'></TitleBar>  
   
               <div className="average-asset-data">  
-                <h4>Average age </h4> <h3>{data.AssetAge}<span>YRS</span></h3> 
+                  <h4>Average age </h4> <h3>{data.AssetAge}<em className="years">YRS</em></h3> 
               </div>
                           
           </WidgetWrapper>
@@ -106,6 +106,7 @@ interface IWidgetState {
         console.log("location",e); 
         var dataset = e;
           var locationKey = e.payload.LocationKey;
+
           var locationName = e.payload.LocationName;
         console.log("key12",locationKey); 
 
@@ -133,14 +134,12 @@ interface IWidgetState {
      
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
  
- 
+    const URL =  "http://mwalk.iviva.cloud/Apps/Asset/view?key=#{AssetKey}";
+
     return (
          <>
         <WidgetWrapper className="assetage_widget">
-            <TitleBar title='Asset Age by Location (Zones)'>
-                <FilterPanel>
-                </FilterPanel>
-            </TitleBar>  
+            <TitleBar title='Asset Age by Location (Zones)'> </TitleBar>  
 
             <div className="assetage_chart">   
   
@@ -157,11 +156,11 @@ interface IWidgetState {
                             <XAxis dataKey="LocationName" />
                             <YAxis orientation="left" />
                             <Tooltip />
-                        <Bar barSize={20} onClick={handleClick} dataKey="AssetAge" fill="#FF8181" > 
-                                         {
+                            <Bar barSize={20} onClick={handleClick} name="Asset Age" dataKey="AssetAge" fill="#FF8181" > 
+                                        {
                                             data.map((entry:any, index:any) => <Cell fill={COLORS[index % COLORS.length]}/>)
                                         }
-                                        </Bar>  
+                            </Bar>  
                     </BarChart>  
 
                 </ResponsiveContainer>   
@@ -180,7 +179,7 @@ interface IWidgetState {
                                     <XAxis type="number" />
                                     <YAxis dataKey="AssetCategoryID" type="category" />
                                     <Tooltip /> 
-                                    <Bar barSize={20} dataKey="AssetCategoryKey" fill="#0d998a"  onClick={handleClick1}/> 
+                                    <Bar barSize={20} dataKey="AssetCategoryKey" name="Average Age" fill="#0d998a" onClick={handleClick1}/> 
                                 </BarChart>
                             </ResponsiveContainer> 
 
@@ -196,9 +195,14 @@ interface IWidgetState {
                                             <ul> 
                                                 {
                                                     Object.keys(data2 || {}).map((m:any)=>{
-                                                        return <li> 
-                                                            <label>{data2[m].AssetKey}</label>  
-                                                            <span> {data2[m].AssetID}</span> 
+
+                                               
+
+                                                        return <li>  {data2[m].AssetKey}
+                                                            
+                                                            <label><a href={URL} target="_blank">{data2[m].AssetID}</a></label>  
+                                                            <span> {data2[m].AssetAge}</span> 
+                                                            
                                                         </li>
                                                     })
                                                 }  
@@ -239,30 +243,33 @@ const MaintenanceDetails: React.FunctionComponent<IWidgetProps> = (props) => {
         getData();
     }, [])  
 
-
-    
+ 
 
     let [data1,setData1] = React.useState<any>([]) 
-    function getData1 (MWOKey:number) {  
-        props.uxpContext.executeAction("ivivafacility","AveAssetAgeinZonebyAssCat",{MWOKey: MWOKey},{json:true}).then(res=>{ 
-            console.log("locationKey",res);
+    function getData1(AWOKey:number) {  
+        props.uxpContext.executeAction("ivivafacility","PPMWOAssets",{AWOKey: AWOKey},{json:true}).then(res=>{ 
+            console.log("PPMWOAssets",res);
            
             setData1(res);
         }).catch(e=>{
             //   console.log("hi", e);
         }); 
     }  
+ 
+    function handleClick(e:any){  
+       console.log("assetAWOKeyvalue",e); 
+        var dataset = e; 
+ 
+        var AWOKey =  e.payload.AWOKey; 
 
-    function handleClick(e:any){
-        console.log("MWOKey", e); 
-        var dataset = data1;
-        var MWOKey = e.MWOKey;
+        console.log("key12",AWOKey);  
+
+        console.log("assetAWOKey",dataset); 
         setmodelData(dataset);
-        getData1(MWOKey)
-        setShowModal(true);
-    } 
 
-   
+        getData1(AWOKey);
+        setShowModal(true);
+    }   
   
     function parseDate(date:string){ 
         var currentTime = new Date(date);  
@@ -298,7 +305,7 @@ const MaintenanceDetails: React.FunctionComponent<IWidgetProps> = (props) => {
                     </div> 
  
 
-                      <Modal  title={modelData?.MWOCode|| ''}  show={showModal && modelData!= null} onOpen={() => { }} onClose={() => {setShowModal(false); setmodelData(null)}} >  
+                      <Modal title={modelData?.MWOCode || ''}  show={showModal && modelData!= null} onOpen={() => { }} onClose={() => {setShowModal(false); setmodelData(null)}} >  
 
                                 <div className="assets-widget-list">
 
@@ -308,7 +315,7 @@ const MaintenanceDetails: React.FunctionComponent<IWidgetProps> = (props) => {
                                                 {
                                                     Object.keys(data1 || {}).map((m:any)=>{
                                                         return <li> 
-                                                            <label>{data1[m].AssetCategoryID}</label>  
+                                                            <label>{data1[m].AssetID}</label>  
                                                         </li>
                                                     })
                                                 }  
@@ -410,10 +417,7 @@ const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => {
     return (
          <>
         <WidgetWrapper className="assetage_widget">
-            <TitleBar title='Total Number of Asset by Location (Zone)'>
-                <FilterPanel>
-                </FilterPanel>
-            </TitleBar>  
+            <TitleBar title='Total Number of Asset by Location (Zone)'></TitleBar>  
 
             <div className="assetage_chart">    
             
@@ -431,7 +435,7 @@ const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => {
                                     <XAxis dataKey="LocationName" />
                                     <YAxis orientation="left" />
                                     <Tooltip />
-                                    <Bar barSize={20} onClick={handleClick} dataKey="AssetCount" fill="#0d998a"> 
+                                    <Bar barSize={20} onClick={handleClick} name="Asset Count" dataKey="AssetCount" fill="#0d998a"> 
                                          {
                                             data.map((entry:any, index:any) => <Cell fill={COLORS[index % COLORS.length]}/>)
                                         }
@@ -452,7 +456,7 @@ const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => {
                                                 <XAxis type="number" />
                                                 <YAxis dataKey="AssetCategoryID" type="category" />
                                                 <Tooltip /> 
-                                                <Bar barSize={20} dataKey="AssetCategoryKey" fill="#0d998a" onClick={handleClick1}/> 
+                                                <Bar barSize={20}  name="Asset Count" dataKey="AssetCategoryKey" fill="#0d998a" onClick={handleClick1}/> 
                                             </BarChart>
                                         </ResponsiveContainer> 
     
@@ -463,7 +467,7 @@ const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => {
 
                                 <div className="assets-widget-list">
 
-                                    <div className="item-list">  
+                                    <div className="item-list item-list-nav_half">  
 
                                             <ul> 
                                                 {
@@ -577,24 +581,27 @@ function handleClick1(e:any){
     return (
          <>
         <WidgetWrapper className="assetage_widget">
-            <TitleBar title='Service Request/Work Orders by Categories'>
-                <FilterPanel>
-                </FilterPanel>
-            </TitleBar>  
+            <TitleBar title='Service Requests by Categories'> </TitleBar>  
 
             <div className="assetage_chart" style={{width: "95%", height: "95%"}}>  
+
+
+          
            
 
             <ResponsiveContainer>
 
                 <PieChart width={1200} height={1200}> 
 
-                <Pie data={data} dataKey="WRCounts" nameKey="ServiceCategoryName" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#c9527b" label onClick={handleClick}>
+                <Pie data={data}  dataKey="WRCounts" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#c9527b" onClick={handleClick}>
                     {
                         data.map((entry:any, index:any) => <Cell fill={COLORS[index % COLORS.length]}/>)
                     }
+ 
                     </Pie>  
                 </PieChart>
+
+                
                 
             </ResponsiveContainer> 
          
@@ -610,7 +617,7 @@ function handleClick1(e:any){
                                             <XAxis type="number" />
                                             <YAxis dataKey="LocationName" type="category" />
                                             <Tooltip /> 
-                                            <Bar barSize={20} dataKey="LocationKey" fill="#c02b82"  onClick={handleClick1}>  
+                                            <Bar barSize={20} dataKey="WRCount" name="WR Count" fill="#c02b82"  onClick={handleClick1}>  
                                             {
                                                 data.map((entry:any, index:any) => <Cell fill={COLORS[index % COLORS.length]}/>)
                                             }
@@ -737,15 +744,11 @@ function handleClick1(e:any){
     return (
          <>
         <WidgetWrapper className="assetage_widget">
-            <TitleBar title='Work Orders per Month'>
-                <FilterPanel>
-                </FilterPanel>
-            </TitleBar>  
+            <TitleBar title='Work Orders per Month'></TitleBar>  
 
             <div className="assetage_chart">    
 
-                            <ResponsiveContainer width="100%">  
-
+                            <ResponsiveContainer >  
                                 <BarChart
                                     width={500}
                                     height={200}
@@ -753,20 +756,20 @@ function handleClick1(e:any){
                                     margin={{
                                         top: 2, right: 0, left: 0, bottom: 2,
                                     }}>
-                                    <CartesianGrid strokeDasharray="0 0" />
+                                    
                                     <XAxis dataKey="monthname" />
                                     <YAxis orientation="left" />
                                     <Tooltip />
-                                    {/* <Bar barSize={20} onClick={handleClick} dataKey="CWOMCOUNT" fill="#2949F7A5" />  */}
-
-                                    <Bar stackId="a" barSize={20} name="Service Category Name"  onClick={handleClick} fill="#8884d8" dataKey="ServiceCategoryKey" />
-                                    <Bar stackId="a" barSize={20} name="CWOM COUNT" onClick={handleClick} fill="#82ca9d" dataKey="CWOMCOUNT" />
                                     
-                                </BarChart>  
+
+                                     <Bar stackId="a" barSize={20} name="Service Category Name"  onClick={handleClick} fill="#8884d8" dataKey="ServiceCategoryKey" />
+                                    <Bar stackId="a" barSize={20} name="CWOM COUNT" onClick={handleClick} fill="#82ca9d" dataKey="CWOMCOUNT" />  
+
+                                 </BarChart>   
 
                             </ResponsiveContainer>
  
-                             <Modal title={modelData?.monthname|| ''} show={showModal && modelData!= null} onOpen={() => { }} onClose={() => {setShowModal(false); setmodelData(null)}} >  
+                             <Modal title={modelData?.ServiceCategoryName|| ''} show={showModal && modelData!= null} onOpen={() => { }} onClose={() => {setShowModal(false); setmodelData(null)}} >  
 
                                            <ResponsiveContainer width='100%' aspect={4.0 / 2.0}>
                                             <BarChart data={data1} 
@@ -779,7 +782,7 @@ function handleClick1(e:any){
                                                 <Tooltip /> 
                                                 {/* <Bar barSize={20} dataKey="CWOCount" fill="#0d998a"  onClick={handleClick1}/>  */}
 
-                                                <Bar barSize={20} dataKey="LocationKey" fill="#0d998a"  onClick={handleClick1}/> 
+                                                <Bar barSize={20} name="CWO Count" dataKey="LocationKey" fill="#0d998a"  onClick={handleClick1}/> 
                                             </BarChart>
                                         </ResponsiveContainer> 
     
@@ -942,14 +945,14 @@ const TopAgedAssets: React.FunctionComponent<IWidgetProps> = (props) => {
  
     return (
         <WidgetWrapper className="assets-widget-list">
-            <TitleBar title='Top 5 highest cwo/wr per Assets'></TitleBar>
+            <TitleBar title='Top 5 Aged Assets'></TitleBar>
 
               <div className="item-list">  
                     <ul>
                         {data.map((item:any) => (
                             <li key={item.AssetID}> 
                                 <label>{item.AssetID}</label> 
-                                <span>{item.Age}</span>  
+                                <span>{item.Age} <em className="years">YRS</em> </span>  
                             </li>
                         ))}
                     </ul> 

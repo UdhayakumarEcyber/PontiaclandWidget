@@ -28,10 +28,11 @@
             width: 50%;
             text-align: center;
 
-            span{
+            em.years{
                 display: inline-block;
                 font-size: 18px;
                 vertical-align: top;
+                font-style: normal;
             }
         }
     }
@@ -135,6 +136,14 @@
                     text-align: right;
                 }
 
+                em.years{
+                    display: inline-block;
+                    font-size: 18px;
+                    vertical-align: top;
+                    font-style: normal;
+                    font-size: 11px;
+                }
+
                 &:nth-child(odd){
                     background-color: #cccccc;
                 }
@@ -148,6 +157,12 @@
                 }
             }
         }
+             
+            &.item-list-nav_half{
+                transform: translate(50%);
+                    width: 50%;
+                }
+       
     }
 
     .uxp-item-list-card{

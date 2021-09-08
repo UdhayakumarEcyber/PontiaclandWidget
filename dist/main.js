@@ -312,7 +312,7 @@ module.exports = function () {
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, ".item-list {\n  padding: 2em 3%; }\n\n.average_asset {\n  background: #544984;\n  color: #fff; }\n  .average_asset .uxp-widget-title-bar {\n    background: transparent; }\n  .average_asset .average-asset-data {\n    display: inline-flex;\n    width: 100%;\n    padding: 0px 5%;\n    height: 60%;\n    align-items: center; }\n    .average_asset .average-asset-data h4 {\n      font-size: 2.5em;\n      display: inline-block;\n      width: 50%; }\n    .average_asset .average-asset-data h3 {\n      font-size: 3em;\n      display: inline-block;\n      width: 50%;\n      text-align: center; }\n      .average_asset .average-asset-data h3 span {\n        display: inline-block;\n        font-size: 18px;\n        vertical-align: top; }\n\n.assetage_widget .assetage_chart {\n  width: 92%;\n  height: 80%; }\n\n.modal-container.hana_modal .modal-panel .modal-body {\n  padding-top: 0; }\n  .modal-container.hana_modal .modal-panel .modal-body .list_age {\n    display: inline-flex;\n    width: 100%;\n    margin: 0.5em 0px;\n    background: #eee;\n    padding: 12px 10px; }\n    .modal-container.hana_modal .modal-panel .modal-body .list_age .age_label {\n      display: inline-block;\n      width: 50%;\n      font-size: 13px;\n      text-align: left; }\n    .modal-container.hana_modal .modal-panel .modal-body .list_age .age_value {\n      display: inline-block;\n      width: 50%;\n      font-size: 13px;\n      text-align: right; }\n\n.assets-widget-list .item-list {\n  padding: 0em 3% 2em 3%; }\n  .assets-widget-list .item-list ul {\n    list-style: none;\n    margin: 0em 0em 1em;\n    padding: 1em 0em 1em; }\n    .assets-widget-list .item-list ul li {\n      display: inline-flex;\n      width: 100%;\n      background-color: #dbdbdb;\n      padding: 11px 10px; }\n      .assets-widget-list .item-list ul li a {\n        color: #424242;\n        text-decoration: none;\n        width: 100%; }\n      .assets-widget-list .item-list ul li label {\n        display: inline-block;\n        width: 50%;\n        font-size: 13px;\n        text-align: left;\n        padding: 0;\n        margin: 0; }\n      .assets-widget-list .item-list ul li span {\n        display: inline-block;\n        width: 50%;\n        font-size: 13px;\n        text-align: right; }\n      .assets-widget-list .item-list ul li:nth-child(odd) {\n        background-color: #cccccc; }\n      .assets-widget-list .item-list ul li.list-header {\n        background-color: #7d7d7d;\n        color: #fff; }\n        .assets-widget-list .item-list ul li.list-header label {\n          color: #fff; }\n\n.assets-widget-list .uxp-item-list-card {\n  padding: 0 0%;\n  border: 1px solid #ddd;\n  margin: 0 1%;\n  width: 98%; }\n  .assets-widget-list .uxp-item-list-card .header {\n    padding: 0px 15px; }\n", ""]);
+exports.push([module.i, ".item-list {\n  padding: 2em 3%; }\n\n.average_asset {\n  background: #544984;\n  color: #fff; }\n  .average_asset .uxp-widget-title-bar {\n    background: transparent; }\n  .average_asset .average-asset-data {\n    display: inline-flex;\n    width: 100%;\n    padding: 0px 5%;\n    height: 60%;\n    align-items: center; }\n    .average_asset .average-asset-data h4 {\n      font-size: 2.5em;\n      display: inline-block;\n      width: 50%; }\n    .average_asset .average-asset-data h3 {\n      font-size: 3em;\n      display: inline-block;\n      width: 50%;\n      text-align: center; }\n      .average_asset .average-asset-data h3 em.years {\n        display: inline-block;\n        font-size: 18px;\n        vertical-align: top;\n        font-style: normal; }\n\n.assetage_widget .assetage_chart {\n  width: 92%;\n  height: 80%; }\n\n.modal-container.hana_modal .modal-panel .modal-body {\n  padding-top: 0; }\n  .modal-container.hana_modal .modal-panel .modal-body .list_age {\n    display: inline-flex;\n    width: 100%;\n    margin: 0.5em 0px;\n    background: #eee;\n    padding: 12px 10px; }\n    .modal-container.hana_modal .modal-panel .modal-body .list_age .age_label {\n      display: inline-block;\n      width: 50%;\n      font-size: 13px;\n      text-align: left; }\n    .modal-container.hana_modal .modal-panel .modal-body .list_age .age_value {\n      display: inline-block;\n      width: 50%;\n      font-size: 13px;\n      text-align: right; }\n\n.assets-widget-list .item-list {\n  padding: 0em 3% 2em 3%; }\n  .assets-widget-list .item-list ul {\n    list-style: none;\n    margin: 0em 0em 1em;\n    padding: 1em 0em 1em; }\n    .assets-widget-list .item-list ul li {\n      display: inline-flex;\n      width: 100%;\n      background-color: #dbdbdb;\n      padding: 11px 10px; }\n      .assets-widget-list .item-list ul li a {\n        color: #424242;\n        text-decoration: none;\n        width: 100%; }\n      .assets-widget-list .item-list ul li label {\n        display: inline-block;\n        width: 50%;\n        font-size: 13px;\n        text-align: left;\n        padding: 0;\n        margin: 0; }\n      .assets-widget-list .item-list ul li span {\n        display: inline-block;\n        width: 50%;\n        font-size: 13px;\n        text-align: right; }\n      .assets-widget-list .item-list ul li em.years {\n        display: inline-block;\n        font-size: 18px;\n        vertical-align: top;\n        font-style: normal;\n        font-size: 11px; }\n      .assets-widget-list .item-list ul li:nth-child(odd) {\n        background-color: #cccccc; }\n      .assets-widget-list .item-list ul li.list-header {\n        background-color: #7d7d7d;\n        color: #fff; }\n        .assets-widget-list .item-list ul li.list-header label {\n          color: #fff; }\n  .assets-widget-list .item-list.item-list-nav_half {\n    transform: translate(50%);\n    width: 50%; }\n\n.assets-widget-list .uxp-item-list-card {\n  padding: 0 0%;\n  border: 1px solid #ddd;\n  margin: 0 1%;\n  width: 98%; }\n  .assets-widget-list .uxp-item-list-card .header {\n    padding: 0px 15px; }\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -10583,7 +10583,7 @@ const AverageAsset = (props) => {
             " ",
             React.createElement("h3", null,
                 data.AssetAge,
-                React.createElement("span", null, "YRS")))));
+                React.createElement("em", { className: "years" }, "YRS")))));
 };
 const AssetAge = (props) => {
     let [showModal, setShowModal] = React.useState(false);
@@ -10647,10 +10647,10 @@ const AssetAge = (props) => {
         setShowModal1(true);
     }
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+    const URL = "http://mwalk.iviva.cloud/Apps/Asset/view?key=#{AssetKey}";
     return (React.createElement(React.Fragment, null,
         React.createElement(components_1.WidgetWrapper, { className: "assetage_widget" },
-            React.createElement(components_1.TitleBar, { title: 'Asset Age by Location (Zones)' },
-                React.createElement(components_1.FilterPanel, null)),
+            React.createElement(components_1.TitleBar, { title: 'Asset Age by Location (Zones)' }, " "),
             React.createElement("div", { className: "assetage_chart" },
                 React.createElement(recharts_1.ResponsiveContainer, { width: "100%" },
                     React.createElement(recharts_1.BarChart, { width: 500, height: 200, data: data, margin: {
@@ -10660,7 +10660,7 @@ const AssetAge = (props) => {
                         React.createElement(recharts_1.XAxis, { dataKey: "LocationName" }),
                         React.createElement(recharts_1.YAxis, { orientation: "left" }),
                         React.createElement(recharts_1.Tooltip, null),
-                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, dataKey: "AssetAge", fill: "#FF8181" }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
+                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, name: "Asset Age", dataKey: "AssetAge", fill: "#FF8181" }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
                 React.createElement(components_1.Modal, { title: (modelData === null || modelData === void 0 ? void 0 : modelData.LocationName) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
                     React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
                         React.createElement(recharts_1.BarChart, { layout: "vertical", width: 500, height: 200, data: data1, margin: {
@@ -10669,16 +10669,19 @@ const AssetAge = (props) => {
                             React.createElement(recharts_1.XAxis, { type: "number" }),
                             React.createElement(recharts_1.YAxis, { dataKey: "AssetCategoryID", type: "category" }),
                             React.createElement(recharts_1.Tooltip, null),
-                            React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "AssetCategoryKey", fill: "#0d998a", onClick: handleClick1 })))),
+                            React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "AssetCategoryKey", name: "Average Age", fill: "#0d998a", onClick: handleClick1 })))),
                 React.createElement(components_1.Modal, { title: (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.AssetCategoryID) || '', show: showModal1 && modelData1 != null, onOpen: () => { }, onClose: () => { setShowModal1(false); setmodelData1(null); } },
                     React.createElement("div", { className: "assets-widget-list" },
                         React.createElement("div", { className: "item-list" },
                             React.createElement("ul", null, Object.keys(data2 || {}).map((m) => {
                                 return React.createElement("li", null,
-                                    React.createElement("label", null, data2[m].AssetKey),
+                                    "  ",
+                                    data2[m].AssetKey,
+                                    React.createElement("label", null,
+                                        React.createElement("a", { href: URL, target: "_blank" }, data2[m].AssetID)),
                                     React.createElement("span", null,
                                         " ",
-                                        data2[m].AssetID));
+                                        data2[m].AssetAge));
                             })))))))));
 };
 const MaintenanceDetails = (props) => {
@@ -10696,20 +10699,22 @@ const MaintenanceDetails = (props) => {
         getData();
     }, []);
     let [data1, setData1] = React.useState([]);
-    function getData1(MWOKey) {
-        props.uxpContext.executeAction("ivivafacility", "AveAssetAgeinZonebyAssCat", { MWOKey: MWOKey }, { json: true }).then(res => {
-            console.log("locationKey", res);
+    function getData1(AWOKey) {
+        props.uxpContext.executeAction("ivivafacility", "PPMWOAssets", { AWOKey: AWOKey }, { json: true }).then(res => {
+            console.log("PPMWOAssets", res);
             setData1(res);
         }).catch(e => {
             //   console.log("hi", e);
         });
     }
     function handleClick(e) {
-        console.log("MWOKey", e);
-        var dataset = data1;
-        var MWOKey = e.MWOKey;
+        console.log("assetAWOKeyvalue", e);
+        var dataset = e;
+        var AWOKey = e.payload.AWOKey;
+        console.log("key12", AWOKey);
+        console.log("assetAWOKey", dataset);
         setmodelData(dataset);
-        getData1(MWOKey);
+        getData1(AWOKey);
         setShowModal(true);
     }
     function parseDate(date) {
@@ -10737,7 +10742,7 @@ const MaintenanceDetails = (props) => {
                     React.createElement("div", { className: "item-list" },
                         React.createElement("ul", null, Object.keys(data1 || {}).map((m) => {
                             return React.createElement("li", null,
-                                React.createElement("label", null, data1[m].AssetCategoryID));
+                                React.createElement("label", null, data1[m].AssetID));
                         }))))))));
 };
 const TotalNumber = (props) => {
@@ -10804,8 +10809,7 @@ const TotalNumber = (props) => {
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
     return (React.createElement(React.Fragment, null,
         React.createElement(components_1.WidgetWrapper, { className: "assetage_widget" },
-            React.createElement(components_1.TitleBar, { title: 'Total Number of Asset by Location (Zone)' },
-                React.createElement(components_1.FilterPanel, null)),
+            React.createElement(components_1.TitleBar, { title: 'Total Number of Asset by Location (Zone)' }),
             React.createElement("div", { className: "assetage_chart" },
                 React.createElement(recharts_1.ResponsiveContainer, { width: "100%" },
                     React.createElement(recharts_1.BarChart, { width: 500, height: 200, data: data, margin: {
@@ -10815,17 +10819,17 @@ const TotalNumber = (props) => {
                         React.createElement(recharts_1.XAxis, { dataKey: "LocationName" }),
                         React.createElement(recharts_1.YAxis, { orientation: "left" }),
                         React.createElement(recharts_1.Tooltip, null),
-                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, dataKey: "AssetCount", fill: "#0d998a" }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
+                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, name: "Asset Count", dataKey: "AssetCount", fill: "#0d998a" }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
                 React.createElement(components_1.Modal, { title: (modelData === null || modelData === void 0 ? void 0 : modelData.LocationName) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
                     React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
                         React.createElement(recharts_1.BarChart, { data: data1, layout: "vertical", width: 500, height: 200 },
                             React.createElement(recharts_1.XAxis, { type: "number" }),
                             React.createElement(recharts_1.YAxis, { dataKey: "AssetCategoryID", type: "category" }),
                             React.createElement(recharts_1.Tooltip, null),
-                            React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "AssetCategoryKey", fill: "#0d998a", onClick: handleClick1 })))),
+                            React.createElement(recharts_1.Bar, { barSize: 20, name: "Asset Count", dataKey: "AssetCategoryKey", fill: "#0d998a", onClick: handleClick1 })))),
                 React.createElement(components_1.Modal, { title: (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.AssetCategoryID) || '', show: showModal1 && modelData1 != null, onOpen: () => { }, onClose: () => { setShowModal1(false); setmodelData1(null); } },
                     React.createElement("div", { className: "assets-widget-list" },
-                        React.createElement("div", { className: "item-list" },
+                        React.createElement("div", { className: "item-list item-list-nav_half" },
                             React.createElement("ul", null, Object.keys(data2 || {}).map((m) => {
                                 return React.createElement("li", null,
                                     React.createElement("label", null, data2[m].AssetID));
@@ -10897,19 +10901,18 @@ const ServiceRequest = (props) => {
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
     return (React.createElement(React.Fragment, null,
         React.createElement(components_1.WidgetWrapper, { className: "assetage_widget" },
-            React.createElement(components_1.TitleBar, { title: 'Service Request/Work Orders by Categories' },
-                React.createElement(components_1.FilterPanel, null)),
+            React.createElement(components_1.TitleBar, { title: 'Service Requests by Categories' }, " "),
             React.createElement("div", { className: "assetage_chart", style: { width: "95%", height: "95%" } },
                 React.createElement(recharts_1.ResponsiveContainer, null,
                     React.createElement(recharts_1.PieChart, { width: 1200, height: 1200 },
-                        React.createElement(recharts_1.Pie, { data: data, dataKey: "WRCounts", nameKey: "ServiceCategoryName", cx: "50%", cy: "50%", innerRadius: 60, outerRadius: 80, fill: "#c9527b", label: true, onClick: handleClick }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
+                        React.createElement(recharts_1.Pie, { data: data, dataKey: "WRCounts", cx: "50%", cy: "50%", innerRadius: 60, outerRadius: 80, fill: "#c9527b", onClick: handleClick }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
                 React.createElement(components_1.Modal, { title: (modelData === null || modelData === void 0 ? void 0 : modelData.ServiceCategoryName) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
                     React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
                         React.createElement(recharts_1.BarChart, { data: data1, layout: "vertical", width: 500, height: 200 },
                             React.createElement(recharts_1.XAxis, { type: "number" }),
                             React.createElement(recharts_1.YAxis, { dataKey: "LocationName", type: "category" }),
                             React.createElement(recharts_1.Tooltip, null),
-                            React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "LocationKey", fill: "#c02b82", onClick: handleClick1 }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] })))))),
+                            React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "WRCount", name: "WR Count", fill: "#c02b82", onClick: handleClick1 }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] })))))),
                 React.createElement(components_1.Modal, { title: (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.LocationName) || '', show: showModal1 && modelData1 != null, onOpen: () => { }, onClose: () => { setShowModal1(false); setmodelData1(null); } },
                     React.createElement("div", { className: "assets-widget-list" },
                         React.createElement("div", { className: "item-list" },
@@ -10983,26 +10986,24 @@ const WorkOrderMonth = (props) => {
     // const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
     return (React.createElement(React.Fragment, null,
         React.createElement(components_1.WidgetWrapper, { className: "assetage_widget" },
-            React.createElement(components_1.TitleBar, { title: 'Work Orders per Month' },
-                React.createElement(components_1.FilterPanel, null)),
+            React.createElement(components_1.TitleBar, { title: 'Work Orders per Month' }),
             React.createElement("div", { className: "assetage_chart" },
-                React.createElement(recharts_1.ResponsiveContainer, { width: "100%" },
+                React.createElement(recharts_1.ResponsiveContainer, null,
                     React.createElement(recharts_1.BarChart, { width: 500, height: 200, data: data, margin: {
                             top: 2, right: 0, left: 0, bottom: 2,
                         } },
-                        React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
                         React.createElement(recharts_1.XAxis, { dataKey: "monthname" }),
                         React.createElement(recharts_1.YAxis, { orientation: "left" }),
                         React.createElement(recharts_1.Tooltip, null),
                         React.createElement(recharts_1.Bar, { stackId: "a", barSize: 20, name: "Service Category Name", onClick: handleClick, fill: "#8884d8", dataKey: "ServiceCategoryKey" }),
                         React.createElement(recharts_1.Bar, { stackId: "a", barSize: 20, name: "CWOM COUNT", onClick: handleClick, fill: "#82ca9d", dataKey: "CWOMCOUNT" }))),
-                React.createElement(components_1.Modal, { title: (modelData === null || modelData === void 0 ? void 0 : modelData.monthname) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
+                React.createElement(components_1.Modal, { title: (modelData === null || modelData === void 0 ? void 0 : modelData.ServiceCategoryName) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
                     React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
                         React.createElement(recharts_1.BarChart, { data: data1, layout: "vertical", width: 500, height: 200 },
                             React.createElement(recharts_1.XAxis, { type: "number" }),
                             React.createElement(recharts_1.YAxis, { dataKey: "LocationName", type: "category" }),
                             React.createElement(recharts_1.Tooltip, null),
-                            React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "LocationKey", fill: "#0d998a", onClick: handleClick1 })))),
+                            React.createElement(recharts_1.Bar, { barSize: 20, name: "CWO Count", dataKey: "LocationKey", fill: "#0d998a", onClick: handleClick1 })))),
                 React.createElement(components_1.Modal, { title: (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.LocationName) || '', show: showModal1 && modelData1 != null, onOpen: () => { }, onClose: () => { setShowModal1(false); setmodelData1(null); } },
                     React.createElement("div", { className: "assets-widget-list" },
                         React.createElement("div", { className: "item-list" },
@@ -11084,11 +11085,15 @@ const TopAgedAssets = (props) => {
         getData();
     }, []);
     return (React.createElement(components_1.WidgetWrapper, { className: "assets-widget-list" },
-        React.createElement(components_1.TitleBar, { title: 'Top 5 highest cwo/wr per Assets' }),
+        React.createElement(components_1.TitleBar, { title: 'Top 5 Aged Assets' }),
         React.createElement("div", { className: "item-list" },
             React.createElement("ul", null, data.map((item) => (React.createElement("li", { key: item.AssetID },
                 React.createElement("label", null, item.AssetID),
-                React.createElement("span", null, item.Age))))))));
+                React.createElement("span", null,
+                    item.Age,
+                    " ",
+                    React.createElement("em", { className: "years" }, "YRS"),
+                    " "))))))));
 };
 /**
  * Register as a Widget
