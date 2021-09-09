@@ -269,14 +269,17 @@ const MaintenanceDetails: React.FunctionComponent<IWidgetProps> = (props) => {
        console.log("assetAWOKeyvalue",e); 
         var dataset = e; 
  
-        var AWOKey =  e.payload.AWOKey; 
+         var AWOKey =  e.payload.AWOKey;
+       // var AWOKey =  e.AWOKey; 
 
         console.log("key12",AWOKey);  
 
-        console.log("assetAWOKey",dataset); 
+        console.log("assetAWOKey",dataset);  
+
         setmodelData(dataset);
 
         getData1(AWOKey);
+
         setShowModal(true);
     }   
   
@@ -520,15 +523,14 @@ function getData () {
         var updatedData = res.map((d:any)=> {
             d.WRCounts = parseInt(d.WRCounts)
             return d; 
-        }) 
+        })  
         
         setData(updatedData);
+         
     }).catch(e=>{
         // console.log("hi", e);
-    }); 
+    });  
 } 
-
-
 
 let [data1,setData1] = React.useState<any>([]) 
 function getData1 (ServiceCategoryKey:number) {  
@@ -554,9 +556,10 @@ function getData2 (locationkey:number,ServiceCategoryKey:number) {
 
 React.useEffect(() =>{
     getData(); 
+   
 }, [])  
- 
- 
+
+
 function handleClick(e:any){   
     console.log("location",e); 
     var dataset = e;
@@ -587,19 +590,29 @@ function handleClick1(e:any){
 }
  
   
- const [activeIndex, setActiveIndex] = React.useState(-1),
-        onMouseEnter = React.useCallback((_, i) => setActiveIndex(i), []);
+        // const [activeIndex, setActiveIndex] = React.useState(-1),
+        // onMouseEnter = React.useCallback((_, i) => setActiveIndex(i), []);
 
-        let renderLabel = function(data:any) {
-            return data.ServiceCategoryName;
-        }
+        // let renderLabel = function(data:any) {
+        //     return data.ServiceCategoryName;
+        // }
 
  
 
-function uk(){
-     data.WRCounts;
-}
-        
+
+        var updateWrcount = data.map((x:any)=> {
+          var  valueCount =  x.WRCounts  
+            // if(valueCount > 0){
+            //     return valueCount; 
+            //     console.log("udha", valueCount)
+            // } 
+            // else{ 
+            //     return valueCount
+            //  } 
+        })  
+   
+ 
+       
      
     return (
          <>
@@ -609,20 +622,34 @@ function uk(){
             <div className="assetage_chart" style={{width: "95%", height: "95%"}}>   
             
 
-                <ResponsiveContainer>
+                <ResponsiveContainer> 
                 
                         <ResponsivePie
-                            data={data}  id ="ServiceCategoryName" 
+                            data={data}
+                             id ="ServiceCategoryName" 
                             margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
                             innerRadius={0.5}
-                            padAngle={0.7}
+                            padAngle={0}
                             cornerRadius={3}
                             colors={{ scheme: "nivo" }}
                             borderWidth={1}
                             borderColor={{ from: "color", modifiers: [["darker", 0.2]] }} 
-                            animate={true}   
-                            value= "WRCounts"
-                        />
+                            animate={true}  
+                          
+                            value = "WRCounts"  
+   
+                             activeOuterRadiusOffset={8}  
+                             arcLinkLabelsSkipAngle={10}
+                             arcLinkLabelsTextColor="#333333"
+                             arcLinkLabelsThickness={2}
+                             arcLinkLabelsColor={{ from: 'color' }}
+                             arcLabelsSkipAngle={10}
+                             arcLabelsTextColor={{ from: 'color', modifiers: [ [ 'darker', 2 ] ] }}
+                             
+                            
+                        />   
+
+                        
                 
                 </ResponsiveContainer> 
  
@@ -1200,6 +1227,10 @@ registerWidget({
 
 
 function componentDidMount() {
+    throw new Error("Function not implemented.");
+}
+
+function getPath(x: any, y: any, arg2: number, arg3: number): string {
     throw new Error("Function not implemented.");
 }
 /**
