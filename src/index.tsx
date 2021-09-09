@@ -116,17 +116,18 @@ function monthFromName(name:string) {
          
         console.log("location",e); 
         var dataset = e;
-        var LocationKey = e.payload.LocationKey;
+        var LocationKey = e.payload.LocationKey; 
 
         var LocationName = e.payload.LocationName;
         console.log("key12",LocationKey); 
 
-        console.log(dataset); 
-        setmodelData(dataset);
-
-        getData1(LocationKey);
+        console.log(dataset);  
+        
+        getData1(LocationKey); 
+        setmodelData(dataset); 
         setShowModal(true);
-    }  
+    }   
+     
     
     function handleClick1(e:any){
         
@@ -163,7 +164,8 @@ function monthFromName(name:string) {
                             }}>
                             <CartesianGrid strokeDasharray="0 0" />
                             <XAxis dataKey="LocationName" name="Location Name"/>
-                            <YAxis orientation="left" />
+                            {/* <YAxis orientation="left" /> */}
+                            <YAxis ticks={[30, 60, 90]} type="number" />
                             <Tooltip />
                             <Bar barSize={20} onClick={handleClick} name="Asset Age" dataKey="AssetAge" fill="#FF8181" > 
                                         {
@@ -176,7 +178,7 @@ function monthFromName(name:string) {
                         
                         <Modal title={modelData?.LocationName|| ''} show={showModal && modelData!= null} onOpen={() => { }} onClose={() => {setShowModal(false); setmodelData(null)}} >   
 
-                            <ResponsiveContainer width='100%' aspect={4.0 / 2.0}>
+                            {/* <ResponsiveContainer width='100%' aspect={4.0 / 2.0}>
                                 <BarChart 
                                     layout="vertical" 
                                     width={500}
@@ -186,11 +188,31 @@ function monthFromName(name:string) {
                                         top: 2, right: 0, left: 0, bottom: 2,
                                     }}>
                                     <XAxis type="number" />
-                                    <YAxis dataKey="AssetCategoryID" type="category" />
+                                    <YAxis dataKey="AssetAge" type="category" />
                                     <Tooltip /> 
                                     <Bar barSize={20} dataKey="AssetCategoryKey" name="Average Age" fill="#0d998a" onClick={handleClick1}/> 
                                 </BarChart>
-                            </ResponsiveContainer> 
+                            </ResponsiveContainer>  */}
+
+
+                             <ResponsiveContainer width='100%' aspect={4.0 / 2.0}>
+                                <BarChart 
+                                    //  layout="vertical" 
+                                    width={500}
+                                    height={200}
+                                    data={data1} 
+                                    margin={{
+                                        top: 2, right: 0, left: 0, bottom: 2,
+                                    }}>
+                                        <CartesianGrid strokeDasharray="0 0" />
+                                    <XAxis dataKey="AssetCategoryID"/>
+                                    {/* <YAxis dataKey="AssetAge"/> */}
+                                    <YAxis dataKey="AssetAge" ticks={[0, 10, 20, 30, 40, 50, 60, 70, 80]} type="number" />
+                                    <Tooltip /> 
+                                    <Bar barSize={20} dataKey="AssetAge" name="Average Age" fill="#0d998a" onClick={handleClick1}/> 
+                                </BarChart>
+                            </ResponsiveContainer>   
+ 
 
                         </Modal>
 
@@ -269,17 +291,12 @@ const MaintenanceDetails: React.FunctionComponent<IWidgetProps> = (props) => {
        console.log("assetAWOKeyvalue",e); 
         var dataset = e; 
  
-         var AWOKey =  e.payload.AWOKey;
-       // var AWOKey =  e.AWOKey; 
+        var AWOKey =  e.AWOKey;
 
-        console.log("key12",AWOKey);  
-
+        console.log("key12",AWOKey);   
         console.log("assetAWOKey",dataset);  
-
-        setmodelData(dataset);
-
         getData1(AWOKey);
-
+        setmodelData(dataset); 
         setShowModal(true);
     }   
   
@@ -306,7 +323,7 @@ const MaintenanceDetails: React.FunctionComponent<IWidgetProps> = (props) => {
     
                             {data.map((item:any) => (
                                 <> 
-                                <li key={item.MWOKey}  onClick={handleClick}> 
+                                <li key={item.MWOKey}  onClick={() => {handleClick(item)} }> 
                                     <label>{item.MWOCode}</label>   
                                     <span>{parseDate(item.TargetStartDate)}</span>
                                 </li>
@@ -403,11 +420,12 @@ const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => {
           var locationName = e.payload.LocationName;
         console.log("key12",LocationKey); 
 
-        console.log(dataset); 
-        setmodelData(dataset);
+        console.log(dataset);  
 
         getData1(LocationKey);
-        setShowModal(true);
+        setmodelData(dataset);
+        setShowModal(true); 
+       
     }  
      
     function handleClick1(e:any){
@@ -437,15 +455,16 @@ const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => {
                             <ResponsiveContainer width="100%">  
 
                                 <BarChart
-                                    width={500}
-                                    height={200}
+                                    width={800}
+                                    height={1200}
                                     data={data}
                                     margin={{
                                         top: 2, right: 0, left: 0, bottom: 2,
                                     }}>
                                     <CartesianGrid strokeDasharray="0 0" />
-                                    <XAxis dataKey="LocationName"  name="Location Name"/>
-                                    <YAxis orientation="left" />
+                                    <XAxis  type="category" dataKey="LocationName"  name="Location Name"/>
+                                    {/* <YAxis  type="number" orientation="left" /> */}
+                                    <YAxis ticks={[30, 60, 90, 120, 150]} type="number" />
                                     <Tooltip />
                                     <Bar barSize={20} onClick={handleClick} name="Asset Count" dataKey="AssetCount" fill="#0d998a"> 
                                          {
@@ -458,19 +477,24 @@ const TotalNumber: React.FunctionComponent<IWidgetProps> = (props) => {
 
 
                             <Modal  title={modelData?.LocationName|| ''} show={showModal && modelData!= null} onOpen={() => { }} onClose={() => {setShowModal(false); setmodelData(null)}} >   
+ 
 
-                                           <ResponsiveContainer width='100%' aspect={4.0 / 2.0}>
-                                            <BarChart data={data1} 
-                                                layout="vertical" 
-                                                width={500}
-                                                height={200}
-                                            >
-                                                <XAxis type="number" />
-                                                <YAxis dataKey="AssetCategoryID" type="category" />
-                                                <Tooltip /> 
-                                                <Bar barSize={20}  name="Asset Count" dataKey="AssetCategoryKey" fill="#0d998a" onClick={handleClick1}/> 
-                                            </BarChart>
-                                        </ResponsiveContainer> 
+                            <ResponsiveContainer width='100%' aspect={4.0 / 2.0}>
+                                <BarChart 
+                                    //  layout="vertical" 
+                                    width={500}
+                                    height={200}
+                                    data={data1} 
+                                    margin={{
+                                        top: 2, right: 0, left: 0, bottom: 2,
+                                    }}>
+                                    <XAxis dataKey="AssetCategoryID"/>
+                                    {/* <YAxis dataKey="AssetCount"/> */}
+                                    <YAxis  dataKey="AssetCount" ticks={[20, 40, 60, 80, 100]} type="number" />
+                                    <Tooltip /> 
+                                    <Bar barSize={20} dataKey="AssetCount" name="Asset Count" fill="#1195cc" onClick={handleClick1}/> 
+                                </BarChart>
+                            </ResponsiveContainer>   
     
                             </Modal>
  
@@ -560,19 +584,17 @@ React.useEffect(() =>{
 }, [])  
 
 
-function handleClick(e:any){   
-    console.log("location",e); 
-    var dataset = e;
-      var locationKey = e.payload.LocationKey;
-      var locationName = e.payload.LocationName;
-      var ServiceCategoryKey = e.payload.ServiceCategoryKey; 
-    console.log("key12",locationKey); 
+function handleClick(node:any, event:any){   
+    console.log("peChart",node, event); 
+   var dataset = node.data; 
+        var ServiceCategoryKey = dataset.ServiceCategoryKey;  
 
     console.log(dataset); 
-    setmodelData(dataset);
 
     getData1(ServiceCategoryKey);
-    setShowModal(true);
+    setmodelData(dataset); 
+ 
+    setShowModal(true); 
 }  
  
 function handleClick1(e:any){
@@ -580,39 +602,16 @@ function handleClick1(e:any){
     console.log("hello",e); 
     var dataset1 = e; 
 
-    var ServiceCategoryKey = modelData.payload.ServiceCategoryKey; 
-    var locationkey = e.payload.LocationKey; 
+    var ServiceCategoryKey = modelData.ServiceCategoryKey; 
+    var locationkey = dataset1.LocationKey; 
 
     console.log("locationkey", locationkey, ServiceCategoryKey);  
     getData2(locationkey,ServiceCategoryKey);
     setmodelData1(dataset1); 
     setShowModal1(true);
 }
- 
-  
-        // const [activeIndex, setActiveIndex] = React.useState(-1),
-        // onMouseEnter = React.useCallback((_, i) => setActiveIndex(i), []);
-
-        // let renderLabel = function(data:any) {
-        //     return data.ServiceCategoryName;
-        // }
 
  
-
-
-        var updateWrcount = data.map((x:any)=> {
-          var  valueCount =  x.WRCounts  
-            // if(valueCount > 0){
-            //     return valueCount; 
-            //     console.log("udha", valueCount)
-            // } 
-            // else{ 
-            //     return valueCount
-            //  } 
-        })  
-   
- 
-       
      
     return (
          <>
@@ -622,11 +621,11 @@ function handleClick1(e:any){
             <div className="assetage_chart" style={{width: "95%", height: "95%"}}>   
             
 
-                <ResponsiveContainer> 
-                
-                        <ResponsivePie
+                     <ResponsiveContainer>   
+                         <ResponsivePie 
+                            onClick={handleClick} 
                             data={data}
-                             id ="ServiceCategoryName" 
+                            id ="ServiceCategoryName" 
                             margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
                             innerRadius={0.5}
                             padAngle={0}
@@ -634,36 +633,31 @@ function handleClick1(e:any){
                             colors={{ scheme: "nivo" }}
                             borderWidth={1}
                             borderColor={{ from: "color", modifiers: [["darker", 0.2]] }} 
-                            animate={true}  
-                          
+                            animate={true}   
                             value = "WRCounts"  
-   
-                             activeOuterRadiusOffset={8}  
-                             arcLinkLabelsSkipAngle={10}
-                             arcLinkLabelsTextColor="#333333"
-                             arcLinkLabelsThickness={2}
-                             arcLinkLabelsColor={{ from: 'color' }}
-                             arcLabelsSkipAngle={10}
-                             arcLabelsTextColor={{ from: 'color', modifiers: [ [ 'darker', 2 ] ] }}
-                             
-                            
-                        />   
-
-                        
-                
-                </ResponsiveContainer> 
+                            activeOuterRadiusOffset={8}  
+                            arcLinkLabelsSkipAngle={10}
+                            arcLinkLabelsTextColor="#333333"
+                            arcLinkLabelsThickness={2}
+                            arcLinkLabelsColor={{ from: 'color' }}
+                            arcLabelsSkipAngle={10}
+                            arcLabelsTextColor={{ from: 'color', modifiers: [ [ 'darker', 2 ] ] }} 
+                        />    
+                    </ResponsiveContainer>      
+ 
  
 
                                 <Modal  title={modelData?.ServiceCategoryName|| ''} show={showModal && modelData!= null} onOpen={() => { }} onClose={() => {setShowModal(false); setmodelData(null)}} >   
 
                                     <ResponsiveContainer width='100%' aspect={4.0 / 2.0}>
                                         <BarChart data={data1} 
-                                            layout="vertical" 
+                                            
                                             width={500}
                                             height={200}
                                         >
-                                            <XAxis type="number" />
-                                            <YAxis dataKey="LocationName" type="category" />
+                                            <XAxis type="category"  dataKey="LocationName" style={{fontSize:11}} />
+                                            {/* <YAxis type="number" dataKey="WRCount"/> */}
+                                            <YAxis dataKey="WRCount" ticks={[10, 20, 30, 40, 50]} type="number" />
                                             <Tooltip /> 
                                             <Bar barSize={20} dataKey="WRCount" name="WR Count" fill="#c02b82"  onClick={handleClick1}>  
                                             {
@@ -786,32 +780,32 @@ function handleClick1(e:any){
     setmodelData1(dataset1);  
     setShowModal1(true);
 } 
-let ChartColors = [
+// let ChartColors = [
 
-    '#598262',
-    '#C2D495',
-    '#DE391D',
-    '#4E1D1B',
-    '#4FA77C',
-    '#C2D495',
-    '#C7A54F',
-    '#1D8083',
-    '#067E8D',
-    '#EAD893',
-    '#F34C27',
-    '#F1E093',
-    '#369F8B',
-    '#D4D298',
-    '#675180',
-    '#A59EAC',
-    '#CBD2AC', 
-]
+//     '#598262',
+//     '#C2D495',
+//     '#DE391D',
+//     '#4E1D1B',
+//     '#4FA77C',
+//     '#C2D495',
+//     '#C7A54F',
+//     '#1D8083',
+//     '#067E8D',
+//     '#EAD893',
+//     '#F34C27',
+//     '#F1E093',
+//     '#369F8B',
+//     '#D4D298',
+//     '#675180',
+//     '#A59EAC',
+//     '#CBD2AC', 
+// ]
 
 
 let currentColor = 0;
 function nextColor() {
     currentColor++;
-    return ChartColors[currentColor % ChartColors.length];
+    return COLORS[currentColor % COLORS.length];
 }
  let ServiceCategories:any = {};
  function transformData(data:any) {
@@ -870,7 +864,7 @@ function nextColor() {
                                          }} />
                                     
                                     <XAxis dataKey="monthname" />
-                                    <YAxis orientation="left" />
+                                    <YAxis orientation="left" ticks={[0, 5, 10, 15, 20, 25]} />
                                     <Tooltip />
                                     
                                     {
@@ -891,18 +885,24 @@ function nextColor() {
                              <Modal title={modelData?.ServiceCategoryName|| ''} show={showModal && modelData!= null} onOpen={() => { }} onClose={() => {setShowModal(false); setmodelData(null)}} >  
 
                                            <ResponsiveContainer width='100%' aspect={4.0 / 2.0}>
+                                            
                                             <BarChart data={data1} 
-                                                layout="vertical" 
+                                             
                                                 width={500}
                                                 height={200}
                                             >
-                                                <XAxis type="number" />
+                                                {/* <XAxis type="number" />
                                                 <YAxis dataKey="LocationName" type="category" />
-                                                <Tooltip /> 
-                                                {/* <Bar barSize={20} dataKey="CWOCount" fill="#0d998a"  onClick={handleClick1}/>  */}
+                                                <Tooltip />  */}
 
+                                            <XAxis type="category" dataKey="LocationName" style={{fontSize:10}} /> 
+                                            <YAxis dataKey="LocationKey" ticks={[10, 20, 30, 40, 50]} type="number"  style={{fontSize:13}}/>
+                                            <Tooltip />  
                                                 <Bar barSize={20} name="CWO Count" dataKey="CWOCount" fill="#0d998a"  onClick={handleClick1}/> 
-                                            </BarChart>
+                                            </BarChart>  
+
+                                           
+
                                         </ResponsiveContainer> 
     
                             </Modal>
@@ -916,8 +916,8 @@ function nextColor() {
                                             <ul> 
                                                 {
                                                     Object.keys(data2 || {}).map((m:any)=>{
-                                                        return <li> 
-                                                            <label>{data2[m].AssetID}</label>  
+                                                        return <li>   
+                                                            <label><a href={URL + data2[m].AssetKey} target="_blank">{data2[m].AssetID}</a></label>
                                                             <span> {data2[m].CWOCount}</span> 
                                                         </li>
                                                     })
@@ -1223,16 +1223,7 @@ registerWidget({
     }
 });
  
-
-
-
-function componentDidMount() {
-    throw new Error("Function not implemented.");
-}
-
-function getPath(x: any, y: any, arg2: number, arg3: number): string {
-    throw new Error("Function not implemented.");
-}
+ 
 /**
  * Register as a Sidebar Link
  */
