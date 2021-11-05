@@ -4075,7 +4075,7 @@ function useChain(refs, timeSteps, timeFrame = 1000) {
           });
           p = p.then(() => {
             Object(_react_spring_shared__WEBPACK_IMPORTED_MODULE_0__["each"])(controllers, (ctrl, i) => Object(_react_spring_shared__WEBPACK_IMPORTED_MODULE_0__["each"])(queues[i] || [], update => ctrl.queue.push(update)));
-            return ref.start();
+            return Promise.all(ref.start());
           });
         }
       });
@@ -6437,6 +6437,14 @@ function isEqual(a, b) {
 }
 const each = (obj, fn) => obj.forEach(fn);
 function eachProp(obj, fn, ctx) {
+  if (is.arr(obj)) {
+    for (let i = 0; i < obj.length; i++) {
+      fn.call(ctx, obj[i], `${i}`);
+    }
+
+    return;
+  }
+
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
       fn.call(ctx, obj[key], key);
@@ -26459,7 +26467,7 @@ module.exports = function () {
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, ".item-list {\n  padding: 2em 3%; }\n\n.average_asset {\n  background: #544984;\n  color: #fff; }\n  .average_asset .uxp-widget-title-bar {\n    background: transparent; }\n  .average_asset .average-asset-data {\n    display: inline-flex;\n    width: 100%;\n    padding: 0px 5%;\n    height: 60%;\n    align-items: center; }\n    .average_asset .average-asset-data h4 {\n      font-size: 2.5em;\n      display: inline-block;\n      width: 50%; }\n    .average_asset .average-asset-data h3 {\n      font-size: 3em;\n      display: inline-block;\n      width: 50%;\n      text-align: center; }\n      .average_asset .average-asset-data h3 em.years {\n        display: inline-block;\n        font-size: 18px;\n        vertical-align: top;\n        font-style: normal; }\n\n.assetage_widget .assetage_chart {\n  width: 92%;\n  height: 80%; }\n\n.modal-container.hana_modal .modal-panel .modal-body {\n  padding-top: 0; }\n  .modal-container.hana_modal .modal-panel .modal-body .list_age {\n    display: inline-flex;\n    width: 100%;\n    margin: 0.5em 0px;\n    background: #eee;\n    padding: 12px 10px; }\n    .modal-container.hana_modal .modal-panel .modal-body .list_age .age_label {\n      display: inline-block;\n      width: 50%;\n      font-size: 13px;\n      text-align: left; }\n    .modal-container.hana_modal .modal-panel .modal-body .list_age .age_value {\n      display: inline-block;\n      width: 50%;\n      font-size: 13px;\n      text-align: right; }\n\n.assets-widget-list .item-list {\n  padding: 0em 3% 2em 3%;\n  min-width: 120px;\n  overflow: auto; }\n  .assets-widget-list .item-list ul {\n    list-style: none;\n    margin: 0em 0em 1em;\n    padding: 1em 0em 1em; }\n    .assets-widget-list .item-list ul li {\n      display: inline-flex;\n      width: 100%;\n      background-color: #dbdbdb;\n      padding: 11px 10px; }\n      .assets-widget-list .item-list ul li a {\n        color: #424242;\n        text-decoration: none;\n        width: 100%; }\n      .assets-widget-list .item-list ul li label {\n        display: inline-block;\n        width: 50%;\n        font-size: 13px;\n        text-align: left;\n        padding: 0;\n        margin: 0; }\n      .assets-widget-list .item-list ul li span {\n        display: inline-block;\n        width: 50%;\n        font-size: 13px;\n        text-align: right; }\n      .assets-widget-list .item-list ul li em.years {\n        display: inline-block;\n        font-size: 18px;\n        vertical-align: top;\n        font-style: normal;\n        font-size: 11px; }\n      .assets-widget-list .item-list ul li:nth-child(odd) {\n        background-color: #cccccc; }\n      .assets-widget-list .item-list ul li.list-header {\n        background-color: #7d7d7d;\n        color: #fff; }\n        .assets-widget-list .item-list ul li.list-header label {\n          color: #fff; }\n\n.assets-widget-list .uxp-item-list-card {\n  padding: 0 0%;\n  border: 1px solid #ddd;\n  margin: 0 1%;\n  width: 98%; }\n  .assets-widget-list .uxp-item-list-card .header {\n    padding: 0px 15px; }\n\n.custom-tooltip {\n  background-color: #000000AA;\n  backdrop-filter: blur(8px);\n  color: white;\n  padding: 15px;\n  border-radius: 10px;\n  font-size: 12px; }\n  .custom-tooltip .tt {\n    display: flex;\n    align-items: center;\n    margin: 10px 0px; }\n    .custom-tooltip .tt .tt-block {\n      margin-right: 10px;\n      width: 20px;\n      height: 20px;\n      border-radius: 10px;\n      display: inline-block; }\n    .custom-tooltip .tt .tt-title {\n      width: 200px; }\n", ""]);
+exports.push([module.i, ".item-list {\n  padding: 2em 3%; }\n\n.uxp-widget-title-bar {\n  border-bottom: 1px solid #d3d3d3; }\n\n.average_asset {\n  background: #544984;\n  color: #fff; }\n  .average_asset .uxp-widget-title-bar {\n    background: transparent;\n    border-bottom: 1px solid transparent; }\n  .average_asset .average-asset-data {\n    display: inline-block;\n    width: 100%;\n    padding: 0px 5%;\n    height: 50%;\n    align-items: center;\n    transform: translateY(40%); }\n    .average_asset .average-asset-data h4 {\n      font-size: 2.2em;\n      display: inline-block;\n      width: 100%;\n      text-align: left;\n      margin: 0;\n      text-transform: uppercase;\n      font-weight: 100; }\n    .average_asset .average-asset-data h3 {\n      font-size: 5em;\n      display: inline-block;\n      width: 100%;\n      text-align: left;\n      margin-top: 17px;\n      font-weight: 100; }\n      .average_asset .average-asset-data h3 em.years {\n        display: inline-block;\n        font-size: 18px;\n        vertical-align: top;\n        font-style: normal;\n        font-weight: 600; }\n\n.assetage_widget .assetage_chart {\n  width: 97%;\n  height: 80%;\n  margin-top: 1em; }\n\n.modal-container.hana_modal .modal-panel .modal-body {\n  padding-top: 0; }\n  .modal-container.hana_modal .modal-panel .modal-body .list_age {\n    display: inline-flex;\n    width: 100%;\n    margin: 0.5em 0px;\n    background: #eee;\n    padding: 12px 10px; }\n    .modal-container.hana_modal .modal-panel .modal-body .list_age .age_label {\n      display: inline-block;\n      width: 50%;\n      font-size: 13px;\n      text-align: left; }\n    .modal-container.hana_modal .modal-panel .modal-body .list_age .age_value {\n      display: inline-block;\n      width: 50%;\n      font-size: 13px;\n      text-align: right; }\n\n.modal-container .modal-panel .modal-body {\n  padding: 0px 0px; }\n  .modal-container .modal-panel .modal-body .assets-widget-list .modal-sub_title {\n    display: inline-block;\n    font-size: 1.1em;\n    width: 100%;\n    background: #ffffff;\n    border-radius: 12px;\n    padding: 25px 2.5em;\n    margin-bottom: 1em;\n    border: 1px solid #7070705c;\n    box-shadow: 0px 2px 3px #00000017; }\n  .modal-container .modal-panel .modal-body .assets-widget-list .item-list {\n    padding: 0em 0% 0em 0%; }\n    .modal-container .modal-panel .modal-body .assets-widget-list .item-list ul {\n      padding: 1em 2% 2em;\n      width: 100%; }\n\n.widget-wrapper.assets-widget-list .item-list {\n  padding: 0em 0% 2em 0%;\n  overflow: auto; }\n\n.assets-widget-list .item-list {\n  padding: 0em 3% 0em 3%;\n  min-width: 120px;\n  overflow: auto;\n  min-height: 73vh;\n  max-height: 84vh; }\n  .assets-widget-list .item-list ul {\n    list-style: none;\n    margin: 0em 0em 1em;\n    padding: 0em 0em 0em; }\n    .assets-widget-list .item-list ul li {\n      display: inline-flex;\n      width: 96%;\n      padding: 25px 15px;\n      border-radius: 10px;\n      margin-top: 0.8em;\n      background-color: #7000cb20;\n      margin: 0.8em 2% 0; }\n      .assets-widget-list .item-list ul li a {\n        color: #424242;\n        text-decoration: none;\n        width: 100%;\n        cursor: pointer; }\n      .assets-widget-list .item-list ul li label {\n        display: inline-block;\n        width: 50%;\n        font-size: 13px;\n        text-align: left;\n        padding: 0;\n        margin: 0;\n        cursor: pointer; }\n      .assets-widget-list .item-list ul li span {\n        display: inline-block;\n        width: 50%;\n        font-size: 13px;\n        text-align: right; }\n      .assets-widget-list .item-list ul li em.years {\n        display: inline-block;\n        font-size: 18px;\n        vertical-align: top;\n        font-style: normal;\n        font-size: 11px; }\n      .assets-widget-list .item-list ul li:nth-child(odd) {\n        background-color: #F8F5FF; }\n      .assets-widget-list .item-list ul li:first-child {\n        background-color: #FFF4F4F8; }\n      .assets-widget-list .item-list ul li.list-header {\n        background-color: #7d7d7d;\n        color: #fff; }\n        .assets-widget-list .item-list ul li.list-header label {\n          color: #fff; }\n\n.assets-widget-list .uxp-item-list-card {\n  padding: 0 0%;\n  border: 1px solid #ddd;\n  margin: 0 1%;\n  width: 98%; }\n  .assets-widget-list .uxp-item-list-card .header {\n    padding: 0px 15px; }\n\n.custom-tooltip {\n  background-color: #000000AA;\n  backdrop-filter: blur(8px);\n  color: white;\n  padding: 15px;\n  border-radius: 10px;\n  font-size: 12px; }\n  .custom-tooltip .tt {\n    display: flex;\n    align-items: center;\n    margin: 10px 0px; }\n    .custom-tooltip .tt .tt-block {\n      margin-right: 10px;\n      width: 20px;\n      height: 20px;\n      border-radius: 10px;\n      display: inline-block; }\n    .custom-tooltip .tt .tt-title {\n      width: 200px; }\n\n.modal-container .modal-backdrop {\n  background-color: #000000ab;\n  -webkit-filter: blur(2px);\n  -moz-filter: blur(2px);\n  -o-filter: blur(2px);\n  -ms-filter: blur(2px);\n  filter: blur(2px); }\n\n.recharts-responsive-container {\n  display: inline-block; }\n\n.modal-container.popup.m-zoom-fc-enter-done .modal-panel {\n  min-width: 100%;\n  min-height: 100%;\n  border-radius: 0; }\n  .modal-container.popup.m-zoom-fc-enter-done .modal-panel .modal-header {\n    position: relative;\n    padding: 30px; }\n    .modal-container.popup.m-zoom-fc-enter-done .modal-panel .modal-header .modal-title {\n      text-align: left;\n      display: inline-block;\n      width: 10%;\n      position: absolute;\n      z-index: 1;\n      left: 5%; }\n    .modal-container.popup.m-zoom-fc-enter-done .modal-panel .modal-header .modal-close {\n      position: absolute; }\n      .modal-container.popup.m-zoom-fc-enter-done .modal-panel .modal-header .modal-close .close-btn {\n        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMC4zMjUiIGhlaWdodD0iMTAuMDYzIiB2aWV3Qm94PSIwIDAgMTAuMzI1IDEwLjA2MyI+PGRlZnM+PHN0eWxlPi5he29wYWNpdHk6MC4yNDt9PC9zdHlsZT48L2RlZnM+PHBhdGggY2xhc3M9ImEiIGQ9Ik01LjkzMSwxMi4wMzZsLS41MTIuNTEyYS41NTEuNTUxLDAsMCwxLS43ODEsMEwuMTU5LDguMDcxYS41NTEuNTUxLDAsMCwxLDAtLjc4MWw0LjQ4LTQuNDhhLjU1MS41NTEsMCwwLDEsLjc4MSwwbC41MTIuNTEyYS41NTQuNTU0LDAsMCwxLS4wMDkuNzlMMy4xNDUsNi43NTdIOS43NjhhLjU1Mi41NTIsMCwwLDEsLjU1My41NTN2LjczN2EuNTUyLjU1MiwwLDAsMS0uNTUzLjU1M0gzLjE0NWwyLjc3NywyLjY0NUEuNTUuNTUsMCwwLDEsNS45MzEsMTIuMDM2WiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC4wMDQgLTIuNjQ3KSIvPjwvc3ZnPg==);\n        background-size: 40%; }\n  .modal-container.popup.m-zoom-fc-enter-done .modal-panel .modal-body .recharts-responsive-container {\n    width: 76% !important;\n    height: 100% !important;\n    overflow: auto;\n    margin: 3% 12%; }\n  .modal-container.popup.m-zoom-fc-enter-done .modal-panel .modal-body .assets-widget-list .item-list {\n    padding: 0em 0% 0em 2%;\n    min-width: 120px;\n    overflow: auto;\n    background: #F7F7F7;\n    border-radius: 12px; }\n    .modal-container.popup.m-zoom-fc-enter-done .modal-panel .modal-body .assets-widget-list .item-list ul li {\n      padding: 25px 20px;\n      border-bottom: 1px solid #dbdbdba8;\n      border-radius: 10px;\n      margin-top: 0.8em;\n      background-color: #7000cb20;\n      margin: 0.8em 0% 0; }\n  .modal-container.popup.m-zoom-fc-enter-done .modal-panel .modal-body .assets-widget-list.details_widget-list .item-list {\n    padding: 0em 0% 0em 0%; }\n\n.modal-body .assets-widget-list .item-list ul {\n  list-style: none;\n  margin: 0em 0em 0em;\n  padding: 0em 0em 0em; }\n  .modal-body .assets-widget-list .item-list ul li {\n    padding: 25px 20px;\n    border-bottom: 1px solid #dbdbdba8;\n    border-radius: 10px;\n    margin-top: 0.8em;\n    background-color: #7000cb20; }\n\n.modal-backdrop {\n  display: none; }\n\n.modal-container.popup_inner.m-zoom-fc-enter-done .modal-panel {\n  border-radius: 0;\n  box-shadow: none;\n  margin-top: 3em;\n  min-width: 100%;\n  min-height: 90%; }\n\n.custom-tooltip-lable {\n  display: none; }\n\n.custom-tooltip {\n  border-radius: 12px; }\n\n.inner_list {\n  display: none; }\n\n#my_Popup .popup-modal-header {\n  display: inline-flex;\n  position: absolute;\n  top: 2em;\n  left: 6em;\n  width: 100%; }\n  #my_Popup .popup-modal-header .modal-title {\n    font-size: 1.1em;\n    display: inline-block;\n    cursor: pointer; }\n  #my_Popup .popup-modal-header .modal-sub_title {\n    font-size: 1.1em;\n    display: none; }\n    #my_Popup .popup-modal-header .modal-sub_title p {\n      display: inline-block;\n      margin: 0 15px 0 15px;\n      padding: 0;\n      position: relative; }\n      #my_Popup .popup-modal-header .modal-sub_title p:after {\n        content: \" \";\n        display: block;\n        width: 0;\n        height: 0;\n        border-top: 5px solid transparent;\n        border-bottom: 5px solid transparent;\n        border-left: 7px solid #383838;\n        position: absolute;\n        top: 50%;\n        margin-top: -10px;\n        left: 100%;\n        z-index: 2; }\n\n#my_Popup.my_Popup_toggle .recharts-responsive-container {\n  margin-left: 0;\n  width: 70% !important;\n  transition-timing-function: ease-in-out; }\n\n#my_Popup.my_Popup_toggle .popup-modal-header .modal-sub_title {\n  display: inline-block; }\n\n.inner_list_toggle {\n  display: block;\n  transition-timing-function: ease-in-out; }\n  .inner_list_toggle .assets-widget-list {\n    width: 27%;\n    position: absolute;\n    right: 1%;\n    top: 9em;\n    border-radius: 12px; }\n    .inner_list_toggle .assets-widget-list .item-list ul li {\n      width: 98%; }\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -57193,9 +57201,9 @@ module.exports = /*#__PURE__*/function (_BaseClient) {
 
 /***/ }),
 
-/***/ "./node_modules/webpack-dev-server/client/index.js?http://localhost:8080":
+/***/ "./node_modules/webpack-dev-server/client/index.js?http://localhost:8088":
 /*!*********************************************************!*\
-  !*** (webpack)-dev-server/client?http://localhost:8080 ***!
+  !*** (webpack)-dev-server/client?http://localhost:8088 ***!
   \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -57377,7 +57385,7 @@ var onSocketMessage = {
   }
 };
 socket(socketUrl, onSocketMessage);
-/* WEBPACK VAR INJECTION */}.call(this, "?http://localhost:8080"))
+/* WEBPACK VAR INJECTION */}.call(this, "?http://localhost:8088"))
 
 /***/ }),
 
@@ -58085,24 +58093,15 @@ function monthFromName(name) {
     return i + 1;
 }
 const AverageAsset = (props) => {
-    let [data, setData] = React.useState([]);
-    function getData() {
-        props.uxpContext.executeAction("ivivafacility", "AssetAgebyBuilding", {}, { json: true }).then(res => {
-            setData(res[0]);
-        }).catch(e => {
-            // console.log("hi", e);
-        });
-    }
-    React.useEffect(() => {
-        getData();
-    }, []);
+    const assetagedata = {
+        "AssetAge": 12
+    };
     return (React.createElement(components_1.WidgetWrapper, { className: "average_asset" },
-        React.createElement(components_1.TitleBar, { title: 'Average age of Assets' }),
+        React.createElement(components_1.TitleBar, { title: '' }),
         React.createElement("div", { className: "average-asset-data" },
-            React.createElement("h4", null, "Average age "),
-            " ",
+            React.createElement("h4", null, "AVERAGE ASSETS AGE "),
             React.createElement("h3", null,
-                data.AssetAge,
+                assetagedata.AssetAge,
                 React.createElement("em", { className: "years" }, "YRS")))));
 };
 const AssetAge = (props) => {
@@ -58110,46 +58109,32 @@ const AssetAge = (props) => {
     let [modelData, setmodelData] = React.useState(null);
     let [showModal1, setShowModal1] = React.useState(false);
     let [modelData1, setmodelData1] = React.useState(null);
-    let [data, setData] = React.useState([]);
-    function getData() {
-        props.uxpContext.executeAction("ivivafacility", "AssetAgeinZone", {}, { json: true }).then(res => {
-            console.log("red", res);
-            setData(res);
-        }).catch(e => {
-            // console.log("hi", e);
-        });
-    }
-    let [data1, setData1] = React.useState([]);
-    function getData1(LocationKey) {
-        props.uxpContext.executeAction("ivivafacility", "AveAssetAgeinZonebyAssCat", { LocationKey: LocationKey }, { json: true }).then(res => {
-            console.log(res);
-            console.log("AveAssetAgeinZonebyAssCat");
-            setData1(res);
-        }).catch(e => {
-            //   console.log("hi", e);
-        });
-    }
-    let [data2, setData2] = React.useState([]);
-    function getData2(LocationKey, AssetCategoryKey) {
-        props.uxpContext.executeAction("ivivafacility", "AssetAgeinZonebyAssCat", { LocationKey: LocationKey, AssetCategoryKey: AssetCategoryKey }, { json: true }).then(res => {
-            console.log("getdata2", res);
-            console.log("hello");
-            setData2(res);
-        }).catch(e => {
-            console.log("getdata2error", e);
-        });
-    }
-    React.useEffect(() => {
-        getData();
-    }, []);
+    let AssetAge = [
+        { "LocationKey": "3", "LocationName": "Car Park", "AssetAge": "120" },
+        { "LocationKey": "20", "LocationName": "North A", "AssetAge": "1" },
+        { "LocationKey": "25", "LocationName": "North B", "AssetAge": "2" },
+        { "LocationKey": "45", "LocationName": "South B", "AssetAge": "11" },
+        { "LocationKey": "311", "LocationName": "NiHonSt", "AssetAge": "12" }
+    ];
+    let AssetAge1 = [
+        { "AssetCategoryKey": "1", "AssetCategoryID": "FCU", "AssetAge": "0" },
+        { "AssetCategoryKey": "5", "AssetCategoryID": "AHU", "AssetAge": "1" },
+        { "AssetCategoryKey": "6", "AssetCategoryID": "PAHU", "AssetAge": "1" },
+        { "AssetCategoryKey": "7", "AssetCategoryID": "DX", "AssetAge": "0" },
+        { "AssetCategoryKey": "8", "AssetCategoryID": "PAU", "AssetAge": "0" }
+    ];
+    let AssetAge2 = [
+        { "AssetKey": "12", "AssetID": "MW NA- AHU 3-N1", "AssetAge": "1" },
+        { "AssetKey": "13", "AssetID": "MW NA- AHU 3-N2", "AssetAge": "1" },
+        { "AssetKey": "458", "AssetID": "MW NA-AHU 3-N1", "AssetAge": "1" },
+        { "AssetKey": "459", "AssetID": "MW NA-AHU 3-N2", "AssetAge": "1" }
+    ];
     function handleClick(e) {
         console.log("location", e);
         var dataset = e;
         var LocationKey = e.payload.LocationKey;
         var LocationName = e.payload.LocationName;
-        console.log("key12", LocationKey);
         console.log(dataset);
-        getData1(LocationKey);
         setmodelData(dataset);
         setShowModal(true);
     }
@@ -58159,86 +58144,100 @@ const AssetAge = (props) => {
         var AssetAge = e.payload.AssetAge;
         var AssetCategoryKey = e.payload.AssetCategoryKey;
         var LocationKey = modelData.payload.LocationKey;
-        console.log("locationkey", LocationKey, AssetCategoryKey);
-        // console.log(dataset1); 
-        getData2(LocationKey, AssetCategoryKey);
         setmodelData1(dataset1);
-        // console.log(dataset1);
         setShowModal1(true);
+        //className1 += ' inner_list_toggle'; 
+        document.getElementById("my_Popup").classList.add("my_Popup_toggle");
+        document.getElementById("innerPopup").classList.add("inner_list_toggle");
     }
+    function removehandleClick1(e) {
+        document.getElementById("my_Popup").classList.remove("my_Popup_toggle");
+        document.getElementById("innerPopup").classList.remove("inner_list_toggle");
+    }
+    let MAX = 120;
+    const tickArray = [0, Math.trunc(MAX / 4), Math.trunc(MAX / 2), Math.trunc(3 * MAX / 4), MAX];
+    // const tickFormat = (x:any) => {
+    //     if (x === 0) return 'START';
+    //     if (x === 180) return 'END';
+    //     return x;
+    //    };
     return (React.createElement(React.Fragment, null,
         React.createElement(components_1.WidgetWrapper, { className: "assetage_widget" },
             React.createElement(components_1.TitleBar, { title: 'Asset Age by Location (Zones)' }, " "),
             React.createElement("div", { className: "assetage_chart" },
                 React.createElement(recharts_1.ResponsiveContainer, { width: "100%" },
-                    React.createElement(recharts_1.BarChart, { width: 500, height: 200, data: data, margin: {
+                    React.createElement(recharts_1.BarChart, { width: 500, height: 200, data: AssetAge, margin: {
                             top: 2, right: 0, left: 0, bottom: 2,
                         } },
                         React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
                         React.createElement(recharts_1.XAxis, { dataKey: "LocationName", name: "Location Name" }),
-                        React.createElement(recharts_1.YAxis, { ticks: [30, 60, 90], type: "number" }),
-                        React.createElement(recharts_1.Tooltip, null),
-                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, name: "Asset Age", dataKey: "AssetAge", fill: "#FF8181" }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
-                React.createElement(components_1.Modal, { title: (modelData === null || modelData === void 0 ? void 0 : modelData.LocationName) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
-                    React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
-                        React.createElement(recharts_1.BarChart
-                        //  layout="vertical" 
-                        , { 
+                        React.createElement(recharts_1.YAxis, { type: "number", ticks: tickArray, tickCount: 3, interval: 0 }),
+                        React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
+                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, name: "Asset Age", dataKey: "AssetAge", fill: "#FF8181" }, AssetAge.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
+                React.createElement(components_1.Modal, { className: "popup", title: "", show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
+                    React.createElement("div", { id: "my_Popup" },
+                        React.createElement("div", { className: "popup-modal-header" },
+                            React.createElement("div", { className: "modal-title", onClick: removehandleClick1 }, (modelData === null || modelData === void 0 ? void 0 : modelData.LocationName) || ''),
+                            React.createElement("div", { className: "modal-sub_title" },
+                                " ",
+                                React.createElement("p", null),
+                                " ",
+                                (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.AssetCategoryID) || '')),
+                        React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
+                            React.createElement(recharts_1.BarChart
                             //  layout="vertical" 
-                            width: 500, height: 200, data: data1, margin: {
-                                top: 2, right: 0, left: 0, bottom: 2,
-                            } },
-                            React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
-                            React.createElement(recharts_1.XAxis, { dataKey: "AssetCategoryID" }),
-                            React.createElement(recharts_1.YAxis, { dataKey: "AssetAge", ticks: [0, 10, 20, 30, 40, 50, 60, 70, 80], type: "number" }),
-                            React.createElement(recharts_1.Tooltip, null),
-                            React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "AssetAge", name: "Average Age", fill: "#0d998a", onClick: handleClick1 })))),
-                React.createElement(components_1.Modal, { title: (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.AssetCategoryID) || '', show: showModal1 && modelData1 != null, onOpen: () => { }, onClose: () => { setShowModal1(false); setmodelData1(null); } },
-                    React.createElement("div", { className: "assets-widget-list" },
-                        React.createElement("div", { className: "item-list" },
-                            React.createElement("ul", null, Object.keys(data2 || {}).map((m) => {
-                                return React.createElement("li", null,
-                                    React.createElement("label", null,
-                                        React.createElement("a", { href: URL + data2[m].AssetKey, target: "_blank" }, data2[m].AssetID)),
-                                    React.createElement("span", null,
-                                        " ",
-                                        data2[m].AssetAge,
-                                        " ",
-                                        React.createElement("em", { className: "years" }, "YRS")));
-                            })))))))));
+                            , { 
+                                //  layout="vertical" 
+                                width: 500, height: 200, data: AssetAge1, margin: {
+                                    top: 2, right: 0, left: 0, bottom: 2,
+                                } },
+                                React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
+                                React.createElement(recharts_1.XAxis, { dataKey: "AssetCategoryID" }),
+                                React.createElement(recharts_1.YAxis, { dataKey: "AssetAge", ticks: [0, 10, 20, 30, 40, 50, 60, 70, 80], type: "number" }),
+                                React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
+                                React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "AssetAge", name: "Average Age", fill: "#0d998a", onClick: handleClick1 }))),
+                        React.createElement("div", { className: "inner_list", id: "innerPopup" },
+                            React.createElement("div", { className: "assets-widget-list" },
+                                React.createElement("div", { className: "modal-sub_title" },
+                                    " ",
+                                    (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.AssetCategoryID) || '',
+                                    " Details"),
+                                React.createElement("div", { className: "item-list" },
+                                    React.createElement("ul", null, Object.keys(AssetAge2 || {}).map((m) => {
+                                        return React.createElement("li", null,
+                                            React.createElement("a", { href: URL + AssetAge2[m].AssetKey, target: "_blank" },
+                                                React.createElement("label", null, AssetAge2[m].AssetID),
+                                                React.createElement("span", null,
+                                                    " ",
+                                                    AssetAge2[m].AssetAge,
+                                                    " ",
+                                                    React.createElement("em", { className: "years" }, "YRS"))));
+                                    })))))))))));
 };
 const MaintenanceDetails = (props) => {
+    let maintenanceData = [
+        { "MWOKey": 6, "MWOCode": "AHU-MW-03", "AWOKey": 24, "AWONo": "PWO20210831024", "TargetStartDate": "2021-09-03T02:00:00.000Z" }
+    ];
+    let maintenanceData1 = [{ "AssetKey": "11", "AssetID": "MW SA- AHU 3-5" },
+        { "AssetKey": "12", "AssetID": "MW NA- AHU 3-N1" },
+        { "AssetKey": "9", "AssetID": "MW SA- AHU 3-3" },
+        { "AssetKey": "10", "AssetID": "MW SA- AHU 3-4" }];
     let [showModal, setShowModal] = React.useState(false);
     let [modelData, setmodelData] = React.useState(null);
-    let [data, setData] = React.useState([]);
-    function getData() {
-        props.uxpContext.executeAction("ivivafacility", "UpcomingPPMWOs", {}, { json: true }).then(res => {
-            console.log("UpcomingPPMWOs", res);
-            setData(res);
-        }).catch(e => {
-        });
-    }
-    React.useEffect(() => {
-        getData();
-    }, []);
-    let [data1, setData1] = React.useState([]);
-    function getData1(AWOKey) {
-        props.uxpContext.executeAction("ivivafacility", "PPMWOAssets", { AWOKey: AWOKey }, { json: true }).then(res => {
-            console.log("PPMWOAssets", res);
-            setData1(res);
-        }).catch(e => {
-            //   console.log("hi", e);
-        });
-    }
     function handleClick(e) {
         console.log("assetAWOKeyvalue", e);
         var dataset = e;
         var AWOKey = e.AWOKey;
         console.log("key12", AWOKey);
         console.log("assetAWOKey", dataset);
-        getData1(AWOKey);
         setmodelData(dataset);
         setShowModal(true);
+        document.getElementById("my_Popup").classList.add("my_Popup_toggle");
+        // document.getElementById("innerPopup").classList.add("inner_list_toggle");
+    }
+    function removehandleClick1(e) {
+        document.getElementById("my_Popup").classList.remove("my_Popup_toggle");
+        // document.getElementById("innerPopup").classList.remove("inner_list_toggle"); 
     }
     function parseDate(date) {
         var currentTime = new Date(date);
@@ -58248,64 +58247,41 @@ const MaintenanceDetails = (props) => {
         var formatedate = year + '-' + month + '-' + day;
         return formatedate;
     }
+    let [inputValue, setInputValue] = React.useState("sample text");
+    let [selected, setSelected] = React.useState("op-1");
     return (React.createElement(React.Fragment, null,
         React.createElement(components_1.WidgetWrapper, { className: "assets-widget-list" },
-            React.createElement(components_1.TitleBar, { title: 'Upcoming Maintenance Details' }),
+            React.createElement(components_1.TitleBar, { title: 'Upcoming Maintenance' },
+                React.createElement(components_1.FilterPanel, { enableClear: (inputValue === null || inputValue === void 0 ? void 0 : inputValue.length) > 0 || selected != null, onClear: () => { setInputValue(""); setSelected(null); } },
+                    React.createElement(components_1.FormField, { className: "no-padding mb-only" },
+                        React.createElement(components_1.Label, null, "Location"),
+                        React.createElement(components_1.Select, { selected: selected, options: [
+                                { label: "Millenia Walk", value: "op-1" },
+                                { label: "Millenia Walk 1", value: "op-2" },
+                            ], onChange: (value) => { setSelected(value); }, placeholder: " -- select --", isValid: selected ? (selected === null || selected === void 0 ? void 0 : selected.length) > 0 : null })))),
             React.createElement("div", { className: "item-list" },
-                React.createElement("ul", null,
-                    React.createElement("li", { className: "list-header" },
-                        React.createElement("label", null, "Upcoming Maintenance"),
-                        React.createElement("span", null, "Millenia Walk")),
-                    data.map((item) => (React.createElement(React.Fragment, null,
-                        React.createElement("li", { key: item.MWOKey, onClick: () => { handleClick(item); } },
+                React.createElement("ul", null, maintenanceData.map((item) => (React.createElement(React.Fragment, null,
+                    React.createElement("li", { key: item.MWOKey },
+                        React.createElement("a", { onClick: () => { handleClick(item); } },
                             React.createElement("label", null, item.MWOCode),
-                            React.createElement("span", null, parseDate(item.TargetStartDate)))))))),
-            React.createElement(components_1.Modal, { title: (modelData === null || modelData === void 0 ? void 0 : modelData.MWOCode) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
-                React.createElement("div", { className: "assets-widget-list" },
-                    React.createElement("div", { className: "item-list" },
-                        React.createElement("ul", null, Object.keys(data1 || {}).map((m) => {
-                            return React.createElement("li", null,
-                                React.createElement("label", null,
-                                    React.createElement("a", { href: URL + data1[m].AssetKey, target: "_blank" }, data1[m].AssetID)));
-                        }))))))));
+                            React.createElement("span", null, parseDate(item.TargetStartDate))))))))),
+            React.createElement(components_1.Modal, { className: "popup", title: (modelData === null || modelData === void 0 ? void 0 : modelData.MWOCode) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
+                React.createElement("div", { id: "my_Popup" },
+                    React.createElement("div", { className: "popup-modal-header" },
+                        React.createElement("div", { className: "modal-title", onClick: removehandleClick1 }, (modelData === null || modelData === void 0 ? void 0 : modelData.LocationName) || '')),
+                    React.createElement("div", { className: "assets-widget-list details_widget-list" },
+                        React.createElement("div", { className: "item-list", style: { backgroundColor: "transparent" } },
+                            React.createElement("ul", null, Object.keys(maintenanceData1 || {}).map((m) => {
+                                return React.createElement("li", { style: { width: "100%" } },
+                                    React.createElement("a", { href: URL + maintenanceData1[m].AssetKey, target: "_blank" },
+                                        React.createElement("label", null, maintenanceData1[m].AssetID)));
+                            })))))))));
 };
 const TotalNumber = (props) => {
     let [showModal, setShowModal] = React.useState(false);
     let [modelData, setmodelData] = React.useState(null);
     let [showModal1, setShowModal1] = React.useState(false);
     let [modelData1, setmodelData1] = React.useState(null);
-    let [data, setData] = React.useState([]);
-    function getData() {
-        props.uxpContext.executeAction("ivivafacility", "AssetCountbyZone", {}, { json: true }).then(res => {
-            console.log("red", res);
-            setData(res);
-        }).catch(e => {
-            // console.log("hi", e);
-        });
-    }
-    let [data1, setData1] = React.useState([]);
-    function getData1(locationKey) {
-        props.uxpContext.executeAction("ivivafacility", "AssetCountbyAssCatZone", { locationKey: locationKey }, { json: true }).then(res => {
-            console.log(res);
-            console.log("AssetCountbyAssCatZone");
-            setData1(res);
-        }).catch(e => {
-            //   console.log("hi", e);
-        });
-    }
-    let [data2, setData2] = React.useState([]);
-    function getData2(LocationKey, AssetCategoryKey) {
-        props.uxpContext.executeAction("ivivafacility", "AssetAgeinZonebyAssCat", { LocationKey: LocationKey, AssetCategoryKey: AssetCategoryKey }, { json: true }).then(res => {
-            console.log("getdata2", res);
-            console.log("hello");
-            setData2(res);
-        }).catch(e => {
-            console.log("getdata2error", e);
-        });
-    }
-    React.useEffect(() => {
-        getData();
-    }, []);
     function handleClick(e) {
         console.log("location", e);
         var dataset = e;
@@ -58313,7 +58289,6 @@ const TotalNumber = (props) => {
         var locationName = e.payload.LocationName;
         console.log("key12", LocationKey);
         console.log(dataset);
-        getData1(LocationKey);
         setmodelData(dataset);
         setShowModal(true);
     }
@@ -58324,94 +58299,112 @@ const TotalNumber = (props) => {
         var AssetCategoryKey = e.payload.AssetCategoryKey;
         var locationkey = modelData.payload.LocationKey;
         console.log("locationkey", locationkey, AssetCategoryKey);
-        // console.log(dataset1); 
-        getData2(locationkey, AssetCategoryKey);
         setmodelData1(dataset1);
-        // console.log(dataset1);
         setShowModal1(true);
+        document.getElementById("my_Popup").classList.add("my_Popup_toggle");
+        document.getElementById("innerPopup").classList.add("inner_list_toggle");
     }
+    function removehandleClick1(e) {
+        document.getElementById("my_Popup").classList.remove("my_Popup_toggle");
+        document.getElementById("innerPopup").classList.remove("inner_list_toggle");
+    }
+    let totdata = [
+        { "LocationKey": "3", "LocationName": "Car Park", "AssetCount": "0" },
+        { "LocationKey": "20", "LocationName": "North A", "AssetCount": "81" },
+        { "LocationKey": "25", "LocationName": "North B", "AssetCount": "53" },
+        { "LocationKey": "28", "LocationName": "Park n Dine", "AssetCount": "0" },
+        { "LocationKey": "318", "LocationName": "PND", "AssetCount": "65" },
+        { "LocationKey": "351", "LocationName": "GHALL", "AssetCount": "6" }
+    ];
+    let totdata1 = [
+        { "AssetCategoryKey": "1", "AssetCategoryID": "FCU", "AssetCount": "73" },
+        { "AssetCategoryKey": "5", "AssetCategoryID": "AHU", "AssetCount": "4" },
+        { "AssetCategoryKey": "6", "AssetCategoryID": "PAHU", "AssetCount": "4" },
+        { "AssetCategoryKey": "7", "AssetCategoryID": "DX", "AssetCount": "0" },
+        { "AssetCategoryKey": "8", "AssetCategoryID": "PAU", "AssetCount": "0" }
+    ];
+    let totdata2 = [
+        { "AssetKey": "173", "AssetID": "MW NA- FCU 01 - 329" },
+        { "AssetKey": "174", "AssetID": "MW NA- FCU 01 - 328" },
+        { "AssetKey": "468", "AssetID": "MW NA-FCU 01-328" },
+        { "AssetKey": "469", "AssetID": "MW NA-FCU 01-329" },
+        { "AssetKey": "466", "AssetID": "MW NA-FCU 01-326" },
+        { "AssetKey": "175", "AssetID": "MW NA- FCU 01 - 326" },
+        { "AssetKey": "460", "AssetID": "MW NA-FCU 01-102" },
+        { "AssetKey": "464", "AssetID": "MW NA-FCU 01-316" },
+        { "AssetKey": "471", "AssetID": "MW NA-FCU 01-345" }
+    ];
     return (React.createElement(React.Fragment, null,
         React.createElement(components_1.WidgetWrapper, { className: "assetage_widget" },
             React.createElement(components_1.TitleBar, { title: 'Total Number of Asset by Location (Zone)' }),
             React.createElement("div", { className: "assetage_chart" },
                 React.createElement(recharts_1.ResponsiveContainer, { width: "100%" },
-                    React.createElement(recharts_1.BarChart, { width: 800, height: 1200, data: data, margin: {
+                    React.createElement(recharts_1.BarChart, { width: 800, height: 1200, data: totdata, margin: {
                             top: 2, right: 0, left: 0, bottom: 2,
                         } },
                         React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
                         React.createElement(recharts_1.XAxis, { type: "category", dataKey: "LocationName", name: "Location Name" }),
                         React.createElement(recharts_1.YAxis, { ticks: [30, 60, 90, 120, 150], type: "number" }),
-                        React.createElement(recharts_1.Tooltip, null),
-                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, name: "Asset Count", dataKey: "AssetCount", fill: "#0d998a" }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
-                React.createElement(components_1.Modal, { title: (modelData === null || modelData === void 0 ? void 0 : modelData.LocationName) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
-                    React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
-                        React.createElement(recharts_1.BarChart
-                        //  layout="vertical" 
-                        , { 
-                            //  layout="vertical" 
-                            width: 500, height: 200, data: data1, margin: {
-                                top: 2, right: 0, left: 0, bottom: 2,
-                            } },
-                            React.createElement(recharts_1.XAxis, { dataKey: "AssetCategoryID" }),
-                            React.createElement(recharts_1.YAxis, { dataKey: "AssetCount", ticks: [20, 40, 60, 80, 100], type: "number" }),
-                            React.createElement(recharts_1.Tooltip, null),
-                            React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "AssetCount", name: "Asset Count", fill: "#1195cc", onClick: handleClick1 })))),
-                React.createElement(components_1.Modal, { title: (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.AssetCategoryID) || '', show: showModal1 && modelData1 != null, onOpen: () => { }, onClose: () => { setShowModal1(false); setmodelData1(null); } },
-                    React.createElement("div", { className: "assets-widget-list" },
-                        React.createElement("div", { className: "item-list item-list-nav_half" },
-                            React.createElement("ul", null, Object.keys(data2 || {}).map((m) => {
-                                return React.createElement("li", null,
-                                    React.createElement("label", null,
-                                        React.createElement("a", { href: URL + data2[m].AssetKey, target: "_blank" }, data2[m].AssetID)));
-                            })))))))));
+                        React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
+                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, name: "Asset Count", dataKey: "AssetCount", fill: "#0d998a" }, totdata.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
+                React.createElement(components_1.Modal, { className: "popup", title: "", show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
+                    React.createElement("div", { id: "my_Popup" },
+                        React.createElement("div", { className: "popup-modal-header" },
+                            React.createElement("div", { className: "modal-title", onClick: removehandleClick1 }, (modelData === null || modelData === void 0 ? void 0 : modelData.LocationName) || ''),
+                            React.createElement("div", { className: "modal-sub_title" },
+                                " ",
+                                React.createElement("p", null),
+                                " ",
+                                (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.AssetCategoryID) || '')),
+                        React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
+                            React.createElement(recharts_1.BarChart, { width: 500, height: 200, data: totdata1, margin: {
+                                    top: 2, right: 0, left: 0, bottom: 2,
+                                } },
+                                React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
+                                React.createElement(recharts_1.XAxis, { dataKey: "AssetCategoryID" }),
+                                React.createElement(recharts_1.YAxis, { dataKey: "AssetCount", ticks: [20, 40, 60, 80, 100], type: "number" }),
+                                React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
+                                React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "AssetCount", name: "Asset Count", fill: "#1195cc", onClick: handleClick1 }))),
+                        React.createElement("div", { className: "inner_list", id: "innerPopup" },
+                            React.createElement("div", { className: "assets-widget-list" },
+                                React.createElement("div", { className: "modal-sub_title" },
+                                    " ",
+                                    (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.AssetCategoryID) || '',
+                                    " Details"),
+                                React.createElement("div", { className: "item-list item-list-nav_half" },
+                                    React.createElement("ul", null, Object.keys(totdata2 || {}).map((m) => {
+                                        return React.createElement("li", null,
+                                            React.createElement("a", { href: URL + totdata2[m].AssetKey, target: "_blank" },
+                                                React.createElement("label", null, totdata2[m].AssetID)));
+                                    })))))))))));
 };
 const ServiceRequest = (props) => {
     let [showModal, setShowModal] = React.useState(false);
     let [modelData, setmodelData] = React.useState(null);
     let [showModal1, setShowModal1] = React.useState(false);
     let [modelData1, setmodelData1] = React.useState(null);
-    let [data, setData] = React.useState([]);
-    function getData() {
-        props.uxpContext.executeAction("ivivafacility", "WRsBySerCat", {}, { json: true }).then(res => {
-            console.log("peichart", res);
-            var updatedData = res.map((d) => {
-                d.WRCounts = parseInt(d.WRCounts);
-                return d;
-            });
-            setData(updatedData);
-        }).catch(e => {
-            // console.log("hi", e);
-        });
-    }
-    let [data1, setData1] = React.useState([]);
-    function getData1(ServiceCategoryKey) {
-        props.uxpContext.executeAction("ivivafacility", "WRCountbyZoneSerCat", { ServiceCategoryKey: ServiceCategoryKey }, { json: true }).then(res => {
-            console.log(res);
-            console.log("AssetCountbyAssCatZone");
-            setData1(res);
-        }).catch(e => {
-            //   console.log("hi", e);
-        });
-    }
-    let [data2, setData2] = React.useState([]);
-    function getData2(locationkey, ServiceCategoryKey) {
-        props.uxpContext.executeAction("ivivafacility", "WRCountbyAssetZone", { LocationKey: locationkey, ServiceCategoryKey: ServiceCategoryKey }, { json: true }).then(res => {
-            console.log("getdata2", res);
-            console.log("hello");
-            setData2(res);
-        }).catch(e => {
-            console.log("getdata2error", e);
-        });
-    }
-    React.useEffect(() => {
-        getData();
-    }, []);
+    let serviceRequestData = [
+        { "ServiceCategoryKey": "1", "ServiceCategoryName": "Electrical", "WRCounts": "5" },
+        { "ServiceCategoryKey": "2", "ServiceCategoryName": "ACMV", "WRCounts": "4" },
+        { "ServiceCategoryKey": "3", "ServiceCategoryName": "Civil", "WRCounts": "2" },
+        { "ServiceCategoryKey": "4", "ServiceCategoryName": "Access Control System", "WRCounts": "1" }
+    ];
+    let serviceRequestData1 = [
+        { "LocationKey": "3", "LocationName": "Car Park", "WRCount": "0" },
+        { "LocationKey": "6", "LocationName": "GREAT Hall", "WRCount": "8" },
+        { "LocationKey": "9", "LocationName": "NiHon Street", "WRCount": "0" },
+        { "LocationKey": "311", "LocationName": "NiHonSt", "WRCount": "10" },
+        { "LocationKey": "318", "LocationName": "PND", "WRCount": "0" },
+        { "LocationKey": "351", "LocationName": "GHALL", "WRCount": "0" }
+    ];
+    let serviceRequestData2 = [
+        { "AssetKey": "617", "AssetID": "MW WB-FCU-02-10-4", "WRCount": "1" }
+    ];
     function handleClick(node, event) {
         console.log("peChart", node, event);
         var dataset = node.data;
         var ServiceCategoryKey = dataset.ServiceCategoryKey;
         console.log(dataset);
-        getData1(ServiceCategoryKey);
         setmodelData(dataset);
         setShowModal(true);
     }
@@ -58421,70 +58414,72 @@ const ServiceRequest = (props) => {
         var ServiceCategoryKey = modelData.ServiceCategoryKey;
         var locationkey = dataset1.LocationKey;
         console.log("locationkey", locationkey, ServiceCategoryKey);
-        getData2(locationkey, ServiceCategoryKey);
         setmodelData1(dataset1);
         setShowModal1(true);
+        document.getElementById("my_Popup").classList.add("my_Popup_toggle");
+        document.getElementById("innerPopup").classList.add("inner_list_toggle");
+    }
+    function removehandleClick1(e) {
+        document.getElementById("my_Popup").classList.remove("my_Popup_toggle");
+        document.getElementById("innerPopup").classList.remove("inner_list_toggle");
     }
     return (React.createElement(React.Fragment, null,
         React.createElement(components_1.WidgetWrapper, { className: "assetage_widget" },
             React.createElement(components_1.TitleBar, { title: 'Service Requests by Categories' }, " "),
             React.createElement("div", { className: "assetage_chart", style: { width: "95%", height: "95%" } },
                 React.createElement(recharts_1.ResponsiveContainer, null,
-                    React.createElement(pie_1.ResponsivePie, { onClick: handleClick, data: data, id: "ServiceCategoryName", margin: { top: 40, right: 80, bottom: 80, left: 80 }, innerRadius: 0.5, padAngle: 0, cornerRadius: 3, colors: { scheme: "nivo" }, borderWidth: 1, borderColor: { from: "color", modifiers: [["darker", 0.2]] }, animate: true, value: "WRCounts", activeOuterRadiusOffset: 8, arcLinkLabelsSkipAngle: 10, arcLinkLabelsTextColor: "#333333", arcLinkLabelsThickness: 2, arcLinkLabelsColor: { from: 'color' }, arcLabelsSkipAngle: 10, arcLabelsTextColor: { from: 'color', modifiers: [['darker', 2]] } })),
-                React.createElement(components_1.Modal, { title: (modelData === null || modelData === void 0 ? void 0 : modelData.ServiceCategoryName) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
-                    React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
-                        React.createElement(recharts_1.BarChart, { data: data1, width: 500, height: 200 },
-                            React.createElement(recharts_1.XAxis, { type: "category", dataKey: "LocationName", style: { fontSize: 11 } }),
-                            React.createElement(recharts_1.YAxis, { dataKey: "WRCount", ticks: [10, 20, 30, 40, 50], type: "number" }),
-                            React.createElement(recharts_1.Tooltip, null),
-                            React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "WRCount", name: "WR Count", fill: "#c02b82", onClick: handleClick1 }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] })))))),
-                React.createElement(components_1.Modal, { title: (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.LocationName) || '', show: showModal1 && modelData1 != null, onOpen: () => { }, onClose: () => { setShowModal1(false); setmodelData1(null); } },
-                    React.createElement("div", { className: "assets-widget-list" },
-                        React.createElement("div", { className: "item-list" },
-                            React.createElement("ul", null, Object.keys(data2 || {}).map((m) => {
-                                return React.createElement("li", null,
-                                    React.createElement("label", null,
-                                        React.createElement("a", { href: URL + data2[m].AssetKey, target: "_blank" }, data2[m].AssetID)),
-                                    React.createElement("span", null, data2[m].WRCount));
-                            })))))))));
+                    React.createElement(pie_1.ResponsivePie, { onClick: handleClick, data: serviceRequestData, id: "ServiceCategoryName", margin: { top: 40, right: 80, bottom: 80, left: 80 }, innerRadius: 0.5, padAngle: 0, cornerRadius: 3, colors: { scheme: "nivo" }, borderWidth: 1, borderColor: { from: "color", modifiers: [["darker", 0.2]] }, animate: true, value: "WRCounts", activeOuterRadiusOffset: 8, arcLinkLabelsSkipAngle: 10, arcLinkLabelsTextColor: "#333333", arcLinkLabelsThickness: 2, arcLinkLabelsColor: { from: 'color' }, arcLabelsSkipAngle: 10, arcLabelsTextColor: { from: 'color', modifiers: [['darker', 2]] } })),
+                React.createElement(components_1.Modal, { className: "popup", title: "", show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
+                    React.createElement("div", { id: "my_Popup" },
+                        React.createElement("div", { className: "popup-modal-header" },
+                            React.createElement("div", { className: "modal-title", onClick: removehandleClick1 }, (modelData === null || modelData === void 0 ? void 0 : modelData.ServiceCategoryName) || ''),
+                            React.createElement("div", { className: "modal-sub_title" },
+                                " ",
+                                React.createElement("p", null),
+                                " ",
+                                (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.LocationName) || '')),
+                        React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
+                            React.createElement(recharts_1.BarChart, { data: serviceRequestData1, width: 500, height: 200 },
+                                React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
+                                React.createElement(recharts_1.XAxis, { type: "category", dataKey: "LocationName", style: { fontSize: 11 } }),
+                                React.createElement(recharts_1.YAxis, { dataKey: "WRCount", ticks: [10, 20, 30, 40, 50], type: "number" }),
+                                React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
+                                React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "WRCount", name: "WR Count", fill: "#c02b82", onClick: handleClick1 }, serviceRequestData1.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
+                        React.createElement("div", { className: "inner_list", id: "innerPopup" },
+                            React.createElement("div", { className: "assets-widget-list" },
+                                React.createElement("div", { className: "modal-sub_title" },
+                                    " ",
+                                    (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.LocationName) || '',
+                                    " Details"),
+                                React.createElement("div", { className: "item-list" },
+                                    React.createElement("ul", null, Object.keys(serviceRequestData2 || {}).map((m) => {
+                                        return React.createElement("li", null,
+                                            React.createElement("a", { href: URL + serviceRequestData2[m].AssetKey, target: "_blank" },
+                                                React.createElement("label", null, serviceRequestData2[m].AssetID),
+                                                React.createElement("span", null, serviceRequestData2[m].WRCount)));
+                                    })))))))))));
 };
 const WorkOrderMonth = (props) => {
     let [showModal, setShowModal] = React.useState(false);
     let [modelData, setmodelData] = React.useState(null);
     let [showModal1, setShowModal1] = React.useState(false);
     let [modelData1, setmodelData1] = React.useState(null);
-    let [data, setData] = React.useState([]);
-    function getData() {
-        props.uxpContext.executeAction("ivivafacility", "CWOPerMonthbySerCat", {}, { json: true }).then(res => {
-            console.log("red", res);
-            setData(res);
-        }).catch(e => {
-            // console.log("hi", e);
-        });
-    }
-    let [data1, setData1] = React.useState([]);
-    function getData1(ServiceCategoryKey, month) {
-        props.uxpContext.executeAction("ivivafacility", "CWOCountbyZoneSerCat", { ServiceCategoryKey: ServiceCategoryKey, month: monthFromName(month) }, { json: true }).then(res => {
-            console.log(res);
-            console.log("AssetCountbyAssCatZone");
-            setData1(res);
-        }).catch(e => {
-            //   console.log("hi", e);
-        });
-    }
-    let [data2, setData2] = React.useState([]);
-    function getData2(locationkey, ServiceCategoryKey, month) {
-        props.uxpContext.executeAction("ivivafacility", "CWOCountbyAssetZone", { LocationKey: locationkey, ServiceCategoryKey: ServiceCategoryKey, month: month }, { json: true }).then(res => {
-            console.log("getdata2", res);
-            console.log("hello");
-            setData2(res);
-        }).catch(e => {
-            console.log("getdata2error", e);
-        });
-    }
-    React.useEffect(() => {
-        getData();
-    }, []);
+    let workOrderMonthData = [
+        { "monthname": "January", "ServiceCategoryName": "Access Control System", "ServiceCategoryKey": "4", "CWOMCOUNT": "10" },
+        { "monthname": "January", "ServiceCategoryName": "ACMV", "ServiceCategoryKey": "5", "CWOMCOUNT": "0" },
+        { "monthname": "January", "ServiceCategoryName": "Audio Visual Systems", "ServiceCategoryKey": "6", "CWOMCOUNT": "8" },
+        { "monthname": "January", "ServiceCategoryName": "Building Management Systems", "ServiceCategoryKey": "7", "CWOMCOUNT": "2" },
+        { "monthname": "September", "ServiceCategoryName": "Building Security", "ServiceCategoryKey": "8", "CWOMCOUNT": "1" },
+        { "monthname": "September", "ServiceCategoryName": "CCTV", "ServiceCategoryKey": "9", "CWOMCOUNT": "10" }
+    ];
+    let workOrderMonthData1 = [
+        { "LocationKey": "3", "LocationName": "Car Park", "CWOCount": "0" },
+        { "LocationKey": "45", "LocationName": "South B", "CWOCount": "3" },
+        { "LocationKey": "311", "LocationName": "NiHonSt", "CWOCount": "10" },
+        { "LocationKey": "318", "LocationName": "PND", "CWOCount": "12" },
+        { "LocationKey": "351", "LocationName": "GHALL", "CWOCount": "0" }
+    ];
+    let workOrderMonthData2 = [{ "AssetKey": "1", "AssetID": "RAHU_001", "CWOCount": "1" }];
     function handleClick(key, e) {
         console.log("location", e);
         var dataset = e;
@@ -58493,41 +58488,23 @@ const WorkOrderMonth = (props) => {
         console.log("key12", ServiceCategoryKey);
         console.log(dataset);
         setmodelData({ payload: { monthname: month, ServiceCategoryName: key, ServiceCategoryKey }, ServiceCategoryName: key });
-        getData1(ServiceCategoryKey, month);
         setShowModal(true);
     }
     function handleClick1(e) {
         console.log("hello", e);
         var dataset1 = e;
-        // var locationkey = modelData.payload.LocationKey;
-        // var ServiceCategoryKey = e.payload.ServiceCategoryKey;
-        // var month = e.payload.monthname; 
         var locationkey = e.payload.LocationKey;
         var ServiceCategoryKey = modelData.payload.ServiceCategoryKey;
         var month = modelData.payload.monthname;
-        getData2(locationkey, ServiceCategoryKey, month);
         setmodelData1(dataset1);
         setShowModal1(true);
+        document.getElementById("my_Popup").classList.add("my_Popup_toggle");
+        document.getElementById("innerPopup").classList.add("inner_list_toggle");
     }
-    // let ChartColors = [
-    //     '#598262',
-    //     '#C2D495',
-    //     '#DE391D',
-    //     '#4E1D1B',
-    //     '#4FA77C',
-    //     '#C2D495',
-    //     '#C7A54F',
-    //     '#1D8083',
-    //     '#067E8D',
-    //     '#EAD893',
-    //     '#F34C27',
-    //     '#F1E093',
-    //     '#369F8B',
-    //     '#D4D298',
-    //     '#675180',
-    //     '#A59EAC',
-    //     '#CBD2AC', 
-    // ]
+    function removehandleClick1(e) {
+        document.getElementById("my_Popup").classList.remove("my_Popup_toggle");
+        document.getElementById("innerPopup").classList.remove("inner_list_toggle");
+    }
     let currentColor = 0;
     function nextColor() {
         currentColor++;
@@ -58556,7 +58533,7 @@ const WorkOrderMonth = (props) => {
             React.createElement(components_1.TitleBar, { title: 'Work Orders per Month' }),
             React.createElement("div", { className: "assetage_chart" },
                 React.createElement(recharts_1.ResponsiveContainer, null,
-                    React.createElement(recharts_1.BarChart, { width: 500, height: 200, data: transformData(data), margin: {
+                    React.createElement(recharts_1.BarChart, { width: 500, height: 200, data: transformData(workOrderMonthData), margin: {
                             top: 2, right: 0, left: 0, bottom: 2,
                         } },
                         React.createElement(recharts_1.Tooltip, { content: ({ active, payload, label }) => {
@@ -58570,44 +58547,52 @@ const WorkOrderMonth = (props) => {
                                 }
                                 return null;
                             } }),
+                        React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
                         React.createElement(recharts_1.XAxis, { dataKey: "monthname" }),
                         React.createElement(recharts_1.YAxis, { orientation: "left", ticks: [0, 5, 10, 15, 20, 25] }),
-                        React.createElement(recharts_1.Tooltip, null),
+                        React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
                         Object.keys(ServiceCategories).map(key => (React.createElement(recharts_1.Bar, { stackId: "a", barSize: 20, name: key, onClick: (e) => handleClick(key, e), fill: ServiceCategories[key].color, dataKey: key }))))),
-                React.createElement(components_1.Modal, { title: (modelData === null || modelData === void 0 ? void 0 : modelData.ServiceCategoryName) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
-                    React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
-                        React.createElement(recharts_1.BarChart, { data: data1, width: 500, height: 200 },
-                            React.createElement(recharts_1.XAxis, { type: "category", dataKey: "LocationName", style: { fontSize: 10 } }),
-                            React.createElement(recharts_1.YAxis, { dataKey: "LocationKey", ticks: [10, 20, 30, 40, 50], type: "number", style: { fontSize: 13 } }),
-                            React.createElement(recharts_1.Tooltip, null),
-                            React.createElement(recharts_1.Bar, { barSize: 20, name: "CWO Count", dataKey: "CWOCount", fill: "#0d998a", onClick: handleClick1 })))),
-                React.createElement(components_1.Modal, { title: (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.LocationName) || '', show: showModal1 && modelData1 != null, onOpen: () => { }, onClose: () => { setShowModal1(false); setmodelData1(null); } },
-                    React.createElement("div", { className: "assets-widget-list" },
-                        React.createElement("div", { className: "item-list" },
-                            React.createElement("ul", null, Object.keys(data2 || {}).map((m) => {
-                                return React.createElement("li", null,
-                                    React.createElement("label", null,
-                                        React.createElement("a", { href: URL + data2[m].AssetKey, target: "_blank" }, data2[m].AssetID)),
-                                    React.createElement("span", null,
-                                        " ",
-                                        data2[m].CWOCount));
-                            })))))))));
+                React.createElement(components_1.Modal, { className: "popup", title: "", show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
+                    React.createElement("div", { id: "my_Popup" },
+                        React.createElement("div", { className: "popup-modal-header" },
+                            React.createElement("div", { className: "modal-title", onClick: removehandleClick1 }, (modelData === null || modelData === void 0 ? void 0 : modelData.ServiceCategoryName) || ''),
+                            React.createElement("div", { className: "modal-sub_title" },
+                                " ",
+                                React.createElement("p", null),
+                                " ",
+                                (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.LocationName) || '')),
+                        React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
+                            React.createElement(recharts_1.BarChart, { data: workOrderMonthData1, width: 500, height: 200 },
+                                React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
+                                React.createElement(recharts_1.XAxis, { type: "category", dataKey: "LocationName", style: { fontSize: 10 } }),
+                                React.createElement(recharts_1.YAxis, { dataKey: "LocationKey", ticks: [10, 20, 30, 40, 50], type: "number", style: { fontSize: 13 } }),
+                                React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
+                                React.createElement(recharts_1.Bar, { barSize: 20, name: "CWO Count", dataKey: "CWOCount", fill: "#0d998a", onClick: handleClick1 }))),
+                        React.createElement("div", { className: "inner_list", id: "innerPopup" },
+                            React.createElement("div", { className: "assets-widget-list" },
+                                React.createElement("div", { className: "modal-sub_title" },
+                                    " ",
+                                    (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.LocationName) || '',
+                                    " Details"),
+                                React.createElement("div", { className: "item-list" },
+                                    React.createElement("ul", null, Object.keys(workOrderMonthData2 || {}).map((m) => {
+                                        return React.createElement("li", null,
+                                            React.createElement("a", { href: URL + workOrderMonthData2[m].AssetKey, target: "_blank" },
+                                                React.createElement("label", null, workOrderMonthData2[m].AssetID),
+                                                React.createElement("span", null,
+                                                    " ",
+                                                    workOrderMonthData2[m].CWOCount)));
+                                    })))))))))));
 };
 const UpcomingAssets = (props) => {
     let [startDate, setStartDate] = React.useState(new Date());
     let [endDate, setEndDate] = React.useState(addDays(90));
-    let [data, setData] = React.useState([]);
-    function getData() {
-        props.uxpContext.executeAction("ivivafacility", "UpcomingPPMAssetforMaintenance", { StartDate: startDate, EndDate: endDate }, { json: true }).then(res => {
-            console.log(res);
-            setData(res);
-        }).catch(e => {
-        });
-    }
-    React.useEffect(() => {
-        console.log("Checking", startDate);
-        getData();
-    }, [startDate, endDate]);
+    let upcomingAssetsData = [
+        { "AssetKey": 11, "AssetID": "MW SA- AHU 3-5", "AWOKey": 24, "AWONo": "PWO20210831024", "TargetStartDate": "2021-09-03T02:00:00.000Z" },
+        { "AssetKey": 12, "AssetID": "MW NA- AHU 3-N1", "AWOKey": 24, "AWONo": "PWO20210831024", "TargetStartDate": "2021-09-03T02:00:00.000Z" },
+        { "AssetKey": 9, "AssetID": "MW SA- AHU 3-3", "AWOKey": 24, "AWONo": "PWO20210831024", "TargetStartDate": "2021-09-03T02:00:00.000Z" },
+        { "AssetKey": 10, "AssetID": "MW SA- AHU 3-4", "AWOKey": 24, "AWONo": "PWO20210831024", "TargetStartDate": "2021-09-03T02:00:00.000Z" }
+    ];
     function parseDate(date) {
         var currentTime = new Date(date);
         var month = ("0" + (currentTime.getMonth() + 1)).slice(-2);
@@ -58623,59 +58608,48 @@ const UpcomingAssets = (props) => {
         result.setDate(result.getDate() + days);
         return result;
     }
+    let [inputValue, setInputValue] = React.useState("sample text");
+    let [selected, setSelected] = React.useState("op-1");
     return (React.createElement(components_1.WidgetWrapper, { className: "assets-widget-list" },
         React.createElement(components_1.TitleBar, { title: 'Upcoming Assets for Maintenance' },
-            React.createElement(components_1.DateRangePicker, { title: "", startDate: startDate, endDate: endDate, closeOnSelect: true, onChange: (newStart, newEnd) => { setStartDate(newStart); setEndDate(newEnd); } })),
+            React.createElement(components_1.FilterPanel, { enableClear: (inputValue === null || inputValue === void 0 ? void 0 : inputValue.length) > 0 || selected != null, onClear: () => { setInputValue(""); setSelected(null); } },
+                React.createElement(components_1.FormField, { className: "no-padding mb-only" },
+                    React.createElement(components_1.DateRangePicker, { title: "", startDate: startDate, endDate: endDate, closeOnSelect: true, onChange: (newStart, newEnd) => { setStartDate(newStart); setEndDate(newEnd); } })))),
         React.createElement("div", { className: "item-list" },
-            React.createElement("ul", null, data.map((item) => (React.createElement("li", { key: item.AssetID },
-                React.createElement("label", null,
-                    React.createElement("a", { href: URL + item.AssetKey, target: "_blank" }, item.AssetID)),
-                React.createElement("span", null, parseDate(item.TargetStartDate)))))))));
+            React.createElement("ul", null, upcomingAssetsData.map((item) => (React.createElement("li", { key: item.AssetID },
+                React.createElement("a", { href: URL + item.AssetKey, target: "_blank" },
+                    React.createElement("label", null, item.AssetID),
+                    React.createElement("span", null, parseDate(item.TargetStartDate))))))))));
 };
 const ProblematicAssets = (props) => {
-    let [data, setData] = React.useState([]);
-    function getData() {
-        props.uxpContext.executeAction("ivivafacility", "TopProblematicAssets", {}, { json: true }).then(res => {
-            console.log(res);
-            setData(res);
-        }).catch(e => {
-        });
-    }
-    React.useEffect(() => {
-        getData();
-    }, []);
+    let problematicAssetsData = [{ "AssetKey": "1", "AssetID": "RAHU_001", "TotalCases": "1" }];
     return (React.createElement(components_1.WidgetWrapper, { className: "assets-widget-list" },
         React.createElement(components_1.TitleBar, { title: 'Top 5 Highest CWO/WR per Asset' }),
         React.createElement("div", { className: "item-list" },
-            React.createElement("ul", null, data.map((item) => (React.createElement("li", { key: item.AssetID },
-                React.createElement("label", null,
-                    React.createElement("a", { href: URL + item.AssetKey, target: "_blank" }, item.AssetID)),
-                React.createElement("span", null, item.TotalCases))))))));
+            React.createElement("ul", null, problematicAssetsData.map((item) => (React.createElement("li", { key: item.AssetID },
+                React.createElement("a", { href: URL + item.AssetKey, target: "_blank" },
+                    React.createElement("label", null, item.AssetID),
+                    React.createElement("span", null, item.TotalCases)))))))));
 };
 const TopAgedAssets = (props) => {
-    let [data, setData] = React.useState([]);
-    function getData() {
-        props.uxpContext.executeAction("ivivafacility", "TopAgedAssets", {}, { json: true }).then(res => {
-            console.log(res);
-            setData(res);
-        }).catch(e => {
-            // console.log("hi", e);
-        });
-    }
-    React.useEffect(() => {
-        getData();
-    }, []);
+    let topAgedAssetsData = [
+        { "AssetKey": "7", "AssetID": "MW SA- AHU 3-1", "InstalledDate": "19960101:000000", "InstalledLocationKey": "301", "AssetCategoryKey": "5", "AssetGroupKey": "1", "CurrentDate": "20210831:073020", "Age": "25" },
+        { "AssetKey": "6", "AssetID": "MW SA- AHU 2-3", "InstalledDate": "19960101:000000", "InstalledLocationKey": "298", "AssetCategoryKey": "5", "AssetGroupKey": "1", "CurrentDate": "20210831:073020", "Age": "25" },
+        { "AssetKey": "5", "AssetID": "MW SA- AHU 2-2", "InstalledDate": "19960101:000000", "InstalledLocationKey": "298", "AssetCategoryKey": "5", "AssetGroupKey": "1", "CurrentDate": "20210831:073020", "Age": "25" },
+        { "AssetKey": "4", "AssetID": "MW SA- AHU 2-1", "InstalledDate": "19960101:000000", "InstalledLocationKey": "298", "AssetCategoryKey": "5", "AssetGroupKey": "1", "CurrentDate": "20210831:073020", "Age": "25" },
+        { "AssetKey": "3", "AssetID": "MW SA- AHU 1-2", "InstalledDate": "19960101:000000", "InstalledLocationKey": "296", "AssetCategoryKey": "5", "AssetGroupKey": "1", "CurrentDate": "20210831:073020", "Age": "25" }
+    ];
     return (React.createElement(components_1.WidgetWrapper, { className: "assets-widget-list" },
         React.createElement(components_1.TitleBar, { title: 'Top 5 Aged Assets' }),
         React.createElement("div", { className: "item-list" },
-            React.createElement("ul", null, data.map((item) => (React.createElement("li", { key: item.AssetID },
-                React.createElement("label", null,
-                    React.createElement("a", { href: URL + item.AssetKey, target: "_blank" }, item.AssetID)),
-                React.createElement("span", null,
-                    item.Age,
-                    " ",
-                    React.createElement("em", { className: "years" }, "YRS"),
-                    " "))))))));
+            React.createElement("ul", null, topAgedAssetsData.map((item) => (React.createElement("li", { key: item.AssetID },
+                React.createElement("a", { href: URL + item.AssetKey, target: "_blank" },
+                    React.createElement("label", null, item.AssetID),
+                    React.createElement("span", null,
+                        item.Age,
+                        " ",
+                        React.createElement("em", { className: "years" }, "YRS"),
+                        " ")))))))));
 };
 /**
  * Register as a Widget
@@ -58939,12 +58913,12 @@ exports.registerUI = registerUI;
 
 /***/ 0:
 /*!*******************************************************************************!*\
-  !*** multi (webpack)-dev-server/client?http://localhost:8080 ./src/index.tsx ***!
+  !*** multi (webpack)-dev-server/client?http://localhost:8088 ./src/index.tsx ***!
   \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Udhay Project files\Project-2021\pontiacland\node_modules\webpack-dev-server\client\index.js?http://localhost:8080 */"./node_modules/webpack-dev-server/client/index.js?http://localhost:8080");
+__webpack_require__(/*! D:\Udhay Project files\Project-2021\pontiacland\node_modules\webpack-dev-server\client\index.js?http://localhost:8088 */"./node_modules/webpack-dev-server/client/index.js?http://localhost:8088");
 module.exports = __webpack_require__(/*! ./src/index.tsx */"./src/index.tsx");
 
 
