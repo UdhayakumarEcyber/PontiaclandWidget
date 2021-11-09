@@ -57201,9 +57201,9 @@ module.exports = /*#__PURE__*/function (_BaseClient) {
 
 /***/ }),
 
-/***/ "./node_modules/webpack-dev-server/client/index.js?http://localhost:8088":
+/***/ "./node_modules/webpack-dev-server/client/index.js?http://localhost:8080":
 /*!*********************************************************!*\
-  !*** (webpack)-dev-server/client?http://localhost:8088 ***!
+  !*** (webpack)-dev-server/client?http://localhost:8080 ***!
   \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -57385,7 +57385,7 @@ var onSocketMessage = {
   }
 };
 socket(socketUrl, onSocketMessage);
-/* WEBPACK VAR INJECTION */}.call(this, "?http://localhost:8088"))
+/* WEBPACK VAR INJECTION */}.call(this, "?http://localhost:8080"))
 
 /***/ }),
 
@@ -58093,15 +58093,23 @@ function monthFromName(name) {
     return i + 1;
 }
 const AverageAsset = (props) => {
-    const assetagedata = {
-        "AssetAge": 12
-    };
+    let [data, setData] = React.useState([]);
+    function getData() {
+        props.uxpContext.executeAction("ivivafacility", "AssetAgebyBuilding", {}, { json: true }).then(res => {
+            setData(res[0]);
+        }).catch(e => {
+            // console.log("hi", e);
+        });
+    }
+    React.useEffect(() => {
+        getData();
+    }, []);
     return (React.createElement(components_1.WidgetWrapper, { className: "average_asset" },
-        React.createElement(components_1.TitleBar, { title: '' }),
+        React.createElement(components_1.TitleBar, { title: 'Average age of Assets' }),
         React.createElement("div", { className: "average-asset-data" },
-            React.createElement("h4", null, "AVERAGE ASSETS AGE "),
+            React.createElement("h4", null, "Average age "),
             React.createElement("h3", null,
-                assetagedata.AssetAge,
+                data.AssetAge,
                 React.createElement("em", { className: "years" }, "YRS")))));
 };
 const AssetAge = (props) => {
@@ -58109,34 +58117,56 @@ const AssetAge = (props) => {
     let [modelData, setmodelData] = React.useState(null);
     let [showModal1, setShowModal1] = React.useState(false);
     let [modelData1, setmodelData1] = React.useState(null);
-    let AssetAge = [
-        { "LocationKey": "3", "LocationName": "Car Park", "AssetAge": "120" },
-        { "LocationKey": "20", "LocationName": "North A", "AssetAge": "1" },
-        { "LocationKey": "25", "LocationName": "North B", "AssetAge": "2" },
-        { "LocationKey": "45", "LocationName": "South B", "AssetAge": "11" },
-        { "LocationKey": "311", "LocationName": "NiHonSt", "AssetAge": "12" }
-    ];
-    let AssetAge1 = [
-        { "AssetCategoryKey": "1", "AssetCategoryID": "FCU", "AssetAge": "0" },
-        { "AssetCategoryKey": "5", "AssetCategoryID": "AHU", "AssetAge": "1" },
-        { "AssetCategoryKey": "6", "AssetCategoryID": "PAHU", "AssetAge": "1" },
-        { "AssetCategoryKey": "7", "AssetCategoryID": "DX", "AssetAge": "0" },
-        { "AssetCategoryKey": "8", "AssetCategoryID": "PAU", "AssetAge": "0" }
-    ];
-    let AssetAge2 = [
-        { "AssetKey": "12", "AssetID": "MW NA- AHU 3-N1", "AssetAge": "1" },
-        { "AssetKey": "13", "AssetID": "MW NA- AHU 3-N2", "AssetAge": "1" },
-        { "AssetKey": "458", "AssetID": "MW NA-AHU 3-N1", "AssetAge": "1" },
-        { "AssetKey": "459", "AssetID": "MW NA-AHU 3-N2", "AssetAge": "1" }
-    ];
+    let [showLinkWidget, setShowLinkWidget] = React.useState(false);
+    let [inkWidgetmodelData, inkWidgetsetmodelData] = React.useState(null);
+    let [data, setData] = React.useState([]);
+    function getData() {
+        props.uxpContext.executeAction("ivivafacility", "AssetAgeinZone", {}, { json: true }).then(res => {
+            console.log("red", res);
+            setData(res);
+        }).catch(e => {
+            // console.log("hi", e);
+        });
+    }
+    let [data1, setData1] = React.useState([]);
+    function getData1(LocationKey) {
+        props.uxpContext.executeAction("ivivafacility", "AveAssetAgeinZonebyAssCat", { LocationKey: LocationKey }, { json: true }).then(res => {
+            console.log(res);
+            console.log("AveAssetAgeinZonebyAssCat");
+            setData1(res);
+        }).catch(e => {
+            //   console.log("hi", e);
+        });
+    }
+    let [data2, setData2] = React.useState([]);
+    function getData2(LocationKey, AssetCategoryKey) {
+        props.uxpContext.executeAction("ivivafacility", "AssetAgeinZonebyAssCat", { LocationKey: LocationKey, AssetCategoryKey: AssetCategoryKey }, { json: true }).then(res => {
+            console.log("getdata2", res);
+            console.log("hello");
+            setData2(res);
+        }).catch(e => {
+            console.log("getdata2error", e);
+        });
+    }
+    React.useEffect(() => {
+        getData();
+    }, []);
     function handleClick(e) {
         console.log("location", e);
         var dataset = e;
         var LocationKey = e.payload.LocationKey;
         var LocationName = e.payload.LocationName;
+        console.log("key12", LocationKey);
         console.log(dataset);
+        getData1(LocationKey);
         setmodelData(dataset);
         setShowModal(true);
+        //  inkWidgetsetmodelData(dataset); 
+        //  setShowLinkWidget(true);
+        // let [showModal, setShowModal] = React.useState(false);  
+        // let[modelData, setmodelData] = React.useState<any>(null);  
+        // let [showLinkWidget, setShowLinkWidget] = React.useState(false);
+        // let[inkWidgetmodelData, inkWidgetsetmodelData] = React.useState<any>(null);  
     }
     function handleClick1(e) {
         console.log("hello", e);
@@ -58144,9 +58174,12 @@ const AssetAge = (props) => {
         var AssetAge = e.payload.AssetAge;
         var AssetCategoryKey = e.payload.AssetCategoryKey;
         var LocationKey = modelData.payload.LocationKey;
+        console.log("locationkey", LocationKey, AssetCategoryKey);
+        // console.log(dataset1); 
+        getData2(LocationKey, AssetCategoryKey);
         setmodelData1(dataset1);
+        // console.log(dataset1);
         setShowModal1(true);
-        //className1 += ' inner_list_toggle'; 
         document.getElementById("my_Popup").classList.add("my_Popup_toggle");
         document.getElementById("innerPopup").classList.add("inner_list_toggle");
     }
@@ -58154,26 +58187,19 @@ const AssetAge = (props) => {
         document.getElementById("my_Popup").classList.remove("my_Popup_toggle");
         document.getElementById("innerPopup").classList.remove("inner_list_toggle");
     }
-    let MAX = 120;
-    const tickArray = [0, Math.trunc(MAX / 4), Math.trunc(MAX / 2), Math.trunc(3 * MAX / 4), MAX];
-    // const tickFormat = (x:any) => {
-    //     if (x === 0) return 'START';
-    //     if (x === 180) return 'END';
-    //     return x;
-    //    };
     return (React.createElement(React.Fragment, null,
         React.createElement(components_1.WidgetWrapper, { className: "assetage_widget" },
             React.createElement(components_1.TitleBar, { title: 'Asset Age by Location (Zones)' }, " "),
             React.createElement("div", { className: "assetage_chart" },
                 React.createElement(recharts_1.ResponsiveContainer, { width: "100%" },
-                    React.createElement(recharts_1.BarChart, { width: 500, height: 200, data: AssetAge, margin: {
+                    React.createElement(recharts_1.BarChart, { width: 500, height: 200, data: data, margin: {
                             top: 2, right: 0, left: 0, bottom: 2,
                         } },
                         React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
                         React.createElement(recharts_1.XAxis, { dataKey: "LocationName", name: "Location Name" }),
-                        React.createElement(recharts_1.YAxis, { type: "number", ticks: tickArray, tickCount: 3, interval: 0 }),
+                        React.createElement(recharts_1.YAxis, { ticks: [30, 60, 90], type: "number" }),
                         React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
-                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, name: "Asset Age", dataKey: "AssetAge", fill: "#FF8181" }, AssetAge.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
+                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, "data-value": "link-widget-container", name: "Asset Age", dataKey: "AssetAge", fill: "#FF8181" }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
                 React.createElement(components_1.Modal, { className: "popup", title: "", show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
                     React.createElement("div", { id: "my_Popup" },
                         React.createElement("div", { className: "popup-modal-header" },
@@ -58184,11 +58210,7 @@ const AssetAge = (props) => {
                                 " ",
                                 (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.AssetCategoryID) || '')),
                         React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
-                            React.createElement(recharts_1.BarChart
-                            //  layout="vertical" 
-                            , { 
-                                //  layout="vertical" 
-                                width: 500, height: 200, data: AssetAge1, margin: {
+                            React.createElement(recharts_1.BarChart, { width: 500, height: 200, data: data1, margin: {
                                     top: 2, right: 0, left: 0, bottom: 2,
                                 } },
                                 React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
@@ -58198,46 +58220,50 @@ const AssetAge = (props) => {
                                 React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "AssetAge", name: "Average Age", fill: "#0d998a", onClick: handleClick1 }))),
                         React.createElement("div", { className: "inner_list", id: "innerPopup" },
                             React.createElement("div", { className: "assets-widget-list" },
-                                React.createElement("div", { className: "modal-sub_title" },
-                                    " ",
-                                    (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.AssetCategoryID) || '',
-                                    " Details"),
                                 React.createElement("div", { className: "item-list" },
-                                    React.createElement("ul", null, Object.keys(AssetAge2 || {}).map((m) => {
+                                    React.createElement("ul", null, Object.keys(data2 || {}).map((m) => {
                                         return React.createElement("li", null,
-                                            React.createElement("a", { href: URL + AssetAge2[m].AssetKey, target: "_blank" },
-                                                React.createElement("label", null, AssetAge2[m].AssetID),
-                                                React.createElement("span", null,
-                                                    " ",
-                                                    AssetAge2[m].AssetAge,
-                                                    " ",
-                                                    React.createElement("em", { className: "years" }, "YRS"))));
+                                            React.createElement("label", null,
+                                                React.createElement("a", { href: URL + data2[m].AssetKey, target: "_blank" }, data2[m].AssetID)),
+                                            React.createElement("span", null,
+                                                " ",
+                                                data2[m].AssetAge,
+                                                " ",
+                                                React.createElement("em", { className: "years" }, "YRS")));
                                     })))))))))));
 };
 const MaintenanceDetails = (props) => {
-    let maintenanceData = [
-        { "MWOKey": 6, "MWOCode": "AHU-MW-03", "AWOKey": 24, "AWONo": "PWO20210831024", "TargetStartDate": "2021-09-03T02:00:00.000Z" }
-    ];
-    let maintenanceData1 = [{ "AssetKey": "11", "AssetID": "MW SA- AHU 3-5" },
-        { "AssetKey": "12", "AssetID": "MW NA- AHU 3-N1" },
-        { "AssetKey": "9", "AssetID": "MW SA- AHU 3-3" },
-        { "AssetKey": "10", "AssetID": "MW SA- AHU 3-4" }];
     let [showModal, setShowModal] = React.useState(false);
     let [modelData, setmodelData] = React.useState(null);
+    let [data, setData] = React.useState([]);
+    function getData() {
+        props.uxpContext.executeAction("ivivafacility", "UpcomingPPMWOs", {}, { json: true }).then(res => {
+            console.log("UpcomingPPMWOs", res);
+            setData(res);
+        }).catch(e => {
+        });
+    }
+    React.useEffect(() => {
+        getData();
+    }, []);
+    let [data1, setData1] = React.useState([]);
+    function getData1(AWOKey) {
+        props.uxpContext.executeAction("ivivafacility", "PPMWOAssets", { AWOKey: AWOKey }, { json: true }).then(res => {
+            console.log("PPMWOAssets", res);
+            setData1(res);
+        }).catch(e => {
+            //   console.log("hi", e);
+        });
+    }
     function handleClick(e) {
         console.log("assetAWOKeyvalue", e);
         var dataset = e;
         var AWOKey = e.AWOKey;
         console.log("key12", AWOKey);
         console.log("assetAWOKey", dataset);
+        getData1(AWOKey);
         setmodelData(dataset);
         setShowModal(true);
-        document.getElementById("my_Popup").classList.add("my_Popup_toggle");
-        // document.getElementById("innerPopup").classList.add("inner_list_toggle");
-    }
-    function removehandleClick1(e) {
-        document.getElementById("my_Popup").classList.remove("my_Popup_toggle");
-        // document.getElementById("innerPopup").classList.remove("inner_list_toggle"); 
     }
     function parseDate(date) {
         var currentTime = new Date(date);
@@ -58260,28 +58286,56 @@ const MaintenanceDetails = (props) => {
                                 { label: "Millenia Walk 1", value: "op-2" },
                             ], onChange: (value) => { setSelected(value); }, placeholder: " -- select --", isValid: selected ? (selected === null || selected === void 0 ? void 0 : selected.length) > 0 : null })))),
             React.createElement("div", { className: "item-list" },
-                React.createElement("ul", null, maintenanceData.map((item) => (React.createElement(React.Fragment, null,
-                    React.createElement("li", { key: item.MWOKey },
-                        React.createElement("a", { onClick: () => { handleClick(item); } },
-                            React.createElement("label", null, item.MWOCode),
-                            React.createElement("span", null, parseDate(item.TargetStartDate))))))))),
+                React.createElement("ul", null, data.map((item) => (React.createElement(React.Fragment, null,
+                    React.createElement("li", { key: item.MWOKey, onClick: () => { handleClick(item); } },
+                        React.createElement("label", null, item.MWOCode),
+                        React.createElement("span", null, parseDate(item.TargetStartDate)))))))),
             React.createElement(components_1.Modal, { className: "popup", title: (modelData === null || modelData === void 0 ? void 0 : modelData.MWOCode) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
-                React.createElement("div", { id: "my_Popup" },
-                    React.createElement("div", { className: "popup-modal-header" },
-                        React.createElement("div", { className: "modal-title", onClick: removehandleClick1 }, (modelData === null || modelData === void 0 ? void 0 : modelData.LocationName) || '')),
-                    React.createElement("div", { className: "assets-widget-list details_widget-list" },
-                        React.createElement("div", { className: "item-list", style: { backgroundColor: "transparent" } },
-                            React.createElement("ul", null, Object.keys(maintenanceData1 || {}).map((m) => {
-                                return React.createElement("li", { style: { width: "100%" } },
-                                    React.createElement("a", { href: URL + maintenanceData1[m].AssetKey, target: "_blank" },
-                                        React.createElement("label", null, maintenanceData1[m].AssetID)));
-                            })))))))));
+                React.createElement("div", { className: "assets-widget-list" },
+                    React.createElement("div", { className: "item-list" },
+                        React.createElement("ul", null, Object.keys(data1 || {}).map((m) => {
+                            return React.createElement("li", null,
+                                React.createElement("label", null,
+                                    React.createElement("a", { href: URL + data1[m].AssetKey, target: "_blank" }, data1[m].AssetID)));
+                        }))))))));
 };
 const TotalNumber = (props) => {
     let [showModal, setShowModal] = React.useState(false);
     let [modelData, setmodelData] = React.useState(null);
     let [showModal1, setShowModal1] = React.useState(false);
     let [modelData1, setmodelData1] = React.useState(null);
+    let [data, setData] = React.useState([]);
+    function getData() {
+        props.uxpContext.executeAction("ivivafacility", "AssetCountbyZone", {}, { json: true }).then(res => {
+            console.log("red", res);
+            setData(res);
+        }).catch(e => {
+            // console.log("hi", e);
+        });
+    }
+    let [data1, setData1] = React.useState([]);
+    function getData1(locationKey) {
+        props.uxpContext.executeAction("ivivafacility", "AssetCountbyAssCatZone", { locationKey: locationKey }, { json: true }).then(res => {
+            console.log(res);
+            console.log("AssetCountbyAssCatZone");
+            setData1(res);
+        }).catch(e => {
+            //   console.log("hi", e);
+        });
+    }
+    let [data2, setData2] = React.useState([]);
+    function getData2(LocationKey, AssetCategoryKey) {
+        props.uxpContext.executeAction("ivivafacility", "AssetAgeinZonebyAssCat", { LocationKey: LocationKey, AssetCategoryKey: AssetCategoryKey }, { json: true }).then(res => {
+            console.log("getdata2", res);
+            console.log("hello");
+            setData2(res);
+        }).catch(e => {
+            console.log("getdata2error", e);
+        });
+    }
+    React.useEffect(() => {
+        getData();
+    }, []);
     function handleClick(e) {
         console.log("location", e);
         var dataset = e;
@@ -58289,6 +58343,7 @@ const TotalNumber = (props) => {
         var locationName = e.payload.LocationName;
         console.log("key12", LocationKey);
         console.log(dataset);
+        getData1(LocationKey);
         setmodelData(dataset);
         setShowModal(true);
     }
@@ -58299,112 +58354,95 @@ const TotalNumber = (props) => {
         var AssetCategoryKey = e.payload.AssetCategoryKey;
         var locationkey = modelData.payload.LocationKey;
         console.log("locationkey", locationkey, AssetCategoryKey);
+        // console.log(dataset1); 
+        getData2(locationkey, AssetCategoryKey);
         setmodelData1(dataset1);
+        // console.log(dataset1);
         setShowModal1(true);
-        document.getElementById("my_Popup").classList.add("my_Popup_toggle");
-        document.getElementById("innerPopup").classList.add("inner_list_toggle");
     }
-    function removehandleClick1(e) {
-        document.getElementById("my_Popup").classList.remove("my_Popup_toggle");
-        document.getElementById("innerPopup").classList.remove("inner_list_toggle");
-    }
-    let totdata = [
-        { "LocationKey": "3", "LocationName": "Car Park", "AssetCount": "0" },
-        { "LocationKey": "20", "LocationName": "North A", "AssetCount": "81" },
-        { "LocationKey": "25", "LocationName": "North B", "AssetCount": "53" },
-        { "LocationKey": "28", "LocationName": "Park n Dine", "AssetCount": "0" },
-        { "LocationKey": "318", "LocationName": "PND", "AssetCount": "65" },
-        { "LocationKey": "351", "LocationName": "GHALL", "AssetCount": "6" }
-    ];
-    let totdata1 = [
-        { "AssetCategoryKey": "1", "AssetCategoryID": "FCU", "AssetCount": "73" },
-        { "AssetCategoryKey": "5", "AssetCategoryID": "AHU", "AssetCount": "4" },
-        { "AssetCategoryKey": "6", "AssetCategoryID": "PAHU", "AssetCount": "4" },
-        { "AssetCategoryKey": "7", "AssetCategoryID": "DX", "AssetCount": "0" },
-        { "AssetCategoryKey": "8", "AssetCategoryID": "PAU", "AssetCount": "0" }
-    ];
-    let totdata2 = [
-        { "AssetKey": "173", "AssetID": "MW NA- FCU 01 - 329" },
-        { "AssetKey": "174", "AssetID": "MW NA- FCU 01 - 328" },
-        { "AssetKey": "468", "AssetID": "MW NA-FCU 01-328" },
-        { "AssetKey": "469", "AssetID": "MW NA-FCU 01-329" },
-        { "AssetKey": "466", "AssetID": "MW NA-FCU 01-326" },
-        { "AssetKey": "175", "AssetID": "MW NA- FCU 01 - 326" },
-        { "AssetKey": "460", "AssetID": "MW NA-FCU 01-102" },
-        { "AssetKey": "464", "AssetID": "MW NA-FCU 01-316" },
-        { "AssetKey": "471", "AssetID": "MW NA-FCU 01-345" }
-    ];
     return (React.createElement(React.Fragment, null,
         React.createElement(components_1.WidgetWrapper, { className: "assetage_widget" },
             React.createElement(components_1.TitleBar, { title: 'Total Number of Asset by Location (Zone)' }),
             React.createElement("div", { className: "assetage_chart" },
                 React.createElement(recharts_1.ResponsiveContainer, { width: "100%" },
-                    React.createElement(recharts_1.BarChart, { width: 800, height: 1200, data: totdata, margin: {
+                    React.createElement(recharts_1.BarChart, { width: 800, height: 1200, data: data, margin: {
                             top: 2, right: 0, left: 0, bottom: 2,
                         } },
                         React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
                         React.createElement(recharts_1.XAxis, { type: "category", dataKey: "LocationName", name: "Location Name" }),
                         React.createElement(recharts_1.YAxis, { ticks: [30, 60, 90, 120, 150], type: "number" }),
                         React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
-                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, name: "Asset Count", dataKey: "AssetCount", fill: "#0d998a" }, totdata.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
-                React.createElement(components_1.Modal, { className: "popup", title: "", show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
-                    React.createElement("div", { id: "my_Popup" },
-                        React.createElement("div", { className: "popup-modal-header" },
-                            React.createElement("div", { className: "modal-title", onClick: removehandleClick1 }, (modelData === null || modelData === void 0 ? void 0 : modelData.LocationName) || ''),
-                            React.createElement("div", { className: "modal-sub_title" },
-                                " ",
-                                React.createElement("p", null),
-                                " ",
-                                (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.AssetCategoryID) || '')),
-                        React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
-                            React.createElement(recharts_1.BarChart, { width: 500, height: 200, data: totdata1, margin: {
-                                    top: 2, right: 0, left: 0, bottom: 2,
-                                } },
-                                React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
-                                React.createElement(recharts_1.XAxis, { dataKey: "AssetCategoryID" }),
-                                React.createElement(recharts_1.YAxis, { dataKey: "AssetCount", ticks: [20, 40, 60, 80, 100], type: "number" }),
-                                React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
-                                React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "AssetCount", name: "Asset Count", fill: "#1195cc", onClick: handleClick1 }))),
-                        React.createElement("div", { className: "inner_list", id: "innerPopup" },
-                            React.createElement("div", { className: "assets-widget-list" },
-                                React.createElement("div", { className: "modal-sub_title" },
-                                    " ",
-                                    (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.AssetCategoryID) || '',
-                                    " Details"),
-                                React.createElement("div", { className: "item-list item-list-nav_half" },
-                                    React.createElement("ul", null, Object.keys(totdata2 || {}).map((m) => {
-                                        return React.createElement("li", null,
-                                            React.createElement("a", { href: URL + totdata2[m].AssetKey, target: "_blank" },
-                                                React.createElement("label", null, totdata2[m].AssetID)));
-                                    })))))))))));
+                        React.createElement(recharts_1.Bar, { barSize: 20, onClick: handleClick, name: "Asset Count", dataKey: "AssetCount", fill: "#0d998a" }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
+                React.createElement(components_1.Modal, { className: "popup", title: (modelData === null || modelData === void 0 ? void 0 : modelData.LocationName) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
+                    React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
+                        React.createElement(recharts_1.BarChart
+                        //  layout="vertical" 
+                        , { 
+                            //  layout="vertical" 
+                            width: 500, height: 200, data: data1, margin: {
+                                top: 2, right: 0, left: 0, bottom: 2,
+                            } },
+                            React.createElement(recharts_1.XAxis, { dataKey: "AssetCategoryID" }),
+                            React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
+                            React.createElement(recharts_1.YAxis, { dataKey: "AssetCount", ticks: [20, 40, 60, 80, 100], type: "number" }),
+                            React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
+                            React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "AssetCount", name: "Asset Count", fill: "#1195cc", onClick: handleClick1 })))),
+                React.createElement(components_1.Modal, { className: "popup_inner", title: (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.AssetCategoryID) || '', show: showModal1 && modelData1 != null, onOpen: () => { }, onClose: () => { setShowModal1(false); setmodelData1(null); } },
+                    React.createElement("div", { className: "assets-widget-list" },
+                        React.createElement("div", { className: "item-list item-list-nav_half" },
+                            React.createElement("ul", null, Object.keys(data2 || {}).map((m) => {
+                                return React.createElement("li", null,
+                                    React.createElement("label", null,
+                                        React.createElement("a", { href: URL + data2[m].AssetKey, target: "_blank" }, data2[m].AssetID)));
+                            })))))))));
 };
 const ServiceRequest = (props) => {
     let [showModal, setShowModal] = React.useState(false);
     let [modelData, setmodelData] = React.useState(null);
     let [showModal1, setShowModal1] = React.useState(false);
     let [modelData1, setmodelData1] = React.useState(null);
-    let serviceRequestData = [
-        { "ServiceCategoryKey": "1", "ServiceCategoryName": "Electrical", "WRCounts": "5" },
-        { "ServiceCategoryKey": "2", "ServiceCategoryName": "ACMV", "WRCounts": "4" },
-        { "ServiceCategoryKey": "3", "ServiceCategoryName": "Civil", "WRCounts": "2" },
-        { "ServiceCategoryKey": "4", "ServiceCategoryName": "Access Control System", "WRCounts": "1" }
-    ];
-    let serviceRequestData1 = [
-        { "LocationKey": "3", "LocationName": "Car Park", "WRCount": "0" },
-        { "LocationKey": "6", "LocationName": "GREAT Hall", "WRCount": "8" },
-        { "LocationKey": "9", "LocationName": "NiHon Street", "WRCount": "0" },
-        { "LocationKey": "311", "LocationName": "NiHonSt", "WRCount": "10" },
-        { "LocationKey": "318", "LocationName": "PND", "WRCount": "0" },
-        { "LocationKey": "351", "LocationName": "GHALL", "WRCount": "0" }
-    ];
-    let serviceRequestData2 = [
-        { "AssetKey": "617", "AssetID": "MW WB-FCU-02-10-4", "WRCount": "1" }
-    ];
+    let [data, setData] = React.useState([]);
+    function getData() {
+        props.uxpContext.executeAction("ivivafacility", "WRsBySerCat", {}, { json: true }).then(res => {
+            console.log("peichart", res);
+            var updatedData = res.map((d) => {
+                d.WRCounts = parseInt(d.WRCounts);
+                return d;
+            });
+            setData(updatedData);
+        }).catch(e => {
+            // console.log("hi", e);
+        });
+    }
+    let [data1, setData1] = React.useState([]);
+    function getData1(ServiceCategoryKey) {
+        props.uxpContext.executeAction("ivivafacility", "WRCountbyZoneSerCat", { ServiceCategoryKey: ServiceCategoryKey }, { json: true }).then(res => {
+            console.log(res);
+            console.log("AssetCountbyAssCatZone");
+            setData1(res);
+        }).catch(e => {
+            //   console.log("hi", e);
+        });
+    }
+    let [data2, setData2] = React.useState([]);
+    function getData2(locationkey, ServiceCategoryKey) {
+        props.uxpContext.executeAction("ivivafacility", "WRCountbyAssetZone", { LocationKey: locationkey, ServiceCategoryKey: ServiceCategoryKey }, { json: true }).then(res => {
+            console.log("getdata2", res);
+            console.log("hello");
+            setData2(res);
+        }).catch(e => {
+            console.log("getdata2error", e);
+        });
+    }
+    React.useEffect(() => {
+        getData();
+    }, []);
     function handleClick(node, event) {
         console.log("peChart", node, event);
         var dataset = node.data;
         var ServiceCategoryKey = dataset.ServiceCategoryKey;
         console.log(dataset);
+        getData1(ServiceCategoryKey);
         setmodelData(dataset);
         setShowModal(true);
     }
@@ -58414,72 +58452,71 @@ const ServiceRequest = (props) => {
         var ServiceCategoryKey = modelData.ServiceCategoryKey;
         var locationkey = dataset1.LocationKey;
         console.log("locationkey", locationkey, ServiceCategoryKey);
+        getData2(locationkey, ServiceCategoryKey);
         setmodelData1(dataset1);
         setShowModal1(true);
-        document.getElementById("my_Popup").classList.add("my_Popup_toggle");
-        document.getElementById("innerPopup").classList.add("inner_list_toggle");
-    }
-    function removehandleClick1(e) {
-        document.getElementById("my_Popup").classList.remove("my_Popup_toggle");
-        document.getElementById("innerPopup").classList.remove("inner_list_toggle");
     }
     return (React.createElement(React.Fragment, null,
         React.createElement(components_1.WidgetWrapper, { className: "assetage_widget" },
             React.createElement(components_1.TitleBar, { title: 'Service Requests by Categories' }, " "),
             React.createElement("div", { className: "assetage_chart", style: { width: "95%", height: "95%" } },
                 React.createElement(recharts_1.ResponsiveContainer, null,
-                    React.createElement(pie_1.ResponsivePie, { onClick: handleClick, data: serviceRequestData, id: "ServiceCategoryName", margin: { top: 40, right: 80, bottom: 80, left: 80 }, innerRadius: 0.5, padAngle: 0, cornerRadius: 3, colors: { scheme: "nivo" }, borderWidth: 1, borderColor: { from: "color", modifiers: [["darker", 0.2]] }, animate: true, value: "WRCounts", activeOuterRadiusOffset: 8, arcLinkLabelsSkipAngle: 10, arcLinkLabelsTextColor: "#333333", arcLinkLabelsThickness: 2, arcLinkLabelsColor: { from: 'color' }, arcLabelsSkipAngle: 10, arcLabelsTextColor: { from: 'color', modifiers: [['darker', 2]] } })),
-                React.createElement(components_1.Modal, { className: "popup", title: "", show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
-                    React.createElement("div", { id: "my_Popup" },
-                        React.createElement("div", { className: "popup-modal-header" },
-                            React.createElement("div", { className: "modal-title", onClick: removehandleClick1 }, (modelData === null || modelData === void 0 ? void 0 : modelData.ServiceCategoryName) || ''),
-                            React.createElement("div", { className: "modal-sub_title" },
-                                " ",
-                                React.createElement("p", null),
-                                " ",
-                                (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.LocationName) || '')),
-                        React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
-                            React.createElement(recharts_1.BarChart, { data: serviceRequestData1, width: 500, height: 200 },
-                                React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
-                                React.createElement(recharts_1.XAxis, { type: "category", dataKey: "LocationName", style: { fontSize: 11 } }),
-                                React.createElement(recharts_1.YAxis, { dataKey: "WRCount", ticks: [10, 20, 30, 40, 50], type: "number" }),
-                                React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
-                                React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "WRCount", name: "WR Count", fill: "#c02b82", onClick: handleClick1 }, serviceRequestData1.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] }))))),
-                        React.createElement("div", { className: "inner_list", id: "innerPopup" },
-                            React.createElement("div", { className: "assets-widget-list" },
-                                React.createElement("div", { className: "modal-sub_title" },
-                                    " ",
-                                    (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.LocationName) || '',
-                                    " Details"),
-                                React.createElement("div", { className: "item-list" },
-                                    React.createElement("ul", null, Object.keys(serviceRequestData2 || {}).map((m) => {
-                                        return React.createElement("li", null,
-                                            React.createElement("a", { href: URL + serviceRequestData2[m].AssetKey, target: "_blank" },
-                                                React.createElement("label", null, serviceRequestData2[m].AssetID),
-                                                React.createElement("span", null, serviceRequestData2[m].WRCount)));
-                                    })))))))))));
+                    React.createElement(pie_1.ResponsivePie, { onClick: handleClick, data: data, id: "ServiceCategoryName", margin: { top: 40, right: 80, bottom: 80, left: 80 }, innerRadius: 0.5, padAngle: 0, cornerRadius: 3, colors: { scheme: "nivo" }, borderWidth: 1, borderColor: { from: "color", modifiers: [["darker", 0.2]] }, animate: true, value: "WRCounts", activeOuterRadiusOffset: 8, arcLinkLabelsSkipAngle: 10, arcLinkLabelsTextColor: "#333333", arcLinkLabelsThickness: 2, arcLinkLabelsColor: { from: 'color' }, arcLabelsSkipAngle: 10, arcLabelsTextColor: { from: 'color', modifiers: [['darker', 2]] } })),
+                React.createElement(components_1.Modal, { className: "popup", title: (modelData === null || modelData === void 0 ? void 0 : modelData.ServiceCategoryName) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
+                    React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
+                        React.createElement(recharts_1.BarChart, { data: data1, width: 500, height: 200 },
+                            React.createElement(recharts_1.XAxis, { type: "category", dataKey: "LocationName", style: { fontSize: 11 } }),
+                            React.createElement(recharts_1.YAxis, { dataKey: "WRCount", ticks: [10, 20, 30, 40, 50], type: "number" }),
+                            React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
+                            React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
+                            React.createElement(recharts_1.Bar, { barSize: 20, dataKey: "WRCount", name: "WR Count", fill: "#c02b82", onClick: handleClick1 }, data.map((entry, index) => React.createElement(recharts_1.Cell, { fill: COLORS[index % COLORS.length] })))))),
+                React.createElement(components_1.Modal, { className: "popup_inner", title: (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.LocationName) || '', show: showModal1 && modelData1 != null, onOpen: () => { }, onClose: () => { setShowModal1(false); setmodelData1(null); } },
+                    React.createElement("div", { className: "assets-widget-list" },
+                        React.createElement("div", { className: "item-list" },
+                            React.createElement("ul", null, Object.keys(data2 || {}).map((m) => {
+                                return React.createElement("li", null,
+                                    React.createElement("label", null,
+                                        React.createElement("a", { href: URL + data2[m].AssetKey, target: "_blank" }, data2[m].AssetID)),
+                                    React.createElement("span", null, data2[m].WRCount));
+                            })))))))));
 };
 const WorkOrderMonth = (props) => {
     let [showModal, setShowModal] = React.useState(false);
     let [modelData, setmodelData] = React.useState(null);
     let [showModal1, setShowModal1] = React.useState(false);
     let [modelData1, setmodelData1] = React.useState(null);
-    let workOrderMonthData = [
-        { "monthname": "January", "ServiceCategoryName": "Access Control System", "ServiceCategoryKey": "4", "CWOMCOUNT": "10" },
-        { "monthname": "January", "ServiceCategoryName": "ACMV", "ServiceCategoryKey": "5", "CWOMCOUNT": "0" },
-        { "monthname": "January", "ServiceCategoryName": "Audio Visual Systems", "ServiceCategoryKey": "6", "CWOMCOUNT": "8" },
-        { "monthname": "January", "ServiceCategoryName": "Building Management Systems", "ServiceCategoryKey": "7", "CWOMCOUNT": "2" },
-        { "monthname": "September", "ServiceCategoryName": "Building Security", "ServiceCategoryKey": "8", "CWOMCOUNT": "1" },
-        { "monthname": "September", "ServiceCategoryName": "CCTV", "ServiceCategoryKey": "9", "CWOMCOUNT": "10" }
-    ];
-    let workOrderMonthData1 = [
-        { "LocationKey": "3", "LocationName": "Car Park", "CWOCount": "0" },
-        { "LocationKey": "45", "LocationName": "South B", "CWOCount": "3" },
-        { "LocationKey": "311", "LocationName": "NiHonSt", "CWOCount": "10" },
-        { "LocationKey": "318", "LocationName": "PND", "CWOCount": "12" },
-        { "LocationKey": "351", "LocationName": "GHALL", "CWOCount": "0" }
-    ];
-    let workOrderMonthData2 = [{ "AssetKey": "1", "AssetID": "RAHU_001", "CWOCount": "1" }];
+    let [data, setData] = React.useState([]);
+    function getData() {
+        props.uxpContext.executeAction("ivivafacility", "CWOPerMonthbySerCat", {}, { json: true }).then(res => {
+            console.log("red", res);
+            setData(res);
+        }).catch(e => {
+            // console.log("hi", e);
+        });
+    }
+    let [data1, setData1] = React.useState([]);
+    function getData1(ServiceCategoryKey, month) {
+        props.uxpContext.executeAction("ivivafacility", "CWOCountbyZoneSerCat", { ServiceCategoryKey: ServiceCategoryKey, month: monthFromName(month) }, { json: true }).then(res => {
+            console.log(res);
+            console.log("AssetCountbyAssCatZone");
+            setData1(res);
+        }).catch(e => {
+            //   console.log("hi", e);
+        });
+    }
+    let [data2, setData2] = React.useState([]);
+    function getData2(locationkey, ServiceCategoryKey, month) {
+        props.uxpContext.executeAction("ivivafacility", "CWOCountbyAssetZone", { LocationKey: locationkey, ServiceCategoryKey: ServiceCategoryKey, month: month }, { json: true }).then(res => {
+            console.log("getdata2", res);
+            console.log("hello");
+            setData2(res);
+        }).catch(e => {
+            console.log("getdata2error", e);
+        });
+    }
+    React.useEffect(() => {
+        getData();
+    }, []);
     function handleClick(key, e) {
         console.log("location", e);
         var dataset = e;
@@ -58488,6 +58525,7 @@ const WorkOrderMonth = (props) => {
         console.log("key12", ServiceCategoryKey);
         console.log(dataset);
         setmodelData({ payload: { monthname: month, ServiceCategoryName: key, ServiceCategoryKey }, ServiceCategoryName: key });
+        getData1(ServiceCategoryKey, month);
         setShowModal(true);
     }
     function handleClick1(e) {
@@ -58496,15 +58534,29 @@ const WorkOrderMonth = (props) => {
         var locationkey = e.payload.LocationKey;
         var ServiceCategoryKey = modelData.payload.ServiceCategoryKey;
         var month = modelData.payload.monthname;
+        getData2(locationkey, ServiceCategoryKey, month);
         setmodelData1(dataset1);
         setShowModal1(true);
-        document.getElementById("my_Popup").classList.add("my_Popup_toggle");
-        document.getElementById("innerPopup").classList.add("inner_list_toggle");
     }
-    function removehandleClick1(e) {
-        document.getElementById("my_Popup").classList.remove("my_Popup_toggle");
-        document.getElementById("innerPopup").classList.remove("inner_list_toggle");
-    }
+    // let ChartColors = [
+    //     '#598262',
+    //     '#C2D495',
+    //     '#DE391D',
+    //     '#4E1D1B',
+    //     '#4FA77C',
+    //     '#C2D495',
+    //     '#C7A54F',
+    //     '#1D8083',
+    //     '#067E8D',
+    //     '#EAD893',
+    //     '#F34C27',
+    //     '#F1E093',
+    //     '#369F8B',
+    //     '#D4D298',
+    //     '#675180',
+    //     '#A59EAC',
+    //     '#CBD2AC', 
+    // ]
     let currentColor = 0;
     function nextColor() {
         currentColor++;
@@ -58533,7 +58585,7 @@ const WorkOrderMonth = (props) => {
             React.createElement(components_1.TitleBar, { title: 'Work Orders per Month' }),
             React.createElement("div", { className: "assetage_chart" },
                 React.createElement(recharts_1.ResponsiveContainer, null,
-                    React.createElement(recharts_1.BarChart, { width: 500, height: 200, data: transformData(workOrderMonthData), margin: {
+                    React.createElement(recharts_1.BarChart, { width: 500, height: 200, data: transformData(data), margin: {
                             top: 2, right: 0, left: 0, bottom: 2,
                         } },
                         React.createElement(recharts_1.Tooltip, { content: ({ active, payload, label }) => {
@@ -58552,47 +58604,41 @@ const WorkOrderMonth = (props) => {
                         React.createElement(recharts_1.YAxis, { orientation: "left", ticks: [0, 5, 10, 15, 20, 25] }),
                         React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
                         Object.keys(ServiceCategories).map(key => (React.createElement(recharts_1.Bar, { stackId: "a", barSize: 20, name: key, onClick: (e) => handleClick(key, e), fill: ServiceCategories[key].color, dataKey: key }))))),
-                React.createElement(components_1.Modal, { className: "popup", title: "", show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
-                    React.createElement("div", { id: "my_Popup" },
-                        React.createElement("div", { className: "popup-modal-header" },
-                            React.createElement("div", { className: "modal-title", onClick: removehandleClick1 }, (modelData === null || modelData === void 0 ? void 0 : modelData.ServiceCategoryName) || ''),
-                            React.createElement("div", { className: "modal-sub_title" },
-                                " ",
-                                React.createElement("p", null),
-                                " ",
-                                (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.LocationName) || '')),
-                        React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
-                            React.createElement(recharts_1.BarChart, { data: workOrderMonthData1, width: 500, height: 200 },
-                                React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
-                                React.createElement(recharts_1.XAxis, { type: "category", dataKey: "LocationName", style: { fontSize: 10 } }),
-                                React.createElement(recharts_1.YAxis, { dataKey: "LocationKey", ticks: [10, 20, 30, 40, 50], type: "number", style: { fontSize: 13 } }),
-                                React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
-                                React.createElement(recharts_1.Bar, { barSize: 20, name: "CWO Count", dataKey: "CWOCount", fill: "#0d998a", onClick: handleClick1 }))),
-                        React.createElement("div", { className: "inner_list", id: "innerPopup" },
-                            React.createElement("div", { className: "assets-widget-list" },
-                                React.createElement("div", { className: "modal-sub_title" },
-                                    " ",
-                                    (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.LocationName) || '',
-                                    " Details"),
-                                React.createElement("div", { className: "item-list" },
-                                    React.createElement("ul", null, Object.keys(workOrderMonthData2 || {}).map((m) => {
-                                        return React.createElement("li", null,
-                                            React.createElement("a", { href: URL + workOrderMonthData2[m].AssetKey, target: "_blank" },
-                                                React.createElement("label", null, workOrderMonthData2[m].AssetID),
-                                                React.createElement("span", null,
-                                                    " ",
-                                                    workOrderMonthData2[m].CWOCount)));
-                                    })))))))))));
+                React.createElement(components_1.Modal, { className: "popup", title: (modelData === null || modelData === void 0 ? void 0 : modelData.ServiceCategoryName) || '', show: showModal && modelData != null, onOpen: () => { }, onClose: () => { setShowModal(false); setmodelData(null); } },
+                    React.createElement(recharts_1.ResponsiveContainer, { width: '100%', aspect: 4.0 / 2.0 },
+                        React.createElement(recharts_1.BarChart, { data: data1, width: 500, height: 200 },
+                            React.createElement(recharts_1.CartesianGrid, { strokeDasharray: "0 0" }),
+                            React.createElement(recharts_1.XAxis, { type: "category", dataKey: "LocationName", style: { fontSize: 10 } }),
+                            React.createElement(recharts_1.YAxis, { dataKey: "LocationKey", ticks: [10, 20, 30, 40, 50], type: "number", style: { fontSize: 13 } }),
+                            React.createElement(recharts_1.Tooltip, { labelClassName: "custom-tooltip-lable", wrapperClassName: "custom-tooltip" }),
+                            React.createElement(recharts_1.Bar, { barSize: 20, name: "CWO Count", dataKey: "CWOCount", fill: "#0d998a", onClick: handleClick1 })))),
+                React.createElement(components_1.Modal, { className: "popup_inner", title: (modelData1 === null || modelData1 === void 0 ? void 0 : modelData1.LocationName) || '', show: showModal1 && modelData1 != null, onOpen: () => { }, onClose: () => { setShowModal1(false); setmodelData1(null); } },
+                    React.createElement("div", { className: "assets-widget-list" },
+                        React.createElement("div", { className: "item-list" },
+                            React.createElement("ul", null, Object.keys(data2 || {}).map((m) => {
+                                return React.createElement("li", null,
+                                    React.createElement("label", null,
+                                        React.createElement("a", { href: URL + data2[m].AssetKey, target: "_blank" }, data2[m].AssetID)),
+                                    React.createElement("span", null,
+                                        " ",
+                                        data2[m].CWOCount));
+                            })))))))));
 };
 const UpcomingAssets = (props) => {
     let [startDate, setStartDate] = React.useState(new Date());
     let [endDate, setEndDate] = React.useState(addDays(90));
-    let upcomingAssetsData = [
-        { "AssetKey": 11, "AssetID": "MW SA- AHU 3-5", "AWOKey": 24, "AWONo": "PWO20210831024", "TargetStartDate": "2021-09-03T02:00:00.000Z" },
-        { "AssetKey": 12, "AssetID": "MW NA- AHU 3-N1", "AWOKey": 24, "AWONo": "PWO20210831024", "TargetStartDate": "2021-09-03T02:00:00.000Z" },
-        { "AssetKey": 9, "AssetID": "MW SA- AHU 3-3", "AWOKey": 24, "AWONo": "PWO20210831024", "TargetStartDate": "2021-09-03T02:00:00.000Z" },
-        { "AssetKey": 10, "AssetID": "MW SA- AHU 3-4", "AWOKey": 24, "AWONo": "PWO20210831024", "TargetStartDate": "2021-09-03T02:00:00.000Z" }
-    ];
+    let [data, setData] = React.useState([]);
+    function getData() {
+        props.uxpContext.executeAction("ivivafacility", "UpcomingPPMAssetforMaintenance", { StartDate: startDate, EndDate: endDate }, { json: true }).then(res => {
+            console.log(res);
+            setData(res);
+        }).catch(e => {
+        });
+    }
+    React.useEffect(() => {
+        console.log("Checking", startDate);
+        getData();
+    }, [startDate, endDate]);
     function parseDate(date) {
         var currentTime = new Date(date);
         var month = ("0" + (currentTime.getMonth() + 1)).slice(-2);
@@ -58616,40 +58662,55 @@ const UpcomingAssets = (props) => {
                 React.createElement(components_1.FormField, { className: "no-padding mb-only" },
                     React.createElement(components_1.DateRangePicker, { title: "", startDate: startDate, endDate: endDate, closeOnSelect: true, onChange: (newStart, newEnd) => { setStartDate(newStart); setEndDate(newEnd); } })))),
         React.createElement("div", { className: "item-list" },
-            React.createElement("ul", null, upcomingAssetsData.map((item) => (React.createElement("li", { key: item.AssetID },
-                React.createElement("a", { href: URL + item.AssetKey, target: "_blank" },
-                    React.createElement("label", null, item.AssetID),
-                    React.createElement("span", null, parseDate(item.TargetStartDate))))))))));
+            React.createElement("ul", null, data.map((item) => (React.createElement("li", { key: item.AssetID },
+                React.createElement("label", null,
+                    React.createElement("a", { href: URL + item.AssetKey, target: "_blank" }, item.AssetID)),
+                React.createElement("span", null, parseDate(item.TargetStartDate)))))))));
 };
 const ProblematicAssets = (props) => {
-    let problematicAssetsData = [{ "AssetKey": "1", "AssetID": "RAHU_001", "TotalCases": "1" }];
+    let [data, setData] = React.useState([]);
+    function getData() {
+        props.uxpContext.executeAction("ivivafacility", "TopProblematicAssets", {}, { json: true }).then(res => {
+            console.log(res);
+            setData(res);
+        }).catch(e => {
+        });
+    }
+    React.useEffect(() => {
+        getData();
+    }, []);
     return (React.createElement(components_1.WidgetWrapper, { className: "assets-widget-list" },
         React.createElement(components_1.TitleBar, { title: 'Top 5 Highest CWO/WR per Asset' }),
         React.createElement("div", { className: "item-list" },
-            React.createElement("ul", null, problematicAssetsData.map((item) => (React.createElement("li", { key: item.AssetID },
-                React.createElement("a", { href: URL + item.AssetKey, target: "_blank" },
-                    React.createElement("label", null, item.AssetID),
-                    React.createElement("span", null, item.TotalCases)))))))));
+            React.createElement("ul", null, data.map((item) => (React.createElement("li", { key: item.AssetID },
+                React.createElement("label", null,
+                    React.createElement("a", { href: URL + item.AssetKey, target: "_blank" }, item.AssetID)),
+                React.createElement("span", null, item.TotalCases))))))));
 };
 const TopAgedAssets = (props) => {
-    let topAgedAssetsData = [
-        { "AssetKey": "7", "AssetID": "MW SA- AHU 3-1", "InstalledDate": "19960101:000000", "InstalledLocationKey": "301", "AssetCategoryKey": "5", "AssetGroupKey": "1", "CurrentDate": "20210831:073020", "Age": "25" },
-        { "AssetKey": "6", "AssetID": "MW SA- AHU 2-3", "InstalledDate": "19960101:000000", "InstalledLocationKey": "298", "AssetCategoryKey": "5", "AssetGroupKey": "1", "CurrentDate": "20210831:073020", "Age": "25" },
-        { "AssetKey": "5", "AssetID": "MW SA- AHU 2-2", "InstalledDate": "19960101:000000", "InstalledLocationKey": "298", "AssetCategoryKey": "5", "AssetGroupKey": "1", "CurrentDate": "20210831:073020", "Age": "25" },
-        { "AssetKey": "4", "AssetID": "MW SA- AHU 2-1", "InstalledDate": "19960101:000000", "InstalledLocationKey": "298", "AssetCategoryKey": "5", "AssetGroupKey": "1", "CurrentDate": "20210831:073020", "Age": "25" },
-        { "AssetKey": "3", "AssetID": "MW SA- AHU 1-2", "InstalledDate": "19960101:000000", "InstalledLocationKey": "296", "AssetCategoryKey": "5", "AssetGroupKey": "1", "CurrentDate": "20210831:073020", "Age": "25" }
-    ];
+    let [data, setData] = React.useState([]);
+    function getData() {
+        props.uxpContext.executeAction("ivivafacility", "TopAgedAssets", {}, { json: true }).then(res => {
+            console.log(res);
+            setData(res);
+        }).catch(e => {
+            // console.log("hi", e);
+        });
+    }
+    React.useEffect(() => {
+        getData();
+    }, []);
     return (React.createElement(components_1.WidgetWrapper, { className: "assets-widget-list" },
         React.createElement(components_1.TitleBar, { title: 'Top 5 Aged Assets' }),
         React.createElement("div", { className: "item-list" },
-            React.createElement("ul", null, topAgedAssetsData.map((item) => (React.createElement("li", { key: item.AssetID },
-                React.createElement("a", { href: URL + item.AssetKey, target: "_blank" },
-                    React.createElement("label", null, item.AssetID),
-                    React.createElement("span", null,
-                        item.Age,
-                        " ",
-                        React.createElement("em", { className: "years" }, "YRS"),
-                        " ")))))))));
+            React.createElement("ul", null, data.map((item) => (React.createElement("li", { key: item.AssetID },
+                React.createElement("label", null,
+                    React.createElement("a", { href: URL + item.AssetKey, target: "_blank" }, item.AssetID)),
+                React.createElement("span", null,
+                    item.Age,
+                    " ",
+                    React.createElement("em", { className: "years" }, "YRS"),
+                    " "))))))));
 };
 /**
  * Register as a Widget
@@ -58913,12 +58974,12 @@ exports.registerUI = registerUI;
 
 /***/ 0:
 /*!*******************************************************************************!*\
-  !*** multi (webpack)-dev-server/client?http://localhost:8088 ./src/index.tsx ***!
+  !*** multi (webpack)-dev-server/client?http://localhost:8080 ./src/index.tsx ***!
   \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Udhay Project files\Project-2021\pontiacland\node_modules\webpack-dev-server\client\index.js?http://localhost:8088 */"./node_modules/webpack-dev-server/client/index.js?http://localhost:8088");
+__webpack_require__(/*! D:\Udhay Project files\Project-2021\pontiacland\node_modules\webpack-dev-server\client\index.js?http://localhost:8080 */"./node_modules/webpack-dev-server/client/index.js?http://localhost:8080");
 module.exports = __webpack_require__(/*! ./src/index.tsx */"./src/index.tsx");
 
 
